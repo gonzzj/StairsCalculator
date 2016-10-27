@@ -1,0 +1,23 @@
+.logo {
+  margin: 26px 0;
+}
+
+stairs-data {
+  form {
+    .labels-group {
+      border-bottom: 1px solid #e0e0e0;
+    }
+  }
+
+  .subtotal {
+    margin-bottom: 1rem!important;
+  }
+
+  .total-title {
+    text-align: center;
+  }
+
+  textarea {
+    resize: none;
+  }
+}
