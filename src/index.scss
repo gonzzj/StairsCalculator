@@ -1,5 +1,6 @@
 .logo {
-  margin: 26px 0;
+  margin: 8px 0;
+  width: 340px;
 }
 
 stairs-data {
@@ -11,6 +12,10 @@ stairs-data {
 
   .subtotal {
     margin-bottom: 1rem!important;
+  }
+
+  .subtotal-title {
+    text-align: right;
   }
 
   .total-title {
