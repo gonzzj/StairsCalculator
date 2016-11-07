@@ -14,6 +14,8 @@ import {ObservationComponent} from './observation';
 import {SubTotalComponent} from './subtotal';
 import {TotalComponent} from './total';
 
+import {PopulateService} from '../services/PopulateService'
+
 @NgModule({
   imports: [
     CommonModule,
@@ -34,6 +36,7 @@ import {TotalComponent} from './total';
   ],
   exports: [
     StairsComponent
-  ]
+  ],
+  providers: [PopulateService]
 })
 export class StairsModule {}

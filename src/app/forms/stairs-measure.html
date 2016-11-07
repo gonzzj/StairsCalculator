@@ -4,29 +4,21 @@
         <label for="inputModel" class="col-sm-2 col-form-label">Modelo escalera</label>
         <div class="col-sm-10">
             <select class="form-control custom-select" id="inputModel">
-                <option>Escalera al cielo que jesus predico 1</option>
-                <option>Escalera al cielo que jesus predico 2</option>
-                <option>Escalera al cielo que jesus predico 3</option>
-                <option>Escalera al cielo que jesus predico 4</option>
-                <option>Escalera al cielo que jesus predico 5</option>
+                <option value="{{model.name}}" *ngFor="let model of populateModels">{{model.name}}</option>
             </select>
         </div>
     </div>
 </div>
 <div class="card card-block">
-  <h4 class="card-title">Estructura</h4>
-  <div class="form-group row">
-    <label for="inputStructure" class="col-sm-2 col-form-label">Tipo estructura</label>
-    <div class="col-sm-10">
-      <select class="form-control custom-select" id="inputStructure">
-        <option>Escalera al cielo que jesus predico 1</option>
-        <option>Escalera al cielo que jesus predico 2</option>
-        <option>Escalera al cielo que jesus predico 3</option>
-        <option>Escalera al cielo que jesus predico 4</option>
-        <option>Escalera al cielo que jesus predico 5</option>
-      </select>
+    <h4 class="card-title">Estructura</h4>
+    <div class="form-group row">
+        <label for="inputStructure" class="col-sm-2 col-form-label">Tipo estructura</label>
+        <div class="col-sm-10">
+            <select class="form-control custom-select" id="inputStructure">
+                <option value="{{structure}}" *ngFor="let structure of populateStructure">{{structure.name}}</option>
+            </select>
+        </div>
     </div>
-  </div>
 </div>
 <div class="card card-block">
     <h4 class="card-title">Peldaños y Contrahuellas</h4>
@@ -41,47 +33,65 @@
             <input type="number" class="form-control">
         </div>
         <div class="col-sm-4">
-            <input type="text" class="form-control">
+            <select class="form-control custom-select">
+                <option value="{{treadName}}" *ngFor="let treadName of populateTreadName">{{treadName.name}}</option>
+            </select>
         </div>
 
         <div class="col-sm-3">
-            <input type="text" class="form-control">
+            <select class="form-control custom-select">
+                <option value="{{measure}}" *ngFor="let measure of populateMeasure">{{measure.name}}</option>
+            </select>
         </div>
 
         <div class="col-sm-3">
-          <input type="text" class="form-control">
+            <select class="form-control custom-select">
+                <option value="{{treadFinish}}" *ngFor="let treadFinish of populateTreadFinish">{{treadFinish.name}}</option>
+            </select>
         </div>
     </div>
     <div class="form-group row">
         <div class="col-sm-1">
-          <input type="number" class="form-control">
+            <input type="number" class="form-control">
         </div>
         <div class="col-sm-4">
-          <input type="text" class="form-control">
+            <select class="form-control custom-select">
+                <option value="{{treadName}}" *ngFor="let treadName of populateTreadName">{{treadName.name}}</option>
+            </select>
         </div>
 
         <div class="col-sm-3">
-          <input type="text" class="form-control">
+            <select class="form-control custom-select">
+                <option value="{{measure}}" *ngFor="let measure of populateMeasure">{{measure.name}}</option>
+            </select>
         </div>
 
         <div class="col-sm-3">
-          <input type="text" class="form-control">
+            <select class="form-control custom-select">
+                <option value="{{treadFinish}}" *ngFor="let treadFinish of populateTreadFinish">{{treadFinish.name}}</option>
+            </select>
         </div>
     </div>
     <div class="form-group row">
         <div class="col-sm-1">
-          <input type="number" class="form-control">
+            <input type="number" class="form-control">
         </div>
         <div class="col-sm-4">
-          <input type="text" class="form-control">
+            <select class="form-control custom-select">
+               <option value="{{treadName}}" *ngFor="let treadName of populateTreadName">{{treadName.name}}</option>
+            </select>
         </div>
 
         <div class="col-sm-3">
-          <input type="text" class="form-control">
+            <select class="form-control custom-select">
+                <option value="{{measure}}" *ngFor="let measure of populateMeasure">{{measure.name}}</option>
+            </select>
         </div>
 
         <div class="col-sm-3">
-          <input type="text" class="form-control">
+            <select class="form-control custom-select">
+                <option value="{{treadFinish}}" *ngFor="let treadFinish of populateTreadFinish">{{treadFinish.name}}</option>
+            </select>
         </div>
     </div>
     <h5 class="subtotal-title">Subtotal escalera: $ 230</h5>
@@ -101,9 +111,9 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="inputAcabadoRailing" class="col-sm-2 col-form-label">Acabado</label>
+        <label for="inputFinishRailing" class="col-sm-2 col-form-label">Acabado</label>
         <div class="col-sm-10">
-            <select class="form-control custom-select" id="inputAcabadoRailing">
+            <select class="form-control custom-select" id="inputFinishRailing">
                 <option>Escalera al cielo que jesus predico 1</option>
                 <option>Escalera al cielo que jesus predico 2</option>
                 <option>Escalera al cielo que jesus predico 3</option>
@@ -113,9 +123,9 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="inputPasamanoRailing" class="col-sm-2 col-form-label">Pasamano</label>
+        <label for="inputRailing" class="col-sm-2 col-form-label">Pasamano</label>
         <div class="col-sm-10">
-            <select class="form-control custom-select" id="inputPasamanoRailing">
+            <select class="form-control custom-select" id="inputRailing">
                 <option>Escalera al cielo que jesus predico 1</option>
                 <option>Escalera al cielo que jesus predico 2</option>
                 <option>Escalera al cielo que jesus predico 3</option>
@@ -164,9 +174,9 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="inputAcabadoRailing2" class="col-sm-2 col-form-label">Acabado</label>
+        <label for="inputFinishRailing2" class="col-sm-2 col-form-label">Acabado</label>
         <div class="col-sm-10">
-            <select class="form-control custom-select" id="inputAcabadoRailing2">
+            <select class="form-control custom-select" id="inputFinishRailing2">
                 <option>Escalera al cielo que jesus predico 1</option>
                 <option>Escalera al cielo que jesus predico 2</option>
                 <option>Escalera al cielo que jesus predico 3</option>
@@ -176,9 +186,9 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="inputPasamanoRailing2" class="col-sm-2 col-form-label">Pasamano</label>
+        <label for="inputRailing2" class="col-sm-2 col-form-label">Pasamano</label>
         <div class="col-sm-10">
-            <select class="form-control custom-select" id="inputPasamanoRailing2">
+            <select class="form-control custom-select" id="inputRailing2">
                 <option>Escalera al cielo que jesus predico 1</option>
                 <option>Escalera al cielo que jesus predico 2</option>
                 <option>Escalera al cielo que jesus predico 3</option>
