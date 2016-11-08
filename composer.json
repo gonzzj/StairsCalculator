@@ -1,0 +1,6 @@
+{
+    "name": "polarbear/enesca",
+    "require": {
+        "phing/phing": "^2.15"
+    }
+}

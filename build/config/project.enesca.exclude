@@ -1,0 +1,16 @@
+.DS_Store
+.idea
+.git
+.vagrant
+puphpet
+
+README*
+build
+docs
+html
+
+composer.phar
+Vagrantfile
+install.txt
+
+
