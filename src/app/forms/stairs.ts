@@ -6,7 +6,7 @@ import {Component} from '@angular/core';
 })
 
 export class StairsComponent {
-    stair: string;
+    stair: string = "measure";
 
     onStair(message:string):void {
         this.stair = message;
