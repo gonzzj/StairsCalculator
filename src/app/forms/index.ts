@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HttpModule} from '@angular/http';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {StairsComponent} from './stairs';
 import {TechnicalDataComponent} from './technical-data';
@@ -20,7 +20,8 @@ import {PopulateService} from '../services/PopulateService'
   imports: [
     CommonModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     StairsComponent,

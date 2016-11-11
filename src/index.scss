@@ -15,7 +15,8 @@ stairs-data {
   }
 
   .subtotal-title {
-    text-align: right;
+    float: right;
+    margin-top: 18px;
   }
 
   .total-title {
@@ -24,5 +25,10 @@ stairs-data {
 
   textarea {
     resize: none;
+  }
+
+  .addRow {
+    color: #fff;
+
   }
 }

@@ -1,245 +1,68 @@
-<div class="card card-block">
-    <h4 class="card-title">Escalera</h4>
-    <div class="form-group row">
-        <label for="inputModel" class="col-sm-2 col-form-label">Modelo escalera</label>
-        <div class="col-sm-10">
-            <select class="form-control custom-select" id="inputModel">
-                <option value="{{model.name}}" *ngFor="let model of populateModels">{{model.name}}</option>
-            </select>
+<div [formGroup]="stairForm">
+    <div class="card card-block">
+        <h4 class="card-title">Escalera</h4>
+        <div class="form-group row">
+            <label for="inputModel" class="col-sm-2 col-form-label">Modelo escalera</label>
+            <div class="col-sm-10">
+                <select class="form-control custom-select" id="inputModel" formControlName="model">
+                    <option value="{{model.name}}" *ngFor="let model of populateModels">{{model.name}}</option>
+                </select>
+            </div>
         </div>
+    </div>
+    <div class="card card-block">
+        <h4 class="card-title">Estructura</h4>
+        <div class="form-group row">
+            <label for="inputStructure" class="col-sm-2 col-form-label">Tipo estructura</label>
+            <div class="col-sm-10">
+                <select class="form-control custom-select" id="inputStructure" formControlName="structure">
+                    <option value="{{structure}}" *ngFor="let structure of populateStructure">{{structure.name}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="card card-block" formArrayName="treads">
+        <h4 class="card-title">Peldaños y Contrahuellas</h4>
+        <div class="form-group row labels-group">
+            <label class="col-sm-1 col-form-label">Cant</label>
+            <label class="col-sm-3 col-form-label">Tipo Peldaño</label>
+            <label class="col-sm-3 col-form-label">Ancho</label>
+            <label class="col-sm-3 col-form-label">Acabado</label>
+            <label class="col-sm-1 col-form-label">Precio</label>
+        </div>
+        <div class="form-group row" [formGroupName]="i" *ngFor="let tread of stairForm.controls.treads.controls; let i=index">
+            <div class="col-sm-1">
+                <input type="number" min="1" class="form-control" formControlName="cant">
+            </div>
+            <div class="col-sm-3">
+                <select class="form-control custom-select" formControlName="treadName">
+                    <option [value]="treadName.name" *ngFor="let treadName of populateTreadName">{{treadName.name}}</option>
+                </select>
+            </div>
+
+            <div class="col-sm-3">
+                <select class="form-control custom-select" formControlName="measure">
+                    <option [value]="measure.name" *ngFor="let measure of populateMeasure">{{measure.name}}</option>
+                </select>
+            </div>
+
+            <div class="col-sm-3">
+                <select class="form-control custom-select" formControlName="treadFinish">
+                    <option [value]="treadFinish.name" *ngFor="let treadFinish of populateTreadFinish">{{treadFinish.name}}</option>
+                </select>
+            </div>
+
+            <div class="col-sm-1">
+                <input type="hidden" formControlName="price">
+                <strong>$ {{stairForm.value.treads[i].price}}</strong>
+            </div>
+
+            <div class="col-sm-1">
+                <button (click)="removeTread(i)" type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
+            </div>
+        </div>
+        <button (click)="addTread()" type="button" class="btn btn-primary">Agregar fila <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+        <h5 class="subtotal-title">Subtotal escalera: $ {{subTotalTreads}}</h5>
     </div>
 </div>
-<div class="card card-block">
-    <h4 class="card-title">Estructura</h4>
-    <div class="form-group row">
-        <label for="inputStructure" class="col-sm-2 col-form-label">Tipo estructura</label>
-        <div class="col-sm-10">
-            <select class="form-control custom-select" id="inputStructure">
-                <option value="{{structure}}" *ngFor="let structure of populateStructure">{{structure.name}}</option>
-            </select>
-        </div>
-    </div>
-</div>
-<div class="card card-block">
-    <h4 class="card-title">Peldaños y Contrahuellas</h4>
-    <div class="form-group row labels-group">
-        <label class="col-sm-1 col-form-label">Cant</label>
-        <label class="col-sm-4 col-form-label">Tipo Peldaño</label>
-        <label class="col-sm-3 col-form-label">Ancho</label>
-        <label class="col-sm-3 col-form-label">Acabado</label>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-1">
-            <input type="number" class="form-control">
-        </div>
-        <div class="col-sm-4">
-            <select class="form-control custom-select">
-                <option value="{{treadName}}" *ngFor="let treadName of populateTreadName">{{treadName.name}}</option>
-            </select>
-        </div>
 
-        <div class="col-sm-3">
-            <select class="form-control custom-select">
-                <option value="{{measure}}" *ngFor="let measure of populateMeasure">{{measure.name}}</option>
-            </select>
-        </div>
-
-        <div class="col-sm-3">
-            <select class="form-control custom-select">
-                <option value="{{treadFinish}}" *ngFor="let treadFinish of populateTreadFinish">{{treadFinish.name}}</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-1">
-            <input type="number" class="form-control">
-        </div>
-        <div class="col-sm-4">
-            <select class="form-control custom-select">
-                <option value="{{treadName}}" *ngFor="let treadName of populateTreadName">{{treadName.name}}</option>
-            </select>
-        </div>
-
-        <div class="col-sm-3">
-            <select class="form-control custom-select">
-                <option value="{{measure}}" *ngFor="let measure of populateMeasure">{{measure.name}}</option>
-            </select>
-        </div>
-
-        <div class="col-sm-3">
-            <select class="form-control custom-select">
-                <option value="{{treadFinish}}" *ngFor="let treadFinish of populateTreadFinish">{{treadFinish.name}}</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-1">
-            <input type="number" class="form-control">
-        </div>
-        <div class="col-sm-4">
-            <select class="form-control custom-select">
-               <option value="{{treadName}}" *ngFor="let treadName of populateTreadName">{{treadName.name}}</option>
-            </select>
-        </div>
-
-        <div class="col-sm-3">
-            <select class="form-control custom-select">
-                <option value="{{measure}}" *ngFor="let measure of populateMeasure">{{measure.name}}</option>
-            </select>
-        </div>
-
-        <div class="col-sm-3">
-            <select class="form-control custom-select">
-                <option value="{{treadFinish}}" *ngFor="let treadFinish of populateTreadFinish">{{treadFinish.name}}</option>
-            </select>
-        </div>
-    </div>
-    <h5 class="subtotal-title">Subtotal escalera: $ 230</h5>
-</div>
-<div class="card card-block">
-    <h4 class="card-title">Barandilla escalera</h4>
-    <div class="form-group row">
-        <label for="inputModelRailing" class="col-sm-2 col-form-label">Modelo</label>
-        <div class="col-sm-10">
-            <select class="form-control custom-select" id="inputModelRailing">
-                <option>Escalera al cielo que jesus predico 1</option>
-                <option>Escalera al cielo que jesus predico 2</option>
-                <option>Escalera al cielo que jesus predico 3</option>
-                <option>Escalera al cielo que jesus predico 4</option>
-                <option>Escalera al cielo que jesus predico 5</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputFinishRailing" class="col-sm-2 col-form-label">Acabado</label>
-        <div class="col-sm-10">
-            <select class="form-control custom-select" id="inputFinishRailing">
-                <option>Escalera al cielo que jesus predico 1</option>
-                <option>Escalera al cielo que jesus predico 2</option>
-                <option>Escalera al cielo que jesus predico 3</option>
-                <option>Escalera al cielo que jesus predico 4</option>
-                <option>Escalera al cielo que jesus predico 5</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputRailing" class="col-sm-2 col-form-label">Pasamano</label>
-        <div class="col-sm-10">
-            <select class="form-control custom-select" id="inputRailing">
-                <option>Escalera al cielo que jesus predico 1</option>
-                <option>Escalera al cielo que jesus predico 2</option>
-                <option>Escalera al cielo que jesus predico 3</option>
-                <option>Escalera al cielo que jesus predico 4</option>
-                <option>Escalera al cielo que jesus predico 5</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputConfigurationRailing" class="col-sm-2 col-form-label">Configuración</label>
-        <div class="col-sm-10">
-            <select class="form-control custom-select" id="inputConfigurationRailing">
-                <option>Escalera al cielo que jesus predico 1</option>
-                <option>Escalera al cielo que jesus predico 2</option>
-                <option>Escalera al cielo que jesus predico 3</option>
-                <option>Escalera al cielo que jesus predico 4</option>
-                <option>Escalera al cielo que jesus predico 5</option>
-            </select>
-        </div>
-    </div>
-</div>
-<div class="card card-block">
-    <h4 class="card-title">Baranda de protección</h4>
-    <div class="form-group row">
-        <label for="inputMetersRailing" class="col-sm-2 col-form-label">Metros</label>
-        <div class="col-sm-10">
-            <select class="form-control custom-select" id="inputMetersRailing">
-                <option>Escalera al cielo que jesus predico 1</option>
-                <option>Escalera al cielo que jesus predico 2</option>
-                <option>Escalera al cielo que jesus predico 3</option>
-                <option>Escalera al cielo que jesus predico 4</option>
-                <option>Escalera al cielo que jesus predico 5</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputModelRailing2" class="col-sm-2 col-form-label">Modelo</label>
-        <div class="col-sm-10">
-            <select class="form-control custom-select" id="inputModelRailing2">
-                <option>Escalera al cielo que jesus predico 1</option>
-                <option>Escalera al cielo que jesus predico 2</option>
-                <option>Escalera al cielo que jesus predico 3</option>
-                <option>Escalera al cielo que jesus predico 4</option>
-                <option>Escalera al cielo que jesus predico 5</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputFinishRailing2" class="col-sm-2 col-form-label">Acabado</label>
-        <div class="col-sm-10">
-            <select class="form-control custom-select" id="inputFinishRailing2">
-                <option>Escalera al cielo que jesus predico 1</option>
-                <option>Escalera al cielo que jesus predico 2</option>
-                <option>Escalera al cielo que jesus predico 3</option>
-                <option>Escalera al cielo que jesus predico 4</option>
-                <option>Escalera al cielo que jesus predico 5</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputRailing2" class="col-sm-2 col-form-label">Pasamano</label>
-        <div class="col-sm-10">
-            <select class="form-control custom-select" id="inputRailing2">
-                <option>Escalera al cielo que jesus predico 1</option>
-                <option>Escalera al cielo que jesus predico 2</option>
-                <option>Escalera al cielo que jesus predico 3</option>
-                <option>Escalera al cielo que jesus predico 4</option>
-                <option>Escalera al cielo que jesus predico 5</option>
-            </select>
-        </div>
-    </div>
-</div>
-<div class="card card-block">
-    <h4 class="card-title">Accesorios</h4>
-    <div class="form-group row labels-group">
-        <label class="col-sm-1 col-form-label">Cant</label>
-        <label class="col-sm-7 col-form-label">Accesorio</label>
-        <label class="col-sm-3 col-form-label">Subtotal</label>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-1">
-          <input type="number" class="form-control">
-        </div>
-        <div class="col-sm-7">
-          <input type="text" class="form-control">
-        </div>
-
-        <div class="col-sm-3">
-          <input type="text" class="form-control">
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-1">
-          <input type="number" class="form-control">
-        </div>
-        <div class="col-sm-7">
-          <input type="text" class="form-control">
-        </div>
-
-        <div class="col-sm-3">
-          <input type="text" class="form-control">
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-1">
-          <input type="number" class="form-control">
-        </div>
-        <div class="col-sm-7">
-          <input type="text" class="form-control">
-        </div>
-
-        <div class="col-sm-3">
-          <input type="text" class="form-control">
-        </div>
-    </div>
-    <h5 class="subtotal-title">Subtotal escalera: $ 230</h5>
-</div>
