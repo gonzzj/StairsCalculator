@@ -13,9 +13,12 @@ export class StairsMeasureComponent {
   populateMeasure: any;
   populateStructure: any;
   populateRiserFinish: any;
+  populateAccessories: any;
 
-  public stairForm: FormGroup;
+  private stairForm: FormGroup;
+
   subTotalTreads: number = 0;
+  subTotalAccessories: number = 0;
 
   constructor(private populateService: PopulateService, private _fb: FormBuilder) {
     this.populateSelects();
@@ -25,10 +28,14 @@ export class StairsMeasureComponent {
       structure: [''],
       treads: this._fb.array([
         this.initTread(),
+      ]),
+      accessories: this._fb.array([
+        this.initAccessorie(),
       ])
     });
 
-    this.stairForm.valueChanges.subscribe(data => this.calculatePrice());
+    this.stairForm.valueChanges.subscribe(data => this.calculateTreadPrice());
+    this.stairForm.valueChanges.subscribe(data => this.calculateAccessoriesPrice());
   }
 
   initTread() {
@@ -51,7 +58,7 @@ export class StairsMeasureComponent {
     control.removeAt(i);
   }
 
-  calculatePrice() {
+  calculateTreadPrice() {
     this.subTotalTreads = 0;
     var cont;
 
@@ -67,6 +74,43 @@ export class StairsMeasureComponent {
 
     for (var itemTread of this.stairForm.value.treads) {
       this.subTotalTreads = this.subTotalTreads + itemTread.price;
+    }
+  }
+
+  initAccessorie() {
+    return this._fb.group({
+      cant: [1],
+      accessorieName: [''],
+      price: [0]
+    });
+  }
+
+  addAccessorie() {
+    const control = <FormArray>this.stairForm.controls['accessories'];
+    control.push(this.initAccessorie());
+  }
+
+  removeAccessorie(e: number) {
+    const control = <FormArray>this.stairForm.controls['accessories'];
+    control.removeAt(e);
+  }
+
+  calculateAccessoriesPrice() {
+    this.subTotalAccessories = 0;
+    var cont;
+
+    for (var accessorie of this.populateAccessories) {
+      cont = 0;
+      for (var itemAccessorie of this.stairForm.value.accessories) {
+        if (accessorie.name == itemAccessorie.accessorieName) {
+          this.stairForm.value.accessories[cont].price = itemAccessorie.cant * accessorie.price;
+        }
+        cont++;
+      }
+    }
+
+    for (var itemAccessorie of this.stairForm.value.accessories) {
+      this.subTotalAccessories = this.subTotalAccessories + itemAccessorie.price;
     }
   }
 
@@ -99,6 +143,11 @@ export class StairsMeasureComponent {
     this.populateService.getRiserFinish()
       .then(data => {
         this.populateRiserFinish = data;
+      });
+
+    this.populateService.getAccessories()
+      .then(data => {
+        this.populateAccessories = data;
       });
   }
 }

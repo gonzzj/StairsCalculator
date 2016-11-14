@@ -10,6 +10,7 @@ export class PopulateService {
   private dataMeasure: any;
   private dataStructure: any;
   private dataRiserFinish: any;
+  private dataAccessories: any;
 
   constructor(private http: Http) {}
 
@@ -109,6 +110,23 @@ export class PopulateService {
         .subscribe(data => {
           this.dataStructure = data;
           resolve(this.dataStructure);
+        }, (error) => {
+          console.log('Error');
+        })
+    });
+  }
+
+  getAccessories() {
+    if (this.dataAccessories) {
+      return Promise.resolve(this.dataAccessories);
+    }
+
+    return new Promise(resolve => {
+      this.http.get('http://enesca.polarbeardevelopment.com/mock/getAccesories.php')
+        .map(res => res.json())
+        .subscribe(data => {
+          this.dataAccessories = data;
+          resolve(this.dataAccessories);
         }, (error) => {
           console.log('Error');
         })

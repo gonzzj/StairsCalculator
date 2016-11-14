@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {Observable} from "rxjs";
 
 @Component({
     selector: 'stairs-data',
@@ -6,9 +7,9 @@ import {Component} from '@angular/core';
 })
 
 export class StairsComponent {
-    stair: string = "measure";
+  stair: string = "measure";
 
-    onStair(message:string):void {
-        this.stair = message;
-    }
+  onStair(message:string):void {
+    this.stair = message;
+  }
 }
