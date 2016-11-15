@@ -1,6 +1,6 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {PopulateService} from '../services/PopulateService';
-import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
+import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
     selector: 'stairs-measure',
@@ -25,8 +25,8 @@ export class StairsMeasureComponent implements OnInit {
 
   constructor(private populateService: PopulateService, private _fb: FormBuilder) {
     this.stairForm = this._fb.group({
-      model: [''],
-      structure: [''],
+      model: ['', Validators.required],
+      structure: ['', Validators.required],
       treads: this._fb.array([
         this.initTread(),
       ]),

@@ -1,4 +1,4 @@
-<form>
+<form (ngSubmit)="save()">
   <technical-data (selectedStair)='onStair($event)'></technical-data>
   <stairs-measure *ngIf="stair == 'measure'" (notifyTotal)='totalStair($event)'></stairs-measure>
   <stairs-kit *ngIf="stair == 'kit'"></stairs-kit>
@@ -18,4 +18,5 @@
           </div>
       </div>
   </div>
+  <button type="submit" class="btn btn-primary">Enviar</button>
 </form>

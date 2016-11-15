@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter} from '@angular/core';
 
 @Component({
     selector: 'stairs-data',
@@ -17,5 +17,9 @@ export class StairsComponent {
     this.total = 0;
 
     this.total = this.total + message;
+  }
+
+  save() {
+    console.log('Se envio');
   }
 }
