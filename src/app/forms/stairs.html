@@ -1,6 +1,6 @@
 <form>
   <technical-data (selectedStair)='onStair($event)'></technical-data>
-  <stairs-measure *ngIf="stair == 'measure'"></stairs-measure>
+  <stairs-measure *ngIf="stair == 'measure'" (notifyTotal)='totalStair($event)'></stairs-measure>
   <stairs-kit *ngIf="stair == 'kit'"></stairs-kit>
   <stairs-esc *ngIf="stair == 'esc'"></stairs-esc>
   <div class="card-deck-wrapper">
@@ -14,7 +14,7 @@
           <observation class="card card-block"></observation>
           <div>
               <subtotal class="card card-block col-sm-12 subtotal"></subtotal>
-              <total class="card card-block col-sm-12"></total>
+              <total class="card card-block col-sm-12" [total]="total"></total>
           </div>
       </div>
   </div>
