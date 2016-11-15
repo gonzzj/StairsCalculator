@@ -42,7 +42,7 @@ export class StairsMeasureComponent implements OnInit {
     this.stairForm.valueChanges.subscribe(data => {
       this.calculateTreadPrice(data);
       this.calculateAccessoriesPrice(data);
-      this.totalStair = this.subTotalTreads + this.subTotalAccessories;
+      this.totalStair = this.subTotalTreads + this.subTotalAccessories + this.calculateModelStructurePrice(data);
       this.notifyTotal.emit(this.totalStair);
     });
   }
@@ -78,6 +78,25 @@ export class StairsMeasureComponent implements OnInit {
   removeRow(i: number, nameControl: string) {
     const control = <FormArray>this.stairForm.controls[nameControl];
     control.removeAt(i);
+  }
+
+  calculateModelStructurePrice(data) {
+    var priceModel = 0;
+    var priceStructure = 0;
+
+    for (var model of this.populateModels) {
+      if (model.name == data.model) {
+        priceModel = model.price;
+      }
+    }
+
+    for (var structure of this.populateStructure) {
+      if (structure.name == data.structure) {
+        priceStructure = structure.price;
+      }
+    }
+
+    return priceModel + priceStructure;
   }
 
   calculateTreadPrice(data) {
