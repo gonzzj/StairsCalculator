@@ -1,5 +1,6 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {PopulateService} from '../services/PopulateService';
+import {CommunicateService} from '../services/CommunicateService';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -22,11 +23,12 @@ export class StairsMeasureComponent implements OnInit {
   totalStair: number = 0;
 
   @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
+  isSubmit: boolean = false;
 
-  constructor(private populateService: PopulateService, private _fb: FormBuilder) {
+  constructor(private populateService: PopulateService, private communicateService: CommunicateService, private _fb: FormBuilder) {
     this.stairForm = this._fb.group({
-      model: ['', Validators.required],
-      structure: ['', Validators.required],
+      model: [''],
+      structure: [''],
       treads: this._fb.array([
         this.initTread(),
       ]),
@@ -45,6 +47,10 @@ export class StairsMeasureComponent implements OnInit {
       this.totalStair = this.subTotalTreads + this.subTotalAccessories + this.calculateModelStructurePrice(data);
       this.notifyTotal.emit(this.totalStair);
     });
+
+    this.communicateService.submitted.subscribe(
+      data => this.isSubmit = data
+    );
   }
 
   initTread() {

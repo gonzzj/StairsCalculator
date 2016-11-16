@@ -1,4 +1,5 @@
-import {Component, EventEmitter} from '@angular/core';
+import {Component} from '@angular/core';
+import {CommunicateService} from '../services/CommunicateService';
 
 @Component({
     selector: 'stairs-data',
@@ -8,6 +9,8 @@ import {Component, EventEmitter} from '@angular/core';
 export class StairsComponent {
   stair: string = "measure";
   total: number = 0;
+
+  constructor (private communicateService: CommunicateService) {}
 
   onStair(message:string):void {
     this.stair = message;
@@ -20,6 +23,7 @@ export class StairsComponent {
   }
 
   save() {
+    this.communicateService.isSubmit(true);
     console.log('Se envio');
   }
 }

@@ -4,19 +4,19 @@
   <stairs-kit *ngIf="stair == 'kit'"></stairs-kit>
   <stairs-esc *ngIf="stair == 'esc'"></stairs-esc>
   <div class="card-deck-wrapper">
-      <div class="card-deck">
-          <services class="card card-block"></services>
-          <transport class="card card-block"></transport>
-      </div>
+    <div class="card-deck">
+      <services class="card card-block"></services>
+      <transport class="card card-block"></transport>
+    </div>
   </div>
   <div class="card-deck-wrapper">
-      <div class="card-deck">
-          <observation class="card card-block"></observation>
-          <div>
-              <subtotal class="card card-block col-sm-12 subtotal"></subtotal>
-              <total class="card card-block col-sm-12" [total]="total"></total>
-          </div>
+    <div class="card-deck">
+      <observation class="card card-block"></observation>
+      <div>
+        <subtotal class="card card-block col-sm-12 subtotal"></subtotal>
+        <total class="card card-block col-sm-12" [total]="total"></total>
       </div>
+    </div>
   </div>
   <button type="submit" class="btn btn-primary">Enviar</button>
 </form>

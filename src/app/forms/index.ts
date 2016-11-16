@@ -15,6 +15,7 @@ import {SubTotalComponent} from './subtotal';
 import {TotalComponent} from './total';
 
 import {PopulateService} from '../services/PopulateService'
+import {CommunicateService} from '../services/CommunicateService'
 
 @NgModule({
   imports: [
@@ -38,6 +39,9 @@ import {PopulateService} from '../services/PopulateService'
   exports: [
     StairsComponent
   ],
-  providers: [PopulateService]
+  providers: [
+    PopulateService,
+    CommunicateService
+  ]
 })
 export class StairsModule {}
