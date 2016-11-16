@@ -11,6 +11,7 @@ export class StairsComponent {
   total: number = 0;
   subTotalStair: number = 0;
   subTotalService: number = 0;
+  subTotalTransport: number = 0;
 
   constructor (private communicateService: CommunicateService) {}
 
@@ -34,6 +35,14 @@ export class StairsComponent {
     this.calculateTotal();
   }
 
+  totalTransport(message:number):void {
+    this.subTotalTransport = 0;
+
+    this.subTotalTransport = this.subTotalTransport + message;
+
+    this.calculateTotal();
+  }
+
   save() {
     this.communicateService.isSubmit(true);
     console.log('Se envio');
@@ -42,6 +51,6 @@ export class StairsComponent {
   calculateTotal() {
     this.total = 0;
 
-    this.total = this.subTotalStair + this.subTotalService;
+    this.total = this.subTotalStair + this.subTotalService + this.subTotalTransport;
   }
 }

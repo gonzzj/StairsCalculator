@@ -54,7 +54,7 @@
 
       <div class="col-sm-1">
         <input type="hidden" formControlName="price">
-        <strong>$ {{stairForm.value.treads[i].price}}</strong>
+        <strong>{{stairForm.value.treads[i].price}} €</strong>
       </div>
 
       <div class="col-sm-1">
@@ -62,7 +62,7 @@
       </div>
     </div>
     <button (click)="addRow('treads')" type="button" class="btn btn-primary">Agregar fila <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
-    <h5 class="subtotal-title">Subtotal: $ {{subTotalTreads}}</h5>
+    <h5 class="subtotal-title">Subtotal: {{subTotalTreads}} €</h5>
   </div>
   <div class="card card-block" formArrayName="accessories">
     <h4 class="card-title">Accesorios</h4>
@@ -83,7 +83,7 @@
 
       <div class="col-sm-1">
         <input type="hidden" formControlName="price">
-        <strong>$ {{stairForm.value.accessories[e].price}}</strong>
+        <strong>{{stairForm.value.accessories[e].price}} €</strong>
       </div>
 
       <div class="col-sm-1">
@@ -91,7 +91,7 @@
       </div>
     </div>
     <button (click)="addRow('accessories')" type="button" class="btn btn-primary">Agregar fila <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
-    <h5 class="subtotal-title">Subtotal: $ {{subTotalAccessories}}</h5>
+    <h5 class="subtotal-title">Subtotal: {{subTotalAccessories}} €</h5>
   </div>
 </div>
 
