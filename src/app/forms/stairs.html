@@ -5,7 +5,7 @@
   <stairs-esc *ngIf="stair == 'esc'"></stairs-esc>
   <div class="card-deck-wrapper">
     <div class="card-deck">
-      <services class="card card-block"></services>
+      <services class="card card-block" (notifyTotal)='totalService($event)'></services>
       <transport class="card card-block"></transport>
     </div>
   </div>

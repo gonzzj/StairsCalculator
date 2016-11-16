@@ -11,6 +11,8 @@ export class PopulateService {
   private dataStructure: any;
   private dataRiserFinish: any;
   private dataAccessories: any;
+  private dataZones: any;
+  private dataServices: any;
 
   constructor(private http: Http) {}
 
@@ -127,6 +129,40 @@ export class PopulateService {
         .subscribe(data => {
           this.dataAccessories = data;
           resolve(this.dataAccessories);
+        }, (error) => {
+          console.log('Error');
+        })
+    });
+  }
+
+  getServices() {
+    if (this.dataServices) {
+      return Promise.resolve(this.dataServices);
+    }
+
+    return new Promise(resolve => {
+      this.http.get('http://enesca.polarbeardevelopment.com/mock/getServices.php')
+        .map(res => res.json())
+        .subscribe(data => {
+          this.dataServices = data.collection.items[0].data;
+          resolve(this.dataServices);
+        }, (error) => {
+          console.log('Error');
+        })
+    });
+  }
+
+  getZones() {
+    if (this.dataZones) {
+      return Promise.resolve(this.dataZones);
+    }
+
+    return new Promise(resolve => {
+      this.http.get('http://enesca.polarbeardevelopment.com/mock/getZones.php')
+        .map(res => res.json())
+        .subscribe(data => {
+          this.dataZones = data.collection.items[0].data;
+          resolve(this.dataZones);
         }, (error) => {
           console.log('Error');
         })

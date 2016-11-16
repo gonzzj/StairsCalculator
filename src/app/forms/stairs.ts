@@ -9,6 +9,8 @@ import {CommunicateService} from '../services/CommunicateService';
 export class StairsComponent {
   stair: string = "measure";
   total: number = 0;
+  subTotalStair: number = 0;
+  subTotalService: number = 0;
 
   constructor (private communicateService: CommunicateService) {}
 
@@ -17,13 +19,29 @@ export class StairsComponent {
   }
 
   totalStair(message:number):void {
-    this.total = 0;
+    this.subTotalStair = 0;
 
-    this.total = this.total + message;
+    this.subTotalStair = this.subTotalStair + message;
+
+    this.calculateTotal();
+  }
+
+  totalService(message:number):void {
+    this.subTotalService = 0;
+
+    this.subTotalService = this.subTotalService + message;
+
+    this.calculateTotal();
   }
 
   save() {
     this.communicateService.isSubmit(true);
     console.log('Se envio');
+  }
+
+  calculateTotal() {
+    this.total = 0;
+
+    this.total = this.subTotalStair + this.subTotalService;
   }
 }
