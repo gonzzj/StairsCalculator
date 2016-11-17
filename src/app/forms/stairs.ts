@@ -55,14 +55,14 @@ export class StairsComponent {
     this.calculateTotal();
   }
 
-  save() {
-    this.communicateService.isSubmit(true);
-    console.log('Se envio');
-  }
-
   calculateTotal() {
     this.total = 0;
 
     this.total = this.subTotalStair + this.subTotalService + this.subTotalTransport + this.subTotalExtras;
+  }
+
+  save() {
+    this.communicateService.isSubmit(true);
+    console.log('Se envio');
   }
 }
