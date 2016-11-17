@@ -1,20 +1,29 @@
 <div [formGroup]="extrasForm">
   <div formArrayName="extras">
-    <h4 class="card-title">Extras</h4>
+    <h4 class="card-title">Adicionales</h4>
     <div class="form-group row labels-group">
       <label class="col-sm-2 col-form-label">Cant</label>
-      <label class="col-sm-6 col-form-label">Extra</label>
+      <label class="col-sm-3 col-form-label">Extra</label>
+      <label class="col-sm-3 col-form-label">Tipo</label>
       <label class="col-sm-2 col-form-label">Precio</label>
     </div>
     <div class="form-group row" [formGroupName]="i" *ngFor="let extra of extrasForm.controls.extras.controls; let i=index">
       <div class="col-sm-2">
         <input type="number" class="form-control" min="1" formControlName="cant">
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-3">
         <input type="text" class="form-control" formControlName="extraName">
       </div>
+      <div class="col-sm-3">
+        <select class="form-control custom-select" formControlName="type">
+          <option [value]="totalMaterial">Total material</option>
+          <option [value]="montaje">Montaje</option>
+          <option [value]="transporte">Transporte</option>
+          <option [value]="extras">Extras</option>
+        </select>
+      </div>
       <div class="col-sm-2">
-        <input type="number" class="form-control" min="1" formControlName="price">
+        <input type="number" class="form-control" min="0" formControlName="price">
       </div>
       <div class="col-sm-1">
         <button (click)="removeRow(i)" type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>

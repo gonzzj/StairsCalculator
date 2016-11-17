@@ -14,7 +14,6 @@ export class ExtrasComponent implements OnInit {
   constructor(private _fb: FormBuilder) {
     this.extrasForm = this._fb.group({
       extras: this._fb.array([
-        this.initExtra(),
       ])
     });
   }
@@ -30,6 +29,7 @@ export class ExtrasComponent implements OnInit {
     return this._fb.group({
       cant: [1],
       extraName: [''],
+      type: [''],
       price: [0]
     });
   }

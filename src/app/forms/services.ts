@@ -17,7 +17,6 @@ export class ServicesComponent implements OnInit {
   constructor(private populateService: PopulateService, private _fb: FormBuilder) {
     this.servicesForm = this._fb.group({
       services: this._fb.array([
-        this.initService(),
       ])
     });
   }

@@ -17,7 +17,6 @@ export class TransportComponent implements OnInit {
   constructor(private populateService: PopulateService, private _fb: FormBuilder) {
     this.transportsForm = this._fb.group({
       transports: this._fb.array([
-        this.initTransport(),
       ])
     });
   }

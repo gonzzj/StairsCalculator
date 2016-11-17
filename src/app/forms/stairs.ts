@@ -18,6 +18,9 @@ export class StairsComponent {
 
   onStair(message:string):void {
     this.stair = message;
+    this.subTotalStair = 0;
+
+    this.calculateTotal();
   }
 
   totalStair(message:number):void {

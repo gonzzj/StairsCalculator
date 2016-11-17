@@ -33,7 +33,6 @@ export class StairsMeasureComponent implements OnInit {
         this.initTread(),
       ]),
       accessories: this._fb.array([
-        this.initAccessorie(),
       ])
     });
   }
