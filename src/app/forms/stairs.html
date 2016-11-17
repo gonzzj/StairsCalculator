@@ -11,11 +11,14 @@
   </div>
   <div class="card-deck-wrapper">
     <div class="card-deck">
+      <extras class="card card-block" (notifyTotal)='totalExtras($event)'></extras>
       <observation class="card card-block"></observation>
-      <div>
-        <subtotal class="card card-block col-sm-12 subtotal"></subtotal>
-        <total class="card card-block col-sm-12" [total]="total"></total>
-      </div>
+    </div>
+  </div>
+  <div class="card-deck-wrapper">
+    <div class="card-deck">
+      <subtotal class="card card-block"></subtotal>
+      <total class="card card-block" [total]="total"></total>
     </div>
   </div>
   <button type="submit" class="btn btn-primary">Enviar</button>

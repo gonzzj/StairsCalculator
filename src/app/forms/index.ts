@@ -13,6 +13,7 @@ import {TransportComponent} from './transport';
 import {ObservationComponent} from './observation';
 import {SubTotalComponent} from './subtotal';
 import {TotalComponent} from './total';
+import {ExtrasComponent} from './extras';
 
 import {PopulateService} from '../services/PopulateService'
 import {CommunicateService} from '../services/CommunicateService'
@@ -34,7 +35,8 @@ import {CommunicateService} from '../services/CommunicateService'
     TransportComponent,
     ObservationComponent,
     SubTotalComponent,
-    TotalComponent
+    TotalComponent,
+    ExtrasComponent
   ],
   exports: [
     StairsComponent
