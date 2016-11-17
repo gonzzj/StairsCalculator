@@ -1,8 +1,8 @@
 <form (ngSubmit)="save()">
   <technical-data (selectedStair)='onStair($event)'></technical-data>
   <stairs-measure *ngIf="stair == 'measure'" (notifyTotal)='totalStair($event)'></stairs-measure>
-  <stairs-kit *ngIf="stair == 'kit'"></stairs-kit>
-  <stairs-esc *ngIf="stair == 'esc'"></stairs-esc>
+  <stairs-kit *ngIf="stair == 'kit'" (notifyTotal)='totalStair($event)'></stairs-kit>
+  <stairs-esc *ngIf="stair == 'esc'" (notifyTotal)='totalStair($event)'></stairs-esc>
   <div class="card-deck-wrapper">
     <div class="card-deck">
       <services class="card card-block" (notifyTotal)='totalService($event)'></services>

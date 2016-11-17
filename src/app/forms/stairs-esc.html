@@ -1,73 +1,55 @@
-<div class="card card-block">
-    <h4 class="card-title">Tipo de escalera</h4>
+<div [formGroup]="stairForm">
+  <div class="card card-block">
+    <h4 class="card-title">Escalera</h4>
     <div class="form-group row">
-        <label for="inputModel" class="col-sm-2 col-form-label">Modelo escalera</label>
-        <div class="col-sm-10">
-            <select class="form-control custom-select" id="inputModel">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </select>
-        </div>
+      <label for="inputModel" class="col-sm-2 col-form-label">Modelo escalera</label>
+      <div class="col-sm-10">
+        <select class="form-control custom-select" id="inputModel" formControlName="model">
+          <option value="{{model.name}}" *ngFor="let model of populateModels">{{model.name}}</option>
+        </select>
+      </div>
     </div>
-</div>
-<div class="card card-block">
     <h4 class="card-title">Datos técnicos</h4>
     <div class="form-group row">
-        <label for="inputMeasure" class="col-sm-2 col-form-label">Medida</label>
-        <div class="col-sm-10">
-            <select class="form-control custom-select" id="inputMeasure">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </select>
-        </div>
+      <label for="inputMeasure" class="col-sm-2 col-form-label">Medida</label>
+      <div class="col-sm-10">
+        <select class="form-control custom-select" id="inputMeasure" formControlName="measure">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
+      </div>
     </div>
+  </div>
+  <div class="card card-block" formArrayName="accessories">
     <h4 class="card-title">Accesorios</h4>
     <div class="form-group row labels-group">
-        <label class="col-sm-1 col-form-label">Cant</label>
-        <label class="col-sm-5 col-form-label">Accesorio</label>
-        <label class="col-sm-5 col-form-label">Subtotal</label>
+      <label class="col-sm-1 col-form-label">Cant</label>
+      <label class="col-sm-9 col-form-label">Accesorio</label>
+      <label class="col-sm-1 col-form-label">Precio</label>
     </div>
-    <div class="form-group row">
-        <div class="col-sm-1">
-            <input type="number" class="form-control">
-        </div>
-        <div class="col-sm-5">
-            <input type="text" class="form-control">
-        </div>
+    <div class="form-group row" [formGroupName]="e" *ngFor="let accessorie of stairForm.controls.accessories.controls; let e=index">
+      <div class="col-sm-1">
+        <input type="number" min="1" class="form-control" formControlName="cant">
+      </div>
+      <div class="col-sm-9">
+        <select class="form-control custom-select" formControlName="accessorieName">
+          <option [value]="accessorieName.name" *ngFor="let accessorieName of populateAccessories">{{accessorieName.name}}</option>
+        </select>
+      </div>
 
-        <div class="col-sm-5">
-            <input type="text" class="form-control">
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-1">
-            <input type="number" class="form-control">
-        </div>
-        <div class="col-sm-5">
-            <input type="text" class="form-control">
-        </div>
+      <div class="col-sm-1">
+        <input type="hidden" formControlName="price">
+        <strong>{{stairForm.value.accessories[e].price}} €</strong>
+      </div>
 
-        <div class="col-sm-5">
-            <input type="text" class="form-control">
-        </div>
+      <div class="col-sm-1">
+        <button (click)="removeRow(e)" type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
+      </div>
     </div>
-    <div class="form-group row">
-        <div class="col-sm-1">
-            <input type="number" class="form-control">
-        </div>
-        <div class="col-sm-5">
-            <input type="text" class="form-control">
-        </div>
-
-        <div class="col-sm-5">
-            <input type="text" class="form-control">
-        </div>
-    </div>
-    <h5 class="subtotal-title">Subtotal escalera: $ 230</h5>
+    <button (click)="addRow()" type="button" class="btn btn-primary">Agregar fila <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+    <h5 class="subtotal-title">Subtotal: {{subTotalAccessories}} €</h5>
+  </div>
 </div>
