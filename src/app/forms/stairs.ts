@@ -13,7 +13,7 @@ export class StairsComponent {
   extras:Array<Object>;
   subTotalsAndExtras:Array<Object>;
 
-  constructor (private communicateService: CommunicateService) {
+  constructor (private cs: CommunicateService) {
     this.subTotals = [
       {
         subTotalStair: 0,
@@ -114,10 +114,14 @@ export class StairsComponent {
     this.subTotalsAndExtras[0]["service"] = this.subTotals[0]["subTotalService"] + this.extras[0]["service"];
 
     this.subTotalsAndExtras[0]["stair"] = this.subTotals[0]["subTotalStair"] + this.extras[0]["stair"];
+
+    this.cs.addZoho(this.subTotalsAndExtras, "subTotal");
   }
 
   save() {
-    this.communicateService.isSubmit(true);
+    this.cs.isSubmit(true);
+
+    this.cs.sendZoho();
     console.log('Se envio');
   }
 }

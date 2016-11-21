@@ -1,6 +1,7 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {PopulateService} from '../services/PopulateService';
 import {FormArray, FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {CommunicateService} from '../services/CommunicateService';
 
 @Component({
     selector: 'transport',
@@ -14,7 +15,7 @@ export class TransportComponent implements OnInit {
   subTotalTransports: number = 0;
   @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(private populateService: PopulateService, private _fb: FormBuilder) {
+  constructor(private populateService: PopulateService, private _fb: FormBuilder, private cs: CommunicateService) {
     this.transportsForm = this._fb.group({
       transports: this._fb.array([
       ])
@@ -27,6 +28,7 @@ export class TransportComponent implements OnInit {
     this.transportsForm.valueChanges.subscribe(data => {
       this.calculateTransportPrice(data);
       this.notifyTotal.emit(this.subTotalTransports);
+      this.cs.addZoho(this.transportsForm.value, "transport");
     });
   }
 

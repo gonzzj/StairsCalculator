@@ -1,4 +1,4 @@
-<div class="card card-block">
+<div class="card card-block" [formGroup]="technicalDataForm">
     <h4 class="card-title">Datos Técnicos informativos {{stair}}</h4>
     <div class="form-group row">
         <div class="col-sm-10">
@@ -22,45 +22,45 @@
     <div class="form-group row">
         <label for="inputConfig" class="col-sm-2 col-form-label">Configuración</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputConfig">
+            <input type="text" class="form-control" id="inputConfig" formControlName="config">
         </div>
     </div>
     <div class="form-group row">
         <label for="inputNumSteps" class="col-sm-2 col-form-label">Nro peldaños</label>
         <div class="col-sm-1">
-            <input type="number" class="form-control" id="inputNumSteps">
+            <input type="number" class="form-control" id="inputNumSteps" min="1" formControlName="cantTreads">
         </div>
         <label for="inputHeightSteps" class="col-sm-2 col-form-label">Altura peldaño</label>
         <div class="col-sm-1">
-            <input type="number" class="form-control" id="inputHeightSteps">
+            <input type="number" class="form-control" id="inputHeightSteps" min="1" formControlName="heightTreads">
         </div>
         <label for="inputWidthSteps" class="col-sm-2 col-form-label">Ancho peldaño</label>
         <div class="col-sm-1">
-            <input type="number" class="form-control" id="inputWidthSteps">
+            <input type="number" class="form-control" id="inputWidthSteps" min="1" formControlName="widthTreads">
         </div>
         <label for="inputDiameter" class="col-sm-2 col-form-label">Diametro</label>
         <div class="col-sm-1">
-            <input type="number" class="form-control" id="inputDiameter">
+            <input type="number" class="form-control" id="inputDiameter" min="1" formControlName="diameter">
         </div>
     </div>
     <div class="form-group row">
         <label for="inputHeightTotal" class="col-sm-2 col-form-label">Altura total cm</label>
         <div class="col-sm-4">
-            <input type="text" class="form-control" id="inputHeightTotal">
+            <input type="number" class="form-control" id="inputHeightTotal" min="1" formControlName="heightTotal">
         </div>
         <label for="inputHeightGround" class="col-sm-2 col-form-label">Altura suelo/techo cm</label>
         <div class="col-sm-4">
-            <input type="text" class="form-control" id="inputHeightGround">
+            <input type="number" class="form-control" id="inputHeightGround" min="1" formControlName="heightGround">
         </div>
     </div>
     <div class="form-group row">
         <label for="inputHeightHole" class="col-sm-2 col-form-label">Altura hueco cm</label>
         <div class="col-sm-4">
-            <input type="text" class="form-control" id="inputHeightHole">
+            <input type="number" class="form-control" id="inputHeightHole" min="1" formControlName="heightHole">
         </div>
         <label for="inputLongHole" class="col-sm-2 col-form-label">Largo hueco cm</label>
         <div class="col-sm-4">
-            <input type="text" class="form-control" id="inputLongHole">
+            <input type="number" class="form-control" id="inputLongHole" min="1" formControlName="longHole">
         </div>
     </div>
 </div>

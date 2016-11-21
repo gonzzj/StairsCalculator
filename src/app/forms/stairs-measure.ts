@@ -25,7 +25,7 @@ export class StairsMeasureComponent implements OnInit {
   @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
   isSubmit: boolean = false;
 
-  constructor(private populateService: PopulateService, private communicateService: CommunicateService, private _fb: FormBuilder) {
+  constructor(private populateService: PopulateService, private cs: CommunicateService, private _fb: FormBuilder) {
     this.stairForm = this._fb.group({
       model: [''],
       structure: [''],
@@ -45,9 +45,10 @@ export class StairsMeasureComponent implements OnInit {
       this.calculateAccessoriesPrice(data);
       this.totalStair = this.subTotalTreads + this.subTotalAccessories + this.calculateModelStructurePrice(data);
       this.notifyTotal.emit(this.totalStair);
+      this.cs.addZoho(this.stairForm.value, "stair");
     });
 
-    this.communicateService.submitted.subscribe(
+    this.cs.submitted.subscribe(
       data => this.isSubmit = data
     );
   }

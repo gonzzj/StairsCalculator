@@ -1,6 +1,7 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {PopulateService} from '../services/PopulateService';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {CommunicateService} from '../services/CommunicateService';
 
 @Component({
     selector: 'stairs-kit',
@@ -17,7 +18,7 @@ export class StairsKitComponent implements OnInit {
 
   @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(private populateService: PopulateService, private _fb: FormBuilder) {
+  constructor(private populateService: PopulateService, private _fb: FormBuilder, private cs: CommunicateService) {
     this.stairForm = this._fb.group({
       model: [''],
       diameter: [''],
@@ -34,6 +35,7 @@ export class StairsKitComponent implements OnInit {
       this.calculateAccessoriesPrice(data);
       this.totalStair = this.subTotalAccessories + this.calculateModelPrice(data);
       this.notifyTotal.emit(this.totalStair);
+      this.cs.addZoho(this.stairForm.value, "stair");
     });
   }
 

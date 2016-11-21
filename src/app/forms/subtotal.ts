@@ -1,4 +1,5 @@
 import {Component, Input, DoCheck, Output, EventEmitter} from '@angular/core';
+import {CommunicateService} from "../services/CommunicateService";
 
 @Component({
     selector: 'subtotal',
@@ -16,7 +17,7 @@ export class SubTotalComponent implements DoCheck {
   oldUnitPrice: string = "sarasa";
   oldCantDiscount: number = -1;
 
-  constructor() {}
+  constructor(private cs: CommunicateService) {}
 
   ngDoCheck() {
     if (this.subTotalsAndExtras[0]["stair"] !== this.oldTotalStair) {
@@ -39,10 +40,12 @@ export class SubTotalComponent implements DoCheck {
         this.discountTotal = (this.subTotalsAndExtras[0]["stair"] * this.cantDiscount) / 100 ;
         this.discountTotal = this.discountTotal * -1;
         this.notifyDiscount.emit(this.discountTotal);
+        this.cs.addZoho(this.discountTotal, "discount");
       } else if (this.unitPrice == "eur") {
         this.discountTotal = this.cantDiscount;
         this.discountTotal = this.discountTotal * -1;
         this.notifyDiscount.emit(this.discountTotal);
+        this.cs.addZoho(this.discountTotal, "discount");
       }
     }
 

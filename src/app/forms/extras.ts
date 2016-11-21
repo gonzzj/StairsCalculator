@@ -1,5 +1,6 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormArray, FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {CommunicateService} from '../services/CommunicateService';
 
 @Component({
     selector: 'extras',
@@ -8,11 +9,11 @@ import {FormArray, FormGroup, FormBuilder, Validators} from '@angular/forms';
 export class ExtrasComponent implements OnInit {
   private extrasForm: FormGroup;
 
-  totalExtras: number;
+  totalExtras: number = 0;
   subTotalExtras: Array<Object>;
   @Output() notifyTotal: EventEmitter<Array<Object>> = new EventEmitter<Array<Object>>();
 
-  constructor(private _fb: FormBuilder) {
+  constructor(private _fb: FormBuilder, private cs: CommunicateService) {
     this.subTotalExtras = [
       {
         extraStair: 0,
@@ -32,6 +33,7 @@ export class ExtrasComponent implements OnInit {
     this.extrasForm.valueChanges.subscribe(data => {
       this.calculateExtrasPrice(data);
       this.notifyTotal.emit(this.subTotalExtras);
+      this.cs.addZoho(this.extrasForm.value, "extras");
     });
   }
 
