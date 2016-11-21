@@ -12,7 +12,7 @@
   <div class="card-deck-wrapper">
     <div class="card-deck">
       <extras class="card card-block" (notifyTotal)='totalExtras($event)'></extras>
-      <subtotal class="card card-block" [subTotals]="subTotals" (notifyDiscount)='totalDiscount($event)'></subtotal>
+      <subtotal class="card card-block" [subTotalsAndExtras]="subTotalsAndExtras" (notifyDiscount)='totalDiscount($event)'></subtotal>
     </div>
   </div>
   <div class="card-deck-wrapper">

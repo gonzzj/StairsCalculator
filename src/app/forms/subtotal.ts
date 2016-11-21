@@ -5,7 +5,7 @@ import {Component, Input, DoCheck, Output, EventEmitter} from '@angular/core';
     template: require('./subtotal.html')
 })
 export class SubTotalComponent implements DoCheck {
-  @Input() subTotals: Array<Object>;
+  @Input() subTotalsAndExtras: Array<Object>;
   @Output() notifyDiscount: EventEmitter<number> = new EventEmitter<number>();
   unitPrice: string;
   cantDiscount: number;
@@ -19,9 +19,9 @@ export class SubTotalComponent implements DoCheck {
   constructor() {}
 
   ngDoCheck() {
-    if (this.subTotals[0]["subTotalStair"] !== this.oldTotalStair) {
+    if (this.subTotalsAndExtras[0]["stair"] !== this.oldTotalStair) {
       this.changeDetected = true;
-      this.oldTotalStair = this.subTotals[0]["subTotalStair"];
+      this.oldTotalStair = this.subTotalsAndExtras[0]["stair"];
     }
 
     if (this.cantDiscount !== this.oldCantDiscount) {
@@ -36,7 +36,7 @@ export class SubTotalComponent implements DoCheck {
 
     if (this.changeDetected) {
       if (this.unitPrice == "porc") {
-        this.discountTotal = (this.subTotals[0]["subTotalStair"] * this.cantDiscount) / 100 ;
+        this.discountTotal = (this.subTotalsAndExtras[0]["stair"] * this.cantDiscount) / 100 ;
         this.discountTotal = this.discountTotal * -1;
         this.notifyDiscount.emit(this.discountTotal);
       } else if (this.unitPrice == "eur") {

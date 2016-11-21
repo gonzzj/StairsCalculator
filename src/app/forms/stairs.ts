@@ -10,6 +10,8 @@ export class StairsComponent {
   stair: string = "measure";
   total: number = 0;
   subTotals:Array<Object>;
+  extras:Array<Object>;
+  subTotalsAndExtras:Array<Object>;
 
   constructor (private communicateService: CommunicateService) {
     this.subTotals = [
@@ -19,6 +21,24 @@ export class StairsComponent {
         subTotalTransport: 0,
         subTotalExtras: 0,
         subTotalDiscount: 0
+      }
+    ];
+
+    this.extras = [
+      {
+        extras: 0,
+        transport: 0,
+        service: 0,
+        stair: 0
+      }
+    ];
+
+    this.subTotalsAndExtras = [
+      {
+        extras: 0,
+        transport: 0,
+        service: 0,
+        stair: 0
       }
     ];
   }
@@ -55,17 +75,17 @@ export class StairsComponent {
   }
 
   totalExtras(message:Array<Object>):void {
-    /*this.subTotals = [{subTotalStair: 0, subTotalService: 0, subTotalTransport: 0, subTotalExtras: 0, subTotalDiscount: 0}];
+    this.extras = [{extras: 0, transport: 0, service: 0, stair: 0}];
 
-    this.subTotals[0]["subTotalExtras"] = this.subTotals[0]["subTotalExtras"] + message[0]["extraExtras"];
+    this.extras[0]["extras"] = message[0]["extraExtras"];
 
-    this.subTotals[0]["subTotalTransport"] = this.subTotals[0]["subTotalTransport"] + message[0]["extraTransport"];
+    this.extras[0]["transport"] = message[0]["extraTransport"];
 
-    this.subTotals[0]["subTotalService"] = this.subTotals[0]["subTotalService"] + message[0]["extraService"];
+    this.extras[0]["service"] = message[0]["extraService"];
 
-    this.subTotals[0]["subTotalStair"] = this.subTotals[0]["subTotalStair"] + message[0]["extraStair"];
+    this.extras[0]["stair"] = message[0]["extraStair"];
 
-    this.calculateTotal();*/
+    this.calculateTotal();
   }
 
   totalDiscount(message:number):void {
@@ -79,7 +99,21 @@ export class StairsComponent {
   calculateTotal() {
     this.total = 0;
 
-    this.total = this.subTotals[0]["subTotalStair"] + this.subTotals[0]["subTotalService"] + this.subTotals[0]["subTotalTransport"] + this.subTotals[0]["subTotalExtras"] + this.subTotals[0]["subTotalDiscount"];
+    this.addExtras();
+
+    this.total = this.subTotalsAndExtras[0]["stair"] + this.subTotalsAndExtras[0]["service"] + this.subTotalsAndExtras[0]["transport"] + this.subTotalsAndExtras[0]["extras"] + this.subTotals[0]["subTotalDiscount"];
+  }
+
+  addExtras() {
+    this.subTotalsAndExtras = [{extras: 0, transport: 0, service: 0, stair: 0}];
+
+    this.subTotalsAndExtras[0]["extras"] =  this.subTotals[0]["subTotalExtras"] + this.extras[0]["extras"];
+
+    this.subTotalsAndExtras[0]["transport"] = this.subTotals[0]["subTotalTransport"] + this.extras[0]["transport"];
+
+    this.subTotalsAndExtras[0]["service"] = this.subTotals[0]["subTotalService"] + this.extras[0]["service"];
+
+    this.subTotalsAndExtras[0]["stair"] = this.subTotals[0]["subTotalStair"] + this.extras[0]["stair"];
   }
 
   save() {
