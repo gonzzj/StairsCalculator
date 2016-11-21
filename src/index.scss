@@ -17,6 +17,8 @@ stairs-data {
 
   .total-title {
     text-align: center;
+    margin-top: 3rem;
+    font-size: 3rem;
   }
 
   textarea {
@@ -26,5 +28,14 @@ stairs-data {
   .addRow {
     color: #fff;
 
+  }
+
+  .subtotal-desc {
+    float: left;
+    width: 80px;
+
+    &.small{
+      width: 56px;
+    }
   }
 }

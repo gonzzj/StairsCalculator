@@ -8,10 +8,20 @@ import {FormArray, FormGroup, FormBuilder, Validators} from '@angular/forms';
 export class ExtrasComponent implements OnInit {
   private extrasForm: FormGroup;
 
-  subTotalExtras: number = 0;
-  @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
+  totalExtras: number;
+  subTotalExtras: Array<Object>;
+  @Output() notifyTotal: EventEmitter<Array<Object>> = new EventEmitter<Array<Object>>();
 
   constructor(private _fb: FormBuilder) {
+    this.subTotalExtras = [
+      {
+        extraStair: 0,
+        extraTransport: 0,
+        extraService: 0,
+        extraExtras: 0
+      }
+    ];
+
     this.extrasForm = this._fb.group({
       extras: this._fb.array([
       ])
@@ -45,10 +55,21 @@ export class ExtrasComponent implements OnInit {
   }
 
   calculateExtrasPrice(data) {
-    this.subTotalExtras = 0;
+    this.totalExtras = 0;
+    this.subTotalExtras = [{extraStair: 0, extraTransport: 0, extraService: 0, extraExtras: 0}];
 
     for (var itemExtra of data.extras) {
-      this.subTotalExtras = this.subTotalExtras + (itemExtra.cant * itemExtra.price);
+      if (itemExtra.type == "stair") {
+        this.subTotalExtras[0]["extraStair"] = this.subTotalExtras[0]["extraStair"] + (itemExtra.cant * itemExtra.price);
+      } else if (itemExtra.type == "service") {
+        this.subTotalExtras[0]["extraService"] = this.subTotalExtras[0]["extraService"] + (itemExtra.cant * itemExtra.price);
+      } else if (itemExtra.type == "transport") {
+        this.subTotalExtras[0]["extraTransport"] = this.subTotalExtras[0]["extraTransport"] + (itemExtra.cant * itemExtra.price);
+      } else if (itemExtra.type == "extras") {
+        this.subTotalExtras[0]["extraExtras"] = this.subTotalExtras[0]["extraExtras"] + (itemExtra.cant * itemExtra.price);
+      }
+
+      this.totalExtras = this.totalExtras + (itemExtra.cant * itemExtra.price);
     }
   }
 }

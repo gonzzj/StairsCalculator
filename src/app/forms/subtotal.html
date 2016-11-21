@@ -1,6 +1,65 @@
 <h4 class="card-title">Subtotal</h4>
 <div class="form-group row labels-group">
-    <label class="col-sm-6 total">Concepto</label>
-    <label class="col-sm-3 col-form-label">Descuento</label>
+    <label class="col-sm-5 total">Concepto</label>
+    <label class="col-sm-4 col-form-label">Descuento</label>
     <label class="col-sm-2 col-form-label">Monto</label>
+</div>
+<div class="form-group row">
+  <div class="col-sm-5">
+    <span>Total material</span>
+  </div>
+  <div class="col-sm-4">
+    <span>-</span>
+  </div>
+  <div class="col-sm-2">
+    <span>{{subTotals[0]["subTotalStair"]}} €</span>
+  </div>
+</div>
+<div class="form-group row">
+  <div class="col-sm-5">
+    <span>Descuento material</span>
+  </div>
+  <div class="col-sm-4">
+    <input type="number" min="0" class="form-control subtotal-desc" [(ngModel)]="cantDiscount" value="0">
+    <select class="form-control custom-select subtotal-desc small" [(ngModel)]="unitPrice">
+      <option value="porc">%</option>
+      <option value="eur">€</option>
+    </select>
+  </div>
+  <div class="col-sm-2">
+    <span>{{discountTotal}} €</span>
+  </div>
+</div>
+<div class="form-group row">
+  <div class="col-sm-5">
+    <span>Transporte</span>
+  </div>
+  <div class="col-sm-4">
+    <span>-</span>
+  </div>
+  <div class="col-sm-2">
+    <span>{{subTotals[0]["subTotalTransport"]}} €</span>
+  </div>
+</div>
+<div class="form-group row">
+  <div class="col-sm-5">
+    <span>Montaje</span>
+  </div>
+  <div class="col-sm-4">
+    <span>-</span>
+  </div>
+  <div class="col-sm-2">
+    <span>{{subTotals[0]["subTotalService"]}} €</span>
+  </div>
+</div>
+<div class="form-group row">
+  <div class="col-sm-5">
+    <span>Adicionales</span>
+  </div>
+  <div class="col-sm-4">
+    <span>-</span>
+  </div>
+  <div class="col-sm-2">
+    <span>{{subTotals[0]["subTotalExtras"]}} €</span>
+  </div>
 </div>

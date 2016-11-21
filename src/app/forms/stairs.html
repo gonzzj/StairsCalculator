@@ -12,12 +12,12 @@
   <div class="card-deck-wrapper">
     <div class="card-deck">
       <extras class="card card-block" (notifyTotal)='totalExtras($event)'></extras>
-      <observation class="card card-block"></observation>
+      <subtotal class="card card-block" [subTotals]="subTotals" (notifyDiscount)='totalDiscount($event)'></subtotal>
     </div>
   </div>
   <div class="card-deck-wrapper">
     <div class="card-deck">
-      <subtotal class="card card-block"></subtotal>
+      <observation class="card card-block"></observation>
       <total class="card card-block" [total]="total"></total>
     </div>
   </div>
