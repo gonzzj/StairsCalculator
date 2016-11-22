@@ -6,6 +6,8 @@ import {CommunicateService} from '../services/CommunicateService';
     selector: 'extras',
     template: require('./extras.html')
 })
+
+/** Class extras child component */
 export class ExtrasComponent implements OnInit {
   private extrasForm: FormGroup;
 
@@ -13,6 +15,11 @@ export class ExtrasComponent implements OnInit {
   subTotalExtras: Array<Object>;
   @Output() notifyTotal: EventEmitter<Array<Object>> = new EventEmitter<Array<Object>>();
 
+  /**
+   * @constructor
+   * @param _fb
+   * @param cs - service for communicate all the components.
+   */
   constructor(private _fb: FormBuilder, private cs: CommunicateService) {
     this.subTotalExtras = [
       {
@@ -29,6 +36,9 @@ export class ExtrasComponent implements OnInit {
     });
   }
 
+  /**
+   * Populate the selects, calculate the extras price when the form change and add the values to a JSON
+   */
   ngOnInit() {
     this.extrasForm.valueChanges.subscribe(data => {
       this.calculateExtrasPrice(data);
@@ -37,6 +47,9 @@ export class ExtrasComponent implements OnInit {
     });
   }
 
+  /**
+   * @return {FormGroup} An extra form
+   */
   initExtra() {
     return this._fb.group({
       cant: [1],
@@ -46,16 +59,30 @@ export class ExtrasComponent implements OnInit {
     });
   }
 
+  /**
+   * Add a new extra form
+   */
   addRow() {
     const control = <FormArray>this.extrasForm.controls['extras'];
     control.push(this.initExtra());
   }
 
+  /**
+   * Remove an extra form
+   *
+   * @param i - id row form
+   */
   removeRow(i: number) {
     const control = <FormArray>this.extrasForm.controls['extras'];
     control.removeAt(i);
   }
 
+  /**
+   * Calculate the price of the extras
+   *
+   * @param data - the form values
+   * @returns {number}
+   */
   calculateExtrasPrice(data) {
     this.totalExtras = 0;
     this.subTotalExtras = [{extraStair: 0, extraTransport: 0, extraService: 0, extraExtras: 0}];

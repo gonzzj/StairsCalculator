@@ -7,6 +7,8 @@ import {CommunicateService} from '../services/CommunicateService';
     selector: 'stairs-kit',
     template: require('./stairs-kit.html')
 })
+
+/** Class stair of type kit */
 export class StairsKitComponent implements OnInit {
   populateModels: any;
   populateAccessories: any;
@@ -18,6 +20,12 @@ export class StairsKitComponent implements OnInit {
 
   @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
 
+  /**
+   * @constructor
+   * @param populateService - service for populate the selects.
+   * @param _fb
+   * @param cs - service for communicate all the components.
+   */
   constructor(private populateService: PopulateService, private _fb: FormBuilder, private cs: CommunicateService) {
     this.stairForm = this._fb.group({
       model: [''],
@@ -28,6 +36,9 @@ export class StairsKitComponent implements OnInit {
     });
   }
 
+  /**
+   * Populate the selects, calculate the stair price when the form change and add the values to a JSON
+   */
   ngOnInit() {
     this.populateSelects();
 
@@ -39,6 +50,9 @@ export class StairsKitComponent implements OnInit {
     });
   }
 
+  /**
+   * @return {FormGroup} An accessorie form
+   */
   initAccessorie() {
     return this._fb.group({
       cant: [1],
@@ -47,16 +61,30 @@ export class StairsKitComponent implements OnInit {
     });
   }
 
+  /**
+   * Add a new accessorie form
+   */
   addRow() {
     const control = <FormArray>this.stairForm.controls['accessories'];
     control.push(this.initAccessorie());
   }
 
+  /**
+   * Remove an accessorie form
+   *
+   * @param i - id row form
+   */
   removeRow(i: number) {
     const control = <FormArray>this.stairForm.controls['accessories'];
     control.removeAt(i);
   }
 
+  /**
+   * Calculate only the price of the model
+   *
+   * @param data - the form values
+   * @returns {number}
+   */
   calculateModelPrice(data) {
     var priceModel = 0;
 
@@ -69,6 +97,11 @@ export class StairsKitComponent implements OnInit {
     return priceModel;
   }
 
+  /**
+   * Calculate only the price of the accessories
+   *
+   * @param data - the form values
+   */
   calculateAccessoriesPrice(data) {
     this.subTotalAccessories = 0;
     var cont;
@@ -88,6 +121,9 @@ export class StairsKitComponent implements OnInit {
     }
   }
 
+  /**
+   * Get the data to populate the selects
+   */
   populateSelects() {
     this.populateService.getAllModels()
       .then(data => {

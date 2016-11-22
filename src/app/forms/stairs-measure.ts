@@ -7,6 +7,8 @@ import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
     selector: 'stairs-measure',
     template: require('./stairs-measure.html')
 })
+
+/** Class stair of type measure */
 export class StairsMeasureComponent implements OnInit {
   populateModels: any;
   populateTreadName: any;
@@ -25,6 +27,12 @@ export class StairsMeasureComponent implements OnInit {
   @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
   isSubmit: boolean = false;
 
+  /**
+   * @constructor
+   * @param populateService - service for populate the selects.
+   * @param cs - service for communicate all the components.
+   * @param _fb
+   */
   constructor(private populateService: PopulateService, private cs: CommunicateService, private _fb: FormBuilder) {
     this.stairForm = this._fb.group({
       model: [''],
@@ -37,6 +45,9 @@ export class StairsMeasureComponent implements OnInit {
     });
   }
 
+  /**
+   * Populate the selects, calculate the stair price when the form change and add the values to a JSON
+   */
   ngOnInit() {
     this.populateSelects();
 
@@ -53,6 +64,9 @@ export class StairsMeasureComponent implements OnInit {
     );
   }
 
+  /**
+   * @return {FormGroup} A tread form
+   */
   initTread() {
     return this._fb.group({
       cant: [1],
@@ -63,6 +77,9 @@ export class StairsMeasureComponent implements OnInit {
     });
   }
 
+  /**
+   * @returns {FormGroup} An accessorie form
+   */
   initAccessorie() {
     return this._fb.group({
       cant: [1],
@@ -71,6 +88,11 @@ export class StairsMeasureComponent implements OnInit {
     });
   }
 
+  /**
+   * Add a new tread or accessorie form
+   *
+   * @param nameControl - the form type
+   */
   addRow(nameControl: string) {
     const control = <FormArray>this.stairForm.controls[nameControl];
 
@@ -81,11 +103,23 @@ export class StairsMeasureComponent implements OnInit {
     }
   }
 
+  /**
+   * Remove a tread or accessorie form
+   *
+   * @param i - id row form
+   * @param nameControl - the form type
+   */
   removeRow(i: number, nameControl: string) {
     const control = <FormArray>this.stairForm.controls[nameControl];
     control.removeAt(i);
   }
 
+  /**
+   * Calculate only the price of the model and the structure
+   *
+   * @param data - the form values
+   * @returns {number}
+   */
   calculateModelStructurePrice(data) {
     var priceModel = 0;
     var priceStructure = 0;
@@ -105,6 +139,11 @@ export class StairsMeasureComponent implements OnInit {
     return priceModel + priceStructure;
   }
 
+  /**
+   * Calculate only the price of the treads
+   *
+   * @param data - the form values
+   */
   calculateTreadPrice(data) {
     this.subTotalTreads = 0;
     var cont;
@@ -124,6 +163,11 @@ export class StairsMeasureComponent implements OnInit {
     }
   }
 
+  /**
+   * Calculate only the price of the accessories
+   *
+   * @param data - the form values
+   */
   calculateAccessoriesPrice(data) {
     this.subTotalAccessories = 0;
     var cont;
@@ -143,6 +187,9 @@ export class StairsMeasureComponent implements OnInit {
     }
   }
 
+  /**
+   * Get the data to populate the selects
+   */
   populateSelects() {
     this.populateService.getAllModels()
       .then(data => {

@@ -6,6 +6,7 @@ import {CommunicateService} from '../services/CommunicateService';
     template: require('./stairs.html')
 })
 
+/** Class father component stairs */
 export class StairsComponent {
   stair: string = "measure";
   total: number = 0;
@@ -13,6 +14,10 @@ export class StairsComponent {
   extras:Array<Object>;
   subTotalsAndExtras:Array<Object>;
 
+  /**
+   * @constructor
+   * @param cs - service for communicate all the components.
+   */
   constructor (private cs: CommunicateService) {
     this.subTotals = [
       {
@@ -43,6 +48,11 @@ export class StairsComponent {
     ];
   }
 
+  /**
+   * Change the different type of stairs components and reset the subtotal stair
+   *
+   * @param message - the chosen stair
+   */
   onStair(message:string):void {
     this.stair = message;
     this.subTotals[0]["subTotalStair"] = 0;
@@ -50,6 +60,11 @@ export class StairsComponent {
     this.calculateTotal();
   }
 
+  /**
+   * With the stair price, calculate the total
+   *
+   * @param message - the subtotal of the stair
+   */
   totalStair(message:number):void {
     this.subTotals[0]["subTotalStair"] = 0;
 
@@ -58,6 +73,11 @@ export class StairsComponent {
     this.calculateTotal();
   }
 
+  /**
+   * With the service price, calculate the total
+   *
+   * @param message - the subtotal of the services
+   */
   totalService(message:number):void {
     this.subTotals[0]["subTotalService"] = 0;
 
@@ -66,6 +86,11 @@ export class StairsComponent {
     this.calculateTotal();
   }
 
+  /**
+   * With the transport price, calculate the total
+   *
+   * @param message - the subtotal of the transport
+   */
   totalTransport(message:number):void {
     this.subTotals[0]["subTotalTransport"] = 0;
 
@@ -74,6 +99,11 @@ export class StairsComponent {
     this.calculateTotal();
   }
 
+  /**
+   * With the extras prices, calculate the total
+   *
+   * @param message - the subtotal of the extras
+   */
   totalExtras(message:Array<Object>):void {
     this.extras = [{extras: 0, transport: 0, service: 0, stair: 0}];
 
@@ -88,6 +118,11 @@ export class StairsComponent {
     this.calculateTotal();
   }
 
+  /**
+   * With the discount, calculate the total
+   *
+   * @param message - the value of the discount
+   */
   totalDiscount(message:number):void {
     this.subTotals[0]["subTotalDiscount"] = 0;
 
@@ -96,6 +131,9 @@ export class StairsComponent {
     this.calculateTotal();
   }
 
+  /**
+   * Add the extras prices and calculate the total
+   */
   calculateTotal() {
     this.total = 0;
 
@@ -104,6 +142,9 @@ export class StairsComponent {
     this.total = this.subTotalsAndExtras[0]["stair"] + this.subTotalsAndExtras[0]["service"] + this.subTotalsAndExtras[0]["transport"] + this.subTotalsAndExtras[0]["extras"] + this.subTotals[0]["subTotalDiscount"];
   }
 
+  /**
+   * Add the extras prices to each subtotal
+   */
   addExtras() {
     this.subTotalsAndExtras = [{extras: 0, transport: 0, service: 0, stair: 0}];
 
@@ -118,6 +159,9 @@ export class StairsComponent {
     this.cs.addZoho(this.subTotalsAndExtras, "subTotal");
   }
 
+  /**
+   * Send to zoho a JSON form and check when the button is clicked
+   */
   save() {
     this.cs.isSubmit(true);
 

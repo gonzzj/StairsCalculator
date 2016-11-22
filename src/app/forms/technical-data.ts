@@ -11,6 +11,11 @@ export class TechnicalDataComponent implements OnInit {
 
   private technicalDataForm: FormGroup;
 
+  /**
+   * @constructor
+   * @param _fb
+   * @param cs - service for communicate all the components.
+   */
   constructor(private _fb: FormBuilder, private cs: CommunicateService) {
     this.technicalDataForm = this._fb.group({
       config: [''],
@@ -25,12 +30,18 @@ export class TechnicalDataComponent implements OnInit {
     });
   }
 
+  /**
+   * Add the values to a JSON if the form changes
+   */
   ngOnInit() {
     this.technicalDataForm.valueChanges.subscribe(data => {
       this.cs.addZoho(this.technicalDataForm.value, "technicalData");
     });
   }
 
+  /**
+   * Send to the father component the chosen stair
+   */
   getStair(stair) {
     this.selectedStair.emit(stair);
   }

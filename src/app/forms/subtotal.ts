@@ -17,8 +17,15 @@ export class SubTotalComponent implements DoCheck {
   oldUnitPrice: string = "sarasa";
   oldCantDiscount: number = -1;
 
+  /**
+   * @constructor
+   * @param cs - service for communicate all the components.
+   */
   constructor(private cs: CommunicateService) {}
 
+  /**
+   * Check if the discount changes and calculate it with the total
+   */
   ngDoCheck() {
     if (this.subTotalsAndExtras[0]["stair"] !== this.oldTotalStair) {
       this.changeDetected = true;

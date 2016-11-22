@@ -7,6 +7,8 @@ import {CommunicateService} from '../services/CommunicateService';
     selector: 'services',
     template: require('./services.html')
 })
+
+/** Class service child component */
 export class ServicesComponent implements OnInit {
   populateServices: any;
 
@@ -15,6 +17,12 @@ export class ServicesComponent implements OnInit {
   subTotalServices: number = 0;
   @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
 
+  /**
+   * @constructor
+   * @param populateService - service for populate the selects.
+   * @param _fb
+   * @param cs - service for communicate all the components.
+   */
   constructor(private populateService: PopulateService, private _fb: FormBuilder, private cs: CommunicateService) {
     this.servicesForm = this._fb.group({
       services: this._fb.array([
@@ -22,6 +30,9 @@ export class ServicesComponent implements OnInit {
     });
   }
 
+  /**
+   * Populate the selects, calculate the service price when the form change and add the values to a JSON
+   */
   ngOnInit() {
     this.populateSelects();
 
@@ -32,6 +43,9 @@ export class ServicesComponent implements OnInit {
     });
   }
 
+  /**
+   * @return {FormGroup} A service form
+   */
   initService() {
     return this._fb.group({
       cant: [1],
@@ -40,16 +54,30 @@ export class ServicesComponent implements OnInit {
     });
   }
 
+  /**
+   * Add a new service form
+   */
   addRow() {
     const control = <FormArray>this.servicesForm.controls['services'];
     control.push(this.initService());
   }
 
+  /**
+   * Remove a service form
+   *
+   * @param i - id row form
+   */
   removeRow(i: number) {
     const control = <FormArray>this.servicesForm.controls['services'];
     control.removeAt(i);
   }
 
+  /**
+   * Calculate the price of the services
+   *
+   * @param data - the form values
+   * @returns {number}
+   */
   calculateServicePrice(data) {
     this.subTotalServices = 0;
 
@@ -62,6 +90,9 @@ export class ServicesComponent implements OnInit {
     }
   }
 
+  /**
+   * Get the data to populate the selects
+   */
   populateSelects() {
     this.populateService.getServices()
       .then(data => {

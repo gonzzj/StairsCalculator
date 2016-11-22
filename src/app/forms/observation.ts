@@ -8,8 +8,15 @@ import {CommunicateService} from "../services/CommunicateService";
 export class ObservationComponent implements DoCheck {
   observations: string;
 
+  /**
+   * @constructor
+   * @param cs - service for communicate all the components.
+   */
   constructor(private cs: CommunicateService) {}
 
+  /**
+   * Add the value to a JSON if the form changes
+   */
   ngDoCheck() {
     this.cs.addZoho(this.observations, "observations");
   }
