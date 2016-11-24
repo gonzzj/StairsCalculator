@@ -2,6 +2,7 @@ import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {PopulateService} from '../services/PopulateService';
 import {FormArray, FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {CommunicateService} from '../services/CommunicateService';
+import {formErrors} from '../constants';
 
 @Component({
     selector: 'services',
@@ -16,6 +17,8 @@ export class ServicesComponent implements OnInit {
 
   subTotalServices: number = 0;
   @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
+  isSubmit: boolean = false;
+  emptyField = formErrors.message_emptyField;
 
   /**
    * @constructor
@@ -41,6 +44,10 @@ export class ServicesComponent implements OnInit {
       this.notifyTotal.emit(this.subTotalServices);
       this.cs.addZoho(this.servicesForm.value, "services");
     });
+
+    this.cs.submitted.subscribe(
+      data => this.isSubmit = data
+    );
   }
 
   /**
@@ -49,8 +56,8 @@ export class ServicesComponent implements OnInit {
   initService() {
     return this._fb.group({
       cant: [1],
-      type: [''],
-      serviceName: ['']
+      type: ['', Validators.required],
+      serviceName: ['', Validators.required]
     });
   }
 

@@ -14,12 +14,14 @@
         <select class="form-control custom-select" formControlName="type">
           <option>0-77K</option>
         </select>
+        <small [hidden]="service.controls.type.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
 
       <div class="col-sm-5">
         <select class="form-control custom-select" formControlName="serviceName">
           <option [value]="serviceName.name" *ngFor="let serviceName of populateServices">{{serviceName.name}}</option>
         </select>
+        <small [hidden]="service.controls.serviceName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
 
       <div class="col-sm-1">

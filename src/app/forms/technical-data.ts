@@ -1,6 +1,7 @@
 import {Component, Output, EventEmitter, OnInit} from '@angular/core';
-import {FormArray, FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {CommunicateService} from '../services/CommunicateService';
+import {formErrors} from '../constants';
 
 @Component({
     selector: 'technical-data',
@@ -8,6 +9,8 @@ import {CommunicateService} from '../services/CommunicateService';
 })
 export class TechnicalDataComponent implements OnInit {
   @Output() selectedStair: EventEmitter<string> = new EventEmitter<string>();
+  isSubmit: boolean = false;
+  emptyField = formErrors.message_emptyField;
 
   private technicalDataForm: FormGroup;
 
@@ -18,7 +21,7 @@ export class TechnicalDataComponent implements OnInit {
    */
   constructor(private _fb: FormBuilder, private cs: CommunicateService) {
     this.technicalDataForm = this._fb.group({
-      config: [''],
+      config: ['', Validators.required],
       cantTreads: [1],
       heightTreads: [1],
       widthTreads: [1],
@@ -37,6 +40,10 @@ export class TechnicalDataComponent implements OnInit {
     this.technicalDataForm.valueChanges.subscribe(data => {
       this.cs.addZoho(this.technicalDataForm.value, "technicalData");
     });
+
+    this.cs.submitted.subscribe(
+      data => this.isSubmit = data
+    );
   }
 
   /**

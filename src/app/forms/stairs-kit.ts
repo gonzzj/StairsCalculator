@@ -2,6 +2,7 @@ import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {PopulateService} from '../services/PopulateService';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {CommunicateService} from '../services/CommunicateService';
+import {formErrors} from '../constants';
 
 @Component({
     selector: 'stairs-kit',
@@ -19,6 +20,8 @@ export class StairsKitComponent implements OnInit {
   totalStair: number = 0;
 
   @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
+  isSubmit: boolean = false;
+  emptyField = formErrors.message_emptyField;
 
   /**
    * @constructor
@@ -28,9 +31,9 @@ export class StairsKitComponent implements OnInit {
    */
   constructor(private populateService: PopulateService, private _fb: FormBuilder, private cs: CommunicateService) {
     this.stairForm = this._fb.group({
-      model: [''],
-      diameter: [''],
-      measure: [''],
+      model: ['', Validators.required],
+      diameter: ['', Validators.required],
+      measure: ['', Validators.required],
       accessories: this._fb.array([
       ])
     });
@@ -48,6 +51,10 @@ export class StairsKitComponent implements OnInit {
       this.notifyTotal.emit(this.totalStair);
       this.cs.addZoho(this.stairForm.value, "stair");
     });
+
+    this.cs.submitted.subscribe(
+      data => this.isSubmit = data
+    );
   }
 
   /**
@@ -56,7 +63,7 @@ export class StairsKitComponent implements OnInit {
   initAccessorie() {
     return this._fb.group({
       cant: [1],
-      accessorieName: [''],
+      accessorieName: ['', Validators.required],
       price: [0]
     });
   }

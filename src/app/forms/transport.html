@@ -13,6 +13,7 @@
         <select class="form-control custom-select" formControlName="zoneName">
           <option [value]="zoneName.name" *ngFor="let zoneName of populateZones">{{zoneName.name}}</option>
         </select>
+        <small [hidden]="transport.controls.zoneName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
       <div class="col-sm-1">
         <button (click)="removeRow(i)" type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>

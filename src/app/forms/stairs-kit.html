@@ -7,6 +7,7 @@
         <select class="form-control custom-select" id="inputModel" formControlName="model">
           <option value="{{model.name}}" *ngFor="let model of populateModels">{{model.name}}</option>
         </select>
+        <small [hidden]="stairForm.controls.model.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
     </div>
     <div class="form-group row">
@@ -19,6 +20,7 @@
           <option>4</option>
           <option>5</option>
         </select>
+        <small [hidden]="stairForm.controls.diameter.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
     </div>
     <h4 class="card-title">Datos técnicos</h4>
@@ -32,6 +34,7 @@
           <option>4</option>
           <option>5</option>
         </select>
+        <small [hidden]="stairForm.controls.measure.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
     </div>
   </div>
@@ -50,6 +53,7 @@
         <select class="form-control custom-select" formControlName="accessorieName">
           <option [value]="accessorieName.name" *ngFor="let accessorieName of populateAccessories">{{accessorieName.name}}</option>
         </select>
+        <small [hidden]="accessorie.controls.accessorieName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
 
       <div class="col-sm-1">

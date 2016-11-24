@@ -2,6 +2,7 @@ import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {PopulateService} from '../services/PopulateService';
 import {CommunicateService} from '../services/CommunicateService';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {formErrors} from '../constants';
 
 @Component({
     selector: 'stairs-measure',
@@ -26,6 +27,7 @@ export class StairsMeasureComponent implements OnInit {
 
   @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
   isSubmit: boolean = false;
+  emptyField = formErrors.message_emptyField;
 
   /**
    * @constructor
@@ -35,8 +37,8 @@ export class StairsMeasureComponent implements OnInit {
    */
   constructor(private populateService: PopulateService, private cs: CommunicateService, private _fb: FormBuilder) {
     this.stairForm = this._fb.group({
-      model: [''],
-      structure: [''],
+      model: ['', Validators.required],
+      structure: ['', Validators.required],
       treads: this._fb.array([
         this.initTread(),
       ]),
@@ -70,9 +72,9 @@ export class StairsMeasureComponent implements OnInit {
   initTread() {
     return this._fb.group({
       cant: [1],
-      treadName: [''],
-      measure: [''],
-      treadFinish: [''],
+      treadName: ['', Validators.required],
+      measure: ['', Validators.required],
+      treadFinish: ['', Validators.required],
       price: [0]
     });
   }
@@ -83,7 +85,7 @@ export class StairsMeasureComponent implements OnInit {
   initAccessorie() {
     return this._fb.group({
       cant: [1],
-      accessorieName: [''],
+      accessorieName: ['', Validators.required],
       price: [0]
     });
   }

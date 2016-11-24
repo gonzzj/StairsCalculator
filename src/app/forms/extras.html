@@ -13,6 +13,7 @@
       </div>
       <div class="col-sm-3">
         <input type="text" class="form-control" formControlName="extraName">
+        <small [hidden]="extra.controls.extraName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
       <div class="col-sm-3">
         <select class="form-control custom-select" formControlName="type">
@@ -21,6 +22,7 @@
           <option value="transport">Transporte</option>
           <option value="extras">Adicionales</option>
         </select>
+        <small [hidden]="extra.controls.type.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
       <div class="col-sm-2">
         <input type="number" class="form-control" min="0" formControlName="price">

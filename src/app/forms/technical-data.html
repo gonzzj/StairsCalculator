@@ -24,6 +24,7 @@
         <div class="col-sm-10">
             <input type="text" class="form-control" id="inputConfig" formControlName="config">
         </div>
+        <small [hidden]="technicalDataForm.controls.config.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
     </div>
     <div class="form-group row">
         <label for="inputNumSteps" class="col-sm-2 col-form-label">Nro peldaños</label>

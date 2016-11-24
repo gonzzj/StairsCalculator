@@ -1,6 +1,7 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormArray, FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {CommunicateService} from '../services/CommunicateService';
+import {formErrors} from '../constants';
 
 @Component({
     selector: 'extras',
@@ -14,6 +15,8 @@ export class ExtrasComponent implements OnInit {
   totalExtras: number = 0;
   subTotalExtras: Array<Object>;
   @Output() notifyTotal: EventEmitter<Array<Object>> = new EventEmitter<Array<Object>>();
+  isSubmit: boolean = false;
+  emptyField = formErrors.message_emptyField;
 
   /**
    * @constructor
@@ -45,6 +48,10 @@ export class ExtrasComponent implements OnInit {
       this.notifyTotal.emit(this.subTotalExtras);
       this.cs.addZoho(this.extrasForm.value, "extras");
     });
+
+    this.cs.submitted.subscribe(
+      data => this.isSubmit = data
+    );
   }
 
   /**
@@ -53,8 +60,8 @@ export class ExtrasComponent implements OnInit {
   initExtra() {
     return this._fb.group({
       cant: [1],
-      extraName: [''],
-      type: [''],
+      extraName: ['', Validators.required],
+      type: ['', Validators.required],
       price: [0]
     });
   }

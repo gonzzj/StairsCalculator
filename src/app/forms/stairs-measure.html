@@ -7,6 +7,7 @@
         <select class="form-control custom-select" id="inputModel" formControlName="model">
           <option value="{{model.name}}" *ngFor="let model of populateModels">{{model.name}}</option>
         </select>
+        <small [hidden]="stairForm.controls.model.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
     </div>
   </div>
@@ -18,6 +19,7 @@
         <select class="form-control custom-select" id="inputStructure" formControlName="structure">
           <option value="{{structure.name}}" *ngFor="let structure of populateStructure">{{structure.name}}</option>
         </select>
+        <small [hidden]="stairForm.controls.structure.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
     </div>
   </div>
@@ -38,18 +40,21 @@
         <select class="form-control custom-select" formControlName="treadName">
           <option [value]="treadName.name" *ngFor="let treadName of populateTreadName">{{treadName.name}}</option>
         </select>
+        <small [hidden]="tread.controls.treadName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
 
       <div class="col-sm-3">
         <select class="form-control custom-select" formControlName="measure">
           <option [value]="measure.name" *ngFor="let measure of populateMeasure">{{measure.name}}</option>
         </select>
+        <small [hidden]="tread.controls.measure.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
 
       <div class="col-sm-3">
         <select class="form-control custom-select" formControlName="treadFinish">
           <option [value]="treadFinish.name" *ngFor="let treadFinish of populateTreadFinish">{{treadFinish.name}}</option>
         </select>
+        <small [hidden]="tread.controls.treadFinish.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
 
       <div class="col-sm-1">
@@ -79,6 +84,7 @@
         <select class="form-control custom-select" formControlName="accessorieName">
           <option [value]="accessorieName.name" *ngFor="let accessorieName of populateAccessories">{{accessorieName.name}}</option>
         </select>
+        <small [hidden]="accessorie.controls.accessorieName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
 
       <div class="col-sm-1">
