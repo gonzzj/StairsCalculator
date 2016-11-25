@@ -4,6 +4,10 @@
 }
 
 stairs-data {
+  margin-bottom: 14px;
+  display: block;
+  overflow: hidden;
+
   form {
     .labels-group {
       border-bottom: 1px solid #e0e0e0;
@@ -41,5 +45,13 @@ stairs-data {
 
   small {
     color: #d9534f;
+  }
+
+  .buttons-bottom {
+    float: right;
+
+    .button-print {
+      color: #fff!important;
+    }
   }
 }

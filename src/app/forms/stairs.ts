@@ -160,6 +160,13 @@ export class StairsComponent {
   }
 
   /**
+   * Open a PDF with all the information of the form
+   */
+  printPDF() {
+    this.cs.savePDF();
+  }
+
+  /**
    * Send to zoho a JSON form and check when the button is clicked
    */
   save() {
