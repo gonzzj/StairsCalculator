@@ -58,6 +58,7 @@ export class StairsMeasureComponent implements OnInit {
       this.calculateAccessoriesPrice(data);
       this.totalStair = this.subTotalTreads + this.subTotalAccessories + this.calculateModelStructurePrice(data);
       this.notifyTotal.emit(this.totalStair);
+      this.cs.validateForm(this.stairForm.valid, "stair");
       this.cs.addZoho(this.stairForm.value, "stair");
     });
 

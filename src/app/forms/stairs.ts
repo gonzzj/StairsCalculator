@@ -177,7 +177,5 @@ export class StairsComponent {
     this.cs.sendZoho();
 
     window.scrollTo(0, 0);
-
-    console.log('Se envio');
   }
 }

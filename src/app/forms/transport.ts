@@ -42,6 +42,7 @@ export class TransportComponent implements OnInit {
     this.transportsForm.valueChanges.subscribe(data => {
       this.calculateTransportPrice(data);
       this.notifyTotal.emit(this.subTotalTransports);
+      this.cs.validateForm(this.transportsForm.valid, "transport");
       this.cs.addZoho(this.transportsForm.value['transports'], "transport");
     });
 
