@@ -42,7 +42,7 @@ export class ServicesComponent implements OnInit {
     this.servicesForm.valueChanges.subscribe(data => {
       this.calculateServicePrice(data);
       this.notifyTotal.emit(this.subTotalServices);
-      this.cs.addZoho(this.servicesForm.value, "services");
+      this.cs.addZoho(this.servicesForm.value['services'], "services");
     });
 
     this.cs.submitted.subscribe(

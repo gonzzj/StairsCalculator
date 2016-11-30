@@ -8,8 +8,8 @@ import {CommunicateService} from "../services/CommunicateService";
 export class SubTotalComponent implements DoCheck {
   @Input() subTotalsAndExtras: Array<Object>;
   @Output() notifyDiscount: EventEmitter<number> = new EventEmitter<number>();
-  unitPrice: string;
-  cantDiscount: number;
+  unitPrice: string = "porc";
+  cantDiscount: number = 0;
   discountTotal: number = 0;
 
   changeDetected: boolean;
@@ -47,12 +47,12 @@ export class SubTotalComponent implements DoCheck {
         this.discountTotal = (this.subTotalsAndExtras[0]["stair"] * this.cantDiscount) / 100 ;
         this.discountTotal = this.discountTotal * -1;
         this.notifyDiscount.emit(this.discountTotal);
-        this.cs.addZoho(this.discountTotal, "discount");
+        this.cs.addZoho([{discount: this.cantDiscount + '%', value: this.discountTotal}], "discount");
       } else if (this.unitPrice == "eur") {
         this.discountTotal = this.cantDiscount;
         this.discountTotal = this.discountTotal * -1;
         this.notifyDiscount.emit(this.discountTotal);
-        this.cs.addZoho(this.discountTotal, "discount");
+        this.cs.addZoho([{discount: this.cantDiscount + ' €', value: this.discountTotal}], "discount");
       }
     }
 

@@ -34,9 +34,40 @@ export class CommunicateService {
     console.log(JSON.stringify(this.zohoForm, null, 2));
   }
 
-  savePDF() {
+  savePDF(stairType) {
     var date = new Date();
     var today = date.getDate() + '-' + (date.getMonth()+1) + '-' + date.getFullYear();
+
+    var stair = this.getStairMail(stairType);
+
+    var accessories = [];
+    accessories.push([{ text: 'Cant', style: 'tableHeaderCenter' }, { text: 'Accesorio', style: 'tableHeader'}, { text: 'Precio', style: 'tableHeaderCenter' }]);
+    for (var accessorie of this.zohoForm[0]['stair']['accessories']) {
+      accessories.push([{ text: accessorie.cant.toString(), style: 'tableTextCenter' }, { text: accessorie.accessorieName, style: 'tableText' }, { text: accessorie.price + ' €', style: 'tableTextCenter', bold: true }]);
+    }
+
+    var services = [];
+    services.push([{ text: 'Cant', style: 'tableHeaderCenter' }, { text: 'Tipo', style: 'tableHeader'}, { text: 'Montaje', style: 'tableHeaderCenter' }]);
+    for (var service of this.zohoForm[0]['services']) {
+      services.push([{ text: service.cant.toString(), style: 'tableTextCenter' }, { text: service.type, style: 'tableText' }, { text: service.serviceName, style: 'tableTextCenter' }]);
+    }
+
+    var transports = [];
+    transports.push([{ text: 'Cant', style: 'tableHeaderCenter' }, { text: 'Zona', style: 'tableHeader'}]);
+    for (var transport of this.zohoForm[0]['transport']) {
+      transports.push([{ text: transport.cant.toString(), style: 'tableTextCenter' }, { text: transport.zoneName, style: 'tableText' }])
+    }
+
+    var extras = [];
+    extras.push([{ text: 'Cant', style: 'tableHeaderCenter' }, { text: 'Extra', style: 'tableHeaderCenter'}, { text: 'Tipo', style: 'tableHeaderCenter'}, { text: 'Precio', style: 'tableHeaderCenter' }]);
+    for (var extra of this.zohoForm[0]['extras']) {
+      extras.push([{ text: extra.cant.toString(), style: 'tableTextCenter' }, { text: extra.extraName, style: 'tableTextCenter' }, { text: extra.type, style: 'tableTextCenter' }, { text: extra.price.toString() + ' €', style: 'tableTextCenter', bold: true }])
+    }
+
+    if (!this.zohoForm[0]['observations']) {
+      this.zohoForm[0]['observations'] = "Sin comentarios";
+    }
+
     var docDefinition = {
       content: [
         {
@@ -46,7 +77,7 @@ export class CommunicateService {
         {
           text: 'Cliente: Juan Perez Carreras',
           style: 'headers',
-          fontSize: 18
+          fontSize: 16
         },
         {
           text: [
@@ -70,67 +101,87 @@ export class CommunicateService {
         {
           text: [
             'Configuración: ',
-            { text: 'Lorem Ipsum', style: 'strong' }
+            { text: this.zohoForm[0]['technicalData'].config, style: 'strong' }
           ],
           style: 'row'
         },
         {
-          text: [
-            '- Nro peldaños: ',
-            { text: '16', style: 'strong' },
-            '\n- Ancho peldaños: ',
-            { text: '16 cm', style: 'strong' },
-            '\n- Nro Alturas: ',
-            { text: '16 cm', style: 'strong' },
-            '\n- Diametro: ',
-            { text: '16 cm', style: 'strong' },
-            '\n- Altura total cm: ',
-            { text: '16 cm', style: 'strong' },
-            '\n- Altura suelo/techo cm: ',
-            { text: '16 cm', style: 'strong' },
-            '\n- Altura hueco cm: ',
-            { text: '16 cm', style: 'strong' },
-            '\n- Largo hueco cm: ',
-            { text: '16 cm', style: 'strong' }
+          columns: [
+            {
+              text: 'Nro peld:',
+              style: 'row'
+            },
+            {
+              text: this.zohoForm[0]['technicalData'].cantTreads.toString(),
+              style: 'strong'
+            },
+            {
+              text: 'Altura peld:',
+              style: 'row'
+            },
+            {
+              text: this.zohoForm[0]['technicalData'].heightTreads + ' cm',
+              style: 'strong'
+            },
+            {
+              text: 'Ancho peld:',
+              style: 'row'
+            },
+            {
+              text: this.zohoForm[0]['technicalData'].widthTreads + ' cm',
+              style: 'strong'
+            },
+            {
+              text: 'Diametro:',
+              style: 'row'
+            },
+            {
+              text: this.zohoForm[0]['technicalData'].diameter + ' cm',
+              style: 'strong'
+            }
           ]
         },
         {
-          text: 'Escalera',
-          style: 'headers'
-        },
-        {
-          text: [
-            'Modelo escalera: ',
-            { text: 'Lorem Ipsum', style: 'strong' }
+          columns: [
+            {
+              text: 'Altura total cm:',
+              style: 'row'
+            },
+            {
+              text: this.zohoForm[0]['technicalData'].heightTotal + ' cm',
+              style: 'strong'
+            },
+            {
+              text: 'Altura suelo/techo cm:',
+              style: 'row'
+            },
+            {
+              text: this.zohoForm[0]['technicalData'].heightGround + ' cm',
+              style: 'strong'
+            }
           ]
         },
         {
-          text: 'Estructura',
-          style: 'headers'
-        },
-        {
-          text: [
-            'Tipo estructura: ',
-            { text: 'Lorem Ipsum', style: 'strong' }
+          columns: [
+            {
+              text: 'Altura hueco cm:',
+              style: 'row'
+            },
+            {
+              text: this.zohoForm[0]['technicalData'].heightHole + ' cm',
+              style: 'strong'
+            },
+            {
+              text: 'Largo hueco cm:',
+              style: 'row'
+            },
+            {
+              text: this.zohoForm[0]['technicalData'].longHole + ' cm',
+              style: 'strong'
+            }
           ]
         },
-        {
-          text: 'Peldaños y Contrahuellas',
-          style: 'headers'
-        },
-        {
-          table: {
-            widths: [35, '*', '*', '*', 75],
-            headerRows: 1,
-            body: [
-              [{ text: 'Cant', style: 'tableHeaderCenter' }, { text: 'Tipo peldaño', style: 'tableHeaderCenter'}, { text: 'Ancho', style: 'tableHeaderCenter' }, { text: 'Acabado', style: 'tableHeaderCenter' }, { text: 'Precio', style: 'tableHeaderCenter' }],
-              [{ text: '1', style: 'tableTextCenter' }, { text: 'Peldaño P1', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableTextCenter' }, { text: '400 €', style: 'tableTextCenter', bold: true }],
-              [{ text: '3', style: 'tableTextCenter' }, { text: 'Peldaño P3', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableTextCenter' }, { text: '400 €', style: 'tableTextCenter', bold: true }],
-              [{ text: '5', style: 'tableTextCenter' }, { text: 'Contrahuella', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableTextCenter' }, { text: '400 €', style: 'tableTextCenter', bold: true }],
-            ]
-          },
-          layout: 'headerLineOnly'
-        },
+        stair,
         {
           text: 'Accesorios',
           style: 'headers'
@@ -139,12 +190,7 @@ export class CommunicateService {
           table: {
             widths: [35, '*', 75],
             headerRows: 1,
-            body: [
-              [{ text: 'Cant', style: 'tableHeaderCenter' }, { text: 'Accesorio', style: 'tableHeader'}, { text: 'Precio', style: 'tableHeaderCenter' }],
-              [{ text: '1', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableText' }, { text: '400 €', style: 'tableTextCenter', bold: true }],
-              [{ text: '3', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableText' }, { text: '400 €', style: 'tableTextCenter', bold: true }],
-              [{ text: '5', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableText' }, { text: '400 €', style: 'tableTextCenter', bold: true }],
-            ]
+            body: accessories
           },
           layout: 'headerLineOnly',
           pageBreak: 'after'
@@ -167,12 +213,7 @@ export class CommunicateService {
               table: {
                 widths: [35, '*', '*'],
                 headerRows: 1,
-                body: [
-                  [{ text: 'Cant', style: 'tableHeaderCenter' }, { text: 'Tipo', style: 'tableHeader'}, { text: 'Montaje', style: 'tableHeaderCenter' }],
-                  [{ text: '1', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableText' }, { text: 'Lorem Ipsum', style: 'tableTextCenter' }],
-                  [{ text: '3', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableText' }, { text: 'Lorem Ipsum', style: 'tableTextCenter' }],
-                  [{ text: '5', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableText' }, { text: 'Lorem Ipsum', style: 'tableTextCenter' }],
-                ]
+                body: services
               },
               layout: 'headerLineOnly',
               margin: [0, 0, 14, 0]
@@ -181,12 +222,7 @@ export class CommunicateService {
               table: {
                 widths: [35, '*'],
                 headerRows: 1,
-                body: [
-                  [{ text: 'Cant', style: 'tableHeaderCenter' }, { text: 'Zona', style: 'tableHeader'}],
-                  [{ text: '1', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableText' }],
-                  [{ text: '3', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableText' }],
-                  [{ text: '5', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableText' }],
-                ]
+                body: transports
               },
               layout: 'headerLineOnly'
             }
@@ -210,12 +246,7 @@ export class CommunicateService {
               table: {
                 widths: [35, '*', '*', 75],
                 headerRows: 1,
-                body: [
-                  [{ text: 'Cant', style: 'tableHeaderCenter' }, { text: 'Extra', style: 'tableHeaderCenter'}, { text: 'Tipo', style: 'tableHeaderCenter'}, { text: 'Precio', style: 'tableHeaderCenter' }],
-                  [{ text: '1', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableTextCenter' }, { text: '400 €', style: 'tableTextCenter', bold: true }],
-                  [{ text: '3', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableTextCenter' }, { text: '400 €', style: 'tableTextCenter', bold: true }],
-                  [{ text: '5', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableTextCenter' }, { text: 'Lorem Ipsum', style: 'tableTextCenter' }, { text: '400 €', style: 'tableTextCenter', bold: true }],
-                ]
+                body: extras
               },
               layout: 'headerLineOnly',
               margin: [0, 0, 14, 0]
@@ -226,11 +257,11 @@ export class CommunicateService {
                 headerRows: 1,
                 body: [
                   [{ text: 'Concepto', style: 'tableHeader' }, { text: 'Desc', style: 'tableHeaderCenter'}, { text: 'Monto', style: 'tableHeaderCenter' }],
-                  [{ text: 'Total material', style: 'tableText' }, { text: '-', style: 'tableTextCenter' }, { text: '400 €', style: 'tableTextCenter', bold: true }],
-                  [{ text: 'Descuento material', style: 'tableText' }, { text: '15%', style: 'tableTextCenter' }, { text: '-400 €', style: 'tableTextCenter', bold: true }],
-                  [{ text: 'Montaje', style: 'tableText' }, { text: '-', style: 'tableTextCenter' }, { text: '400 €', style: 'tableTextCenter', bold: true }],
-                  [{ text: 'Transporte', style: 'tableText' }, { text: '-', style: 'tableTextCenter' }, { text: '400 €', style: 'tableTextCenter', bold: true }],
-                  [{ text: 'Adicionales', style: 'tableText' }, { text: '-', style: 'tableTextCenter' }, { text: '400 €', style: 'tableTextCenter', bold: true }],
+                  [{ text: 'Total material', style: 'tableText' }, { text: '-', style: 'tableTextCenter' }, { text: this.zohoForm[0]['subTotal'][0]['stair'] + ' €', style: 'tableTextCenter', bold: true }],
+                  [{ text: 'Descuento material', style: 'tableText' }, { text: this.zohoForm[0]['discount'][0]['discount'], style: 'tableTextCenter' }, { text: this.zohoForm[0]['discount'][0]['value'] + ' €', style: 'tableTextCenter', bold: true }],
+                  [{ text: 'Transporte', style: 'tableText' }, { text: '-', style: 'tableTextCenter' }, { text: this.zohoForm[0]['subTotal'][0]['transport'] + ' €', style: 'tableTextCenter', bold: true }],
+                  [{ text: 'Montaje', style: 'tableText' }, { text: '-', style: 'tableTextCenter' }, { text: this.zohoForm[0]['subTotal'][0]['service'] + ' €', style: 'tableTextCenter', bold: true }],
+                  [{ text: 'Adicionales', style: 'tableText' }, { text: '-', style: 'tableTextCenter' }, { text: this.zohoForm[0]['subTotal'][0]['extras'] + ' €', style: 'tableTextCenter', bold: true }],
                 ]
               },
               layout: 'headerLineOnly'
@@ -242,48 +273,50 @@ export class CommunicateService {
           style: 'headers'
         },
         {
-          text: 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum',
-          fontSize: 11
+          text: this.zohoForm[0]['observations'],
+          fontSize: 9
         },
         {
-          text: 'Total: 43.434 €',
+          text: 'Total: ' + this.zohoForm[0]['total'] + ' €',
           style: 'strong',
-          fontSize: 22,
+          fontSize: 20,
           alignment: 'right',
           margin: [0, 12, 0, 0]
         },
       ],
       styles: {
         headers: {
-          fontSize: 14,
+          fontSize: 12,
           bold: true,
           margin: [0, 12, 0, 8]
         },
         strong: {
-          bold: true
+          bold: true,
+          fontSize: 9
         },
         row: {
-          margin: [0, 0, 0, 6]
+          margin: [0, 0, 0, 6],
+          fontSize: 9
         },
         tableHeader: {
           bold: true,
-          fontSize: 11,
+          fontSize: 9,
           color: 'black',
           margin: [0, 0, 0, 4]
         },
         tableHeaderCenter: {
           bold: true,
-          fontSize: 11,
+          fontSize: 9,
           color: 'black',
           margin: [0, 0, 0, 4],
           alignment: 'center'
         },
         tableText: {
-          fontSize: 11,
+          fontSize: 9,
           margin: [0, 4, 0, 0]
         },
         tableTextCenter: {
-          fontSize: 11,
+          fontSize: 9,
           alignment: 'center',
           margin: [0, 4, 0, 0]
         }
@@ -292,4 +325,122 @@ export class CommunicateService {
 
     pdfMake.createPdf(docDefinition).download(today + '-Juan_Perez_Carreras' + '.pdf');
   }
+
+  getStairMail(stairType) {
+    var stair;
+    var stairTypeName;
+    const measure = "Escalera a medida";
+    const kit = "Escalera kit";
+    const esc = "Escalera escamoteable";
+
+    console.log(stairType);
+    if (stairType == 'measure') {
+      stairTypeName = measure;
+
+      var treads = [];
+      treads.push([{ text: 'Cant', style: 'tableHeaderCenter' }, { text: 'Tipo peldaño', style: 'tableHeaderCenter'}, { text: 'Ancho', style: 'tableHeaderCenter' }, { text: 'Acabado', style: 'tableHeaderCenter' }, { text: 'Precio', style: 'tableHeaderCenter' }]);
+      for (var tread of this.zohoForm[0]['stair']['treads']) {
+        treads.push([{ text: tread.cant.toString(), style: 'tableTextCenter' }, { text: tread.treadName, style: 'tableTextCenter' }, { text:  tread.measure, style: 'tableTextCenter' }, { text: tread.treadFinish, style: 'tableTextCenter' }, { text:  tread.price + ' €', style: 'tableTextCenter', bold: true }]);
+      }
+
+      stair = [
+        {
+          text: stairTypeName,
+          style: 'headers'
+        },
+        {
+          text: [
+            'Modelo escalera: ',
+            { text: this.zohoForm[0]['stair']['model'], style: 'strong' }
+          ],
+          style: 'row'
+        },
+        {
+          text: 'Estructura',
+          style: 'headers'
+        },
+        {
+          text: [
+            'Tipo estructura: ',
+            { text: this.zohoForm[0]['stair']['structure'], style: 'strong' }
+          ],
+          style: 'row'
+        },
+        {
+          text: 'Peldaños y Contrahuellas',
+          style: 'headers'
+        },
+        {
+          table: {
+            widths: [35, '*', '*', '*', 75],
+            headerRows: 1,
+            body: treads
+          },
+          layout: 'headerLineOnly'
+        }];
+
+    } else if (stairType == 'esc') {
+      stairTypeName = esc;
+
+      stair = [
+        {
+          text: stairTypeName,
+          style: 'headers'
+        },
+        {
+          text: [
+            'Modelo escalera: ',
+            { text: this.zohoForm[0]['stair']['model'], style: 'strong' }
+          ],
+          style: 'row'
+        },
+        {
+          text: 'Datos técnicos',
+          style: 'headers'
+        },
+        {
+          text: [
+            'Medida: ',
+            { text: this.zohoForm[0]['stair']['measure'] + ' cm', style: 'strong' }
+          ],
+          style: 'row'
+        }];
+    } else {
+      stairTypeName = kit;
+
+      stair = [
+        {
+          text: stairTypeName,
+          style: 'headers'
+        },
+        {
+          text: [
+            'Modelo escalera: ',
+            { text: this.zohoForm[0]['stair']['model'], style: 'strong' }
+          ],
+          style: 'row'
+        },
+        {
+          text: [
+            'Diametro: ',
+            { text: this.zohoForm[0]['stair']['diameter'] + ' cm', style: 'strong' }
+          ],
+          style: 'row'
+        },
+        {
+          text: 'Datos técnicos',
+          style: 'headers'
+        },
+        {
+          text: [
+            'Medida: ',
+            { text: this.zohoForm[0]['stair']['measure'] + ' cm', style: 'strong' }
+          ],
+          style: 'row'
+        }];
+    }
+
+    return stair;
+  }
 }
+

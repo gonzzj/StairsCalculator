@@ -163,7 +163,9 @@ export class StairsComponent {
    * Open a PDF with all the information of the form
    */
   printPDF() {
-    this.cs.savePDF();
+    this.cs.isSubmit(true);
+
+    this.cs.savePDF(this.stair);
   }
 
   /**

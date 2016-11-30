@@ -46,7 +46,7 @@ export class ExtrasComponent implements OnInit {
     this.extrasForm.valueChanges.subscribe(data => {
       this.calculateExtrasPrice(data);
       this.notifyTotal.emit(this.subTotalExtras);
-      this.cs.addZoho(this.extrasForm.value, "extras");
+      this.cs.addZoho(this.extrasForm.value['extras'], "extras");
     });
 
     this.cs.submitted.subscribe(
