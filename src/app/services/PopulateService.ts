@@ -11,6 +11,7 @@ export class PopulateService {
   private dataStructure: any;
   private dataRiserFinish: any;
   private dataAccessories: any;
+  private dataModelsRailing: any;
   private dataZones: any;
   private dataServices: any;
 
@@ -129,6 +130,23 @@ export class PopulateService {
         .subscribe(data => {
           this.dataAccessories = data;
           resolve(this.dataAccessories);
+        }, (error) => {
+          console.log('Error');
+        })
+    });
+  }
+
+  getModelsRailing() {
+    if (this.dataModelsRailing) {
+      return Promise.resolve(this.dataModelsRailing);
+    }
+
+    return new Promise(resolve => {
+      this.http.get('http://enesca.polarbeardevelopment.com/mock/getModelsRailing.php')
+        .map(res => res.json())
+        .subscribe(data => {
+          this.dataModelsRailing = data.collection.items[0].data;
+          resolve(this.dataModelsRailing);
         }, (error) => {
           console.log('Error');
         })

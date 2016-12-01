@@ -69,105 +69,95 @@
     <button (click)="addRow('treads')" type="button" class="btn btn-primary">Agregar fila <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
     <h5 class="subtotal-title">Subtotal: {{subTotalTreads}} €</h5>
   </div>
-  <div class="card card-block">
-    <h4 class="card-title">Barandilla escalera</h4>
-    <div class="form-group row">
-      <label for="inputModelRailing" class="col-sm-2 col-form-label">Modelo</label>
-      <div class="col-sm-10">
-        <select class="form-control custom-select" id="inputModelRailing">
-          <option>Lorem ipsum 1</option>
-          <option>Lorem ipsum 2</option>
-          <option>Lorem ipsum 3</option>
-          <option>Lorem ipsum 4</option>
-          <option>Lorem ipsum 5</option>
-        </select>
+  <div class="card-deck-wrapper">
+    <div class="card-deck">
+      <div class="card card-block" formGroupName="railing">
+        <h4 class="card-title">Barandilla escalera</h4>
+        <div class="form-group row">
+          <label for="inputModelRailing" class="col-sm-3 col-form-label">Modelo</label>
+          <div class="col-sm-9">
+            <select class="form-control custom-select" id="inputModelRailing" formControlName="model">
+              <option value="{{model.name}}" *ngFor="let model of populateModelsRailing">{{model.name}}</option>
+            </select>
+            <small [hidden]="stairForm.controls.railing.controls.model.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputFinishRailing" class="col-sm-3 col-form-label">Acabado</label>
+          <div class="col-sm-3">
+            <input type="number" min="1" class="form-control" placeholder="cm" formControlName="finishMeasure">
+          </div>
+          <div class="col-sm-6">
+            <select class="form-control custom-select" id="inputFinishRailing" formControlName="finish">
+              <option>Pintado</option>
+              <option>Inox</option>
+            </select>
+            <small [hidden]="stairForm.controls.railing.controls.finish.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputRailing" class="col-sm-3 col-form-label">Pasamano</label>
+          <div class="col-sm-3">
+            <input type="number" min="1" class="form-control" placeholder="cm" formControlName="railingMeasure">
+          </div>
+          <div class="col-sm-6">
+            <select class="form-control custom-select" id="inputRailing" formControlName="railing">
+              <option>Madera</option>
+              <option>Inox</option>
+            </select>
+            <small [hidden]="stairForm.controls.railing.controls.railing.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputConfigurationRailing" class="col-sm-3 col-form-label">Configuración</label>
+          <div class="col-sm-3">
+            <input type="number" min="1" class="form-control" placeholder="cm" formControlName="configurationMeasure">
+          </div>
+          <div class="col-sm-6">
+            <select class="form-control custom-select" id="inputConfigurationRailing" formControlName="configuration">
+              <option>Baranda un lado peldaño</option>
+              <option>Balaustrada al ml.</option>
+            </select>
+            <small [hidden]="stairForm.controls.railing.controls.configuration.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+          </div>
+        </div>
+        <h5 class="subtotal-title">Subtotal: {{subTotalRailing}} €</h5>
       </div>
-    </div>
-    <div class="form-group row">
-      <label for="inputFinishRailing" class="col-sm-2 col-form-label">Acabado</label>
-      <div class="col-sm-10">
-        <select class="form-control custom-select" id="inputFinishRailing">
-          <option>Lorem ipsum 1</option>
-          <option>Lorem ipsum 2</option>
-          <option>Lorem ipsum 3</option>
-          <option>Lorem ipsum 4</option>
-          <option>Lorem ipsum 5</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="inputRailing" class="col-sm-2 col-form-label">Pasamano</label>
-      <div class="col-sm-10">
-        <select class="form-control custom-select" id="inputRailing">
-          <option>Lorem ipsum 1</option>
-          <option>Lorem ipsum 2</option>
-          <option>Lorem ipsum 3</option>
-          <option>Lorem ipsum 4</option>
-          <option>Lorem ipsum 5</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="inputConfigurationRailing" class="col-sm-2 col-form-label">Configuración</label>
-      <div class="col-sm-10">
-        <select class="form-control custom-select" id="inputConfigurationRailing">
-          <option>Lorem ipsum 1</option>
-          <option>Lorem ipsum 2</option>
-          <option>Lorem ipsum 3</option>
-          <option>Lorem ipsum 4</option>
-          <option>Lorem ipsum 5</option>
-        </select>
-      </div>
-    </div>
-  </div>
-  <div class="card card-block">
-    <h4 class="card-title">Baranda de protección</h4>
-    <div class="form-group row">
-      <label for="inputMetersRailing" class="col-sm-2 col-form-label">Metros</label>
-      <div class="col-sm-10">
-        <select class="form-control custom-select" id="inputMetersRailing">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="inputModelRailing2" class="col-sm-2 col-form-label">Modelo</label>
-      <div class="col-sm-10">
-        <select class="form-control custom-select" id="inputModelRailing2">
-          <option>Lorem ipsum 1</option>
-          <option>Lorem ipsum 2</option>
-          <option>Lorem ipsum 3</option>
-          <option>Lorem ipsum 4</option>
-          <option>Lorem ipsum 5</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="inputFinishRailing2" class="col-sm-2 col-form-label">Acabado</label>
-      <div class="col-sm-10">
-        <select class="form-control custom-select" id="inputFinishRailing2">
-          <option>Lorem ipsum 1</option>
-          <option>Lorem ipsum 2</option>
-          <option>Lorem ipsum 3</option>
-          <option>Lorem ipsum 4</option>
-          <option>Lorem ipsum 5</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="inputRailing2" class="col-sm-2 col-form-label">Pasamano</label>
-      <div class="col-sm-10">
-        <select class="form-control custom-select" id="inputRailing2">
-          <option>Lorem ipsum 1</option>
-          <option>Lorem ipsum 2</option>
-          <option>Lorem ipsum 3</option>
-          <option>Lorem ipsum 4</option>
-          <option>Lorem ipsum 5</option>
-        </select>
+      <div class="card card-block" formGroupName="guardrail">
+        <h4 class="card-title">Baranda de protección</h4>
+        <div class="form-group row">
+          <label for="inputMetersGuardrail" class="col-sm-2 col-form-label">Metros</label>
+          <div class="col-sm-10">
+            <input type="number" min="1" class="form-control" id="inputMetersGuardrail" formControlName="measure">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputModelGuardrail" class="col-sm-2 col-form-label">Modelo</label>
+          <div class="col-sm-10">
+            <select class="form-control custom-select" id="inputModelGuardrail" formControlName="model">
+              <option value="{{model.name}}" *ngFor="let model of populateModelsRailing">{{model.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputFinishGuardrail" class="col-sm-2 col-form-label">Acabado</label>
+          <div class="col-sm-10">
+            <select class="form-control custom-select" id="inputFinishGuardrail" formControlName="finish">
+              <option>Pintado</option>
+              <option>Inox</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputGuardrail" class="col-sm-2 col-form-label">Pasamano</label>
+          <div class="col-sm-10">
+            <select class="form-control custom-select" id="inputGuardrail" formControlName="guardrail">
+              <option>Madera</option>
+              <option>Inox</option>
+            </select>
+          </div>
+        </div>
+        <h5 class="subtotal-title">Subtotal: {{subTotalGuardrail}} €</h5>
       </div>
     </div>
   </div>
