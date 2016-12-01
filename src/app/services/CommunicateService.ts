@@ -94,52 +94,27 @@ export class CommunicateService {
       var stair = this.getStairMail(stairType);
 
       var accessories = [];
-      accessories.push([{text: 'Cant', style: 'tableHeaderCenter'}, {
-        text: 'Accesorio',
-        style: 'tableHeader'
-      }, {text: 'Precio', style: 'tableHeaderCenter'}]);
+      accessories.push([{text: 'Cant', style: 'tableHeaderCenter'}, {text: 'Accesorio', style: 'tableHeader'}, {text: 'Precio', style: 'tableHeaderCenter'}]);
       for (var accessorie of this.zohoForm[0]['stair']['accessories']) {
-        accessories.push([{text: accessorie.cant.toString(), style: 'tableTextCenter'}, {
-          text: accessorie.accessorieName,
-          style: 'tableText'
-        }, {text: accessorie.price + ' €', style: 'tableTextCenter', bold: true}]);
+        accessories.push([{text: accessorie.cant.toString(), style: 'tableTextCenter'}, {text: accessorie.accessorieName, style: 'tableText'}, {text: accessorie.price + ' €', style: 'tableTextCenter', bold: true}]);
       }
 
       var services = [];
-      services.push([{text: 'Cant', style: 'tableHeaderCenter'}, {text: 'Tipo', style: 'tableHeader'}, {
-        text: 'Montaje',
-        style: 'tableHeaderCenter'
-      }]);
+      services.push([{text: 'Cant', style: 'tableHeaderCenter'}, {text: 'Tipo', style: 'tableHeaderCenter'}, {text: 'Montaje', style: 'tableHeaderCenter'}]);
       for (var service of this.zohoForm[0]['services']) {
-        services.push([{text: service.cant.toString(), style: 'tableTextCenter'}, {
-          text: service.type,
-          style: 'tableText'
-        }, {text: service.serviceName, style: 'tableTextCenter'}]);
+        services.push([{text: service.cant.toString(), style: 'tableTextCenter'}, {text: service.type, style: 'tableTextCenter'}, {text: service.serviceName, style: 'tableTextCenter'}]);
       }
 
       var transports = [];
       transports.push([{text: 'Cant', style: 'tableHeaderCenter'}, {text: 'Zona', style: 'tableHeader'}]);
       for (var transport of this.zohoForm[0]['transport']) {
-        transports.push([{text: transport.cant.toString(), style: 'tableTextCenter'}, {
-          text: transport.zoneName,
-          style: 'tableText'
-        }])
+        transports.push([{text: transport.cant.toString(), style: 'tableTextCenter'}, {text: transport.zoneName, style: 'tableText'}])
       }
 
       var extras = [];
-      extras.push([{text: 'Cant', style: 'tableHeaderCenter'}, {text: 'Extra', style: 'tableHeaderCenter'}, {
-        text: 'Tipo',
-        style: 'tableHeaderCenter'
-      }, {text: 'Precio', style: 'tableHeaderCenter'}]);
+      extras.push([{text: 'Cant', style: 'tableHeaderCenter'}, {text: 'Extra', style: 'tableHeaderCenter'}, {text: 'Tipo', style: 'tableHeaderCenter'}, {text: 'Precio', style: 'tableHeaderCenter'}]);
       for (var extra of this.zohoForm[0]['extras']) {
-        extras.push([{text: extra.cant.toString(), style: 'tableTextCenter'}, {
-          text: extra.extraName,
-          style: 'tableTextCenter'
-        }, {text: extra.type, style: 'tableTextCenter'}, {
-          text: extra.price.toString() + ' €',
-          style: 'tableTextCenter',
-          bold: true
-        }])
+        extras.push([{text: extra.cant.toString(), style: 'tableTextCenter'}, {text: extra.extraName, style: 'tableTextCenter'}, {text: extra.type, style: 'tableTextCenter'}, {text: extra.price.toString() + ' €', style: 'tableTextCenter', bold: true}])
       }
 
       if (!this.zohoForm[0]['observations']) {
