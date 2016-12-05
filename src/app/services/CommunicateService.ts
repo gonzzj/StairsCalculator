@@ -395,6 +395,8 @@ export class CommunicateService {
       };
 
       pdfMake.createPdf(docDefinition).download(today + '-Juan_Perez_Carreras' + '.pdf');
+    } else {
+      window.scrollTo(0, 0);
     }
   }
 
@@ -454,6 +456,48 @@ export class CommunicateService {
             body: treads
           },
           layout: 'headerLineOnly'
+        },
+        {
+          columns: [
+            {
+              text: 'Barandilla escalera',
+              style: 'headers'
+            },
+            {
+              text: 'Baranda de protección',
+              style: 'headers'
+            }
+          ]
+        },
+        {
+          columns: [
+            {
+              text: [
+                'Modelo: ',
+                {text: this.zohoForm[0]['stair']['railing']['model'], style: 'strong'},
+                '\n\nAcabado: ',
+                {text: this.zohoForm[0]['stair']['railing']['finishMeasure'] + ' cm, ' + this.zohoForm[0]['stair']['railing']['finish'], style: 'strong'},
+                '\n\nPasamano: ',
+                {text: this.zohoForm[0]['stair']['railing']['railingMeasure'] + ' cm, ' + this.zohoForm[0]['stair']['railing']['railing'], style: 'strong'},
+                '\n\nConfiguración: ',
+                {text: this.zohoForm[0]['stair']['railing']['configurationMeasure'] + ' cm, ' + this.zohoForm[0]['stair']['railing']['configuration'], style: 'strong'},
+              ],
+              style: 'row'
+            },
+            {
+              text: [
+                'Metros: ',
+                {text: this.zohoForm[0]['stair']['guardrail']['measure'] + ' cm', style: 'strong'},
+                '\n\nModelo: ',
+                {text: this.zohoForm[0]['stair']['guardrail']['model'], style: 'strong'},
+                '\n\nAcabado: ',
+                {text: this.zohoForm[0]['stair']['guardrail']['finish'], style: 'strong'},
+                '\n\nPasamano: ',
+                {text: this.zohoForm[0]['stair']['guardrail']['guardrail'], style: 'strong'},
+              ],
+              style: 'row'
+            },
+          ]
         }];
 
     } else if (stairType == 'esc') {

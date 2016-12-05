@@ -168,7 +168,6 @@ export class StairsMeasureComponent implements OnInit {
    * @param data - the form values
    */
   calculateRailingPrice(data) {
-    console.log(data);
     var priceModel = 0;
 
     for (var model of this.populateModelsRailing) {
