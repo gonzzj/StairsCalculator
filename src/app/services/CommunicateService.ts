@@ -1,4 +1,5 @@
 import {Injectable, EventEmitter} from "@angular/core";
+import {stairTypes} from "../constants";
 declare let pdfMake;
 
 @Injectable()
@@ -16,6 +17,14 @@ export class CommunicateService {
   constructor() {
     this.zohoForm = [
       {
+        client: [
+          {
+            name: 'Juan Perez Carreras',
+            orderNumber: 3,
+            seller: 'Gabriele Brignoli'
+          }
+        ],
+        stairType: '',
         technicalData: [],
         stair: [],
         services: [],
@@ -77,7 +86,14 @@ export class CommunicateService {
   /**
    * Send to zoho the complete JSON
    */
-  sendZoho() {
+  sendZoho(stairType) {
+    if (stairType == "measure") {
+      this.zohoForm[0]['stairType'] = stairTypes.measure;
+    } else if (stairType == "kit") {
+      this.zohoForm[0]['stairType'] = stairTypes.kit;
+    } else {
+      this.zohoForm[0]['stairType'] = stairTypes.esc;
+    }
     console.log(JSON.stringify(this.zohoForm, null, 2));
 
     console.log('Se envio');
@@ -145,7 +161,8 @@ export class CommunicateService {
             text: [
               'Fecha: ',
               {text: today, style: 'strong'}
-            ]
+            ],
+            fontSize: 9
           },
           {
             text: 'Datos técnicos informativos',
@@ -409,12 +426,10 @@ export class CommunicateService {
   getStairMail(stairType) {
     var stair;
     var stairTypeName;
-    const measure = "Escalera a medida";
-    const kit = "Escalera kit";
-    const esc = "Escalera escamoteable";
+
 
     if (stairType == 'measure') {
-      stairTypeName = measure;
+      stairTypeName = stairTypes.measure;
 
       var treads = [];
       treads.push([{ text: 'Cant', style: 'tableHeaderCenter' }, { text: 'Tipo peldaño', style: 'tableHeaderCenter'}, { text: 'Ancho', style: 'tableHeaderCenter' }, { text: 'Acabado', style: 'tableHeaderCenter' }, { text: 'Precio', style: 'tableHeaderCenter' }]);
@@ -501,7 +516,7 @@ export class CommunicateService {
         }];
 
     } else if (stairType == 'esc') {
-      stairTypeName = esc;
+      stairTypeName = stairTypes.esc;
 
       stair = [
         {
@@ -527,7 +542,7 @@ export class CommunicateService {
           style: 'row'
         }];
     } else {
-      stairTypeName = kit;
+      stairTypeName = stairTypes.kit;
 
       stair = [
         {

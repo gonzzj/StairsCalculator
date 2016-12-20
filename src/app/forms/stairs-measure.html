@@ -28,9 +28,9 @@
     <div class="form-group row labels-group">
       <label class="col-sm-1 col-form-label">Cant</label>
       <label class="col-sm-3 col-form-label">Tipo Peldaño</label>
-      <label class="col-sm-3 col-form-label">Ancho</label>
+      <label class="col-sm-2 col-form-label">Ancho</label>
       <label class="col-sm-3 col-form-label">Acabado</label>
-      <label class="col-sm-1 col-form-label">Precio</label>
+      <label class="col-sm-2 col-form-label">Precio</label>
     </div>
     <div class="form-group row" [formGroupName]="i" *ngFor="let tread of stairForm.controls.treads.controls; let i=index">
       <div class="col-sm-1">
@@ -43,7 +43,7 @@
         <small [hidden]="tread.controls.treadName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-2">
         <select class="form-control custom-select" formControlName="measure">
           <option [value]="measure.name" *ngFor="let measure of populateMeasure">{{measure.name}}</option>
         </select>
@@ -57,9 +57,9 @@
         <small [hidden]="tread.controls.treadFinish.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
 
-      <div class="col-sm-1">
+      <div class="col-sm-2">
         <input type="hidden" formControlName="price">
-        <strong>{{stairForm.value.treads[i].price}} €</strong>
+        <strong>{{stairForm.value.treads[i].price | formatprice}} €</strong>
       </div>
 
       <div class="col-sm-1">
@@ -67,7 +67,7 @@
       </div>
     </div>
     <button (click)="addRow('treads')" type="button" class="btn btn-primary">Agregar fila <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
-    <h5 class="subtotal-title">Subtotal: {{subTotalTreads}} €</h5>
+    <h5 class="subtotal-title">Subtotal: {{subTotalTreads | formatprice}} €</h5>
   </div>
   <div class="card-deck-wrapper">
     <div class="card-deck">
@@ -121,7 +121,7 @@
             <small [hidden]="stairForm.controls.railing.controls.configuration.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
           </div>
         </div>
-        <h5 class="subtotal-title">Subtotal: {{subTotalRailing}} €</h5>
+        <h5 class="subtotal-title">Subtotal: {{subTotalRailing | formatprice}} €</h5>
       </div>
       <div class="card card-block" formGroupName="guardrail">
         <h4 class="card-title">Baranda de protección</h4>
@@ -157,31 +157,31 @@
             </select>
           </div>
         </div>
-        <h5 class="subtotal-title">Subtotal: {{subTotalGuardrail}} €</h5>
+        <h5 class="subtotal-title">Subtotal: {{subTotalGuardrail | formatprice}} €</h5>
       </div>
     </div>
   </div>
   <div class="card card-block" formArrayName="accessories">
-    <h4 class="card-title">Accesorios</h4>
+    <h4 class="card-title">Accesorios y Suplementos</h4>
     <div class="form-group row labels-group">
       <label class="col-sm-1 col-form-label">Cant</label>
-      <label class="col-sm-9 col-form-label">Accesorio</label>
-      <label class="col-sm-1 col-form-label">Precio</label>
+      <label class="col-sm-8 col-form-label">Accesorio</label>
+      <label class="col-sm-2 col-form-label">Precio</label>
     </div>
     <div class="form-group row" [formGroupName]="e" *ngFor="let accessorie of stairForm.controls.accessories.controls; let e=index">
       <div class="col-sm-1">
         <input type="number" min="1" class="form-control" formControlName="cant">
       </div>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <select class="form-control custom-select" formControlName="accessorieName">
           <option [value]="accessorieName.name" *ngFor="let accessorieName of populateAccessories">{{accessorieName.name}}</option>
         </select>
         <small [hidden]="accessorie.controls.accessorieName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
 
-      <div class="col-sm-1">
+      <div class="col-sm-2">
         <input type="hidden" formControlName="price">
-        <strong>{{stairForm.value.accessories[e].price}} €</strong>
+        <strong>{{stairForm.value.accessories[e].price | formatprice}} €</strong>
       </div>
 
       <div class="col-sm-1">
@@ -189,7 +189,7 @@
       </div>
     </div>
     <button (click)="addRow('accessories')" type="button" class="btn btn-primary">Agregar fila <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
-    <h5 class="subtotal-title">Subtotal: {{subTotalAccessories}} €</h5>
+    <h5 class="subtotal-title">Subtotal: {{subTotalAccessories | formatprice}} €</h5>
   </div>
 </div>
 

@@ -20,6 +20,6 @@
       </div>
     </div>
     <button (click)="addRow()" type="button" class="btn btn-primary">Agregar fila <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
-    <h5 class="subtotal-title">Subtotal: {{subTotalTransports}} €</h5>
+    <h5 class="subtotal-title">Subtotal: {{subTotalTransports | formatprice}} €</h5>
   </div>
 </div>

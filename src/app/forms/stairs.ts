@@ -174,7 +174,7 @@ export class StairsComponent {
   save() {
     this.cs.isSubmit(true);
 
-    this.cs.sendZoho();
+    this.cs.sendZoho(this.stair);
 
     window.scrollTo(0, 0);
   }

@@ -14,6 +14,7 @@ import {ObservationComponent} from './observation';
 import {SubTotalComponent} from './subtotal';
 import {TotalComponent} from './total';
 import {ExtrasComponent} from './extras';
+import {FormatPricePipe} from '../pipes/formatprice';
 
 import {PopulateService} from '../services/PopulateService'
 import {CommunicateService} from '../services/CommunicateService'
@@ -36,7 +37,8 @@ import {CommunicateService} from '../services/CommunicateService'
     ObservationComponent,
     SubTotalComponent,
     TotalComponent,
-    ExtrasComponent
+    ExtrasComponent,
+    FormatPricePipe
   ],
   exports: [
     StairsComponent

@@ -5,3 +5,9 @@ export const formErrors = {
   message_max: "El campo no puede superar los 255 caracteres",
   //message_numFloat: "El número no puede ser decimal",
 };
+
+export const stairTypes = {
+  measure: "Escalera a medida",
+  kit: "Escalera kit",
+  esc: "Escalera escamoteable",
+};

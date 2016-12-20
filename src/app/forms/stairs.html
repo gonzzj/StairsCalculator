@@ -9,15 +9,11 @@
       <transport class="card card-block" (notifyTotal)='totalTransport($event)'></transport>
     </div>
   </div>
+  <extras class="card card-block" (notifyTotal)='totalExtras($event)'></extras>
+  <observation class="card card-block"></observation>
   <div class="card-deck-wrapper">
     <div class="card-deck">
-      <extras class="card card-block" (notifyTotal)='totalExtras($event)'></extras>
       <subtotal class="card card-block" [subTotalsAndExtras]="subTotalsAndExtras" (notifyDiscount)='totalDiscount($event)'></subtotal>
-    </div>
-  </div>
-  <div class="card-deck-wrapper">
-    <div class="card-deck">
-      <observation class="card card-block"></observation>
       <total class="card card-block" [total]="total"></total>
     </div>
   </div>

@@ -2,16 +2,16 @@
   <div formArrayName="extras">
     <h4 class="card-title">Adicionales</h4>
     <div class="form-group row labels-group">
-      <label class="col-sm-2 col-form-label">Cant</label>
-      <label class="col-sm-3 col-form-label">Extra</label>
+      <label class="col-sm-1 col-form-label">Cant</label>
+      <label class="col-sm-4 col-form-label">Extra</label>
       <label class="col-sm-3 col-form-label">Tipo</label>
       <label class="col-sm-2 col-form-label">Precio</label>
     </div>
     <div class="form-group row" [formGroupName]="i" *ngFor="let extra of extrasForm.controls.extras.controls; let i=index">
-      <div class="col-sm-2">
+      <div class="col-sm-1">
         <input type="number" class="form-control" min="1" formControlName="cant">
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <input type="text" class="form-control" formControlName="extraName">
         <small [hidden]="extra.controls.extraName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
@@ -32,6 +32,6 @@
       </div>
     </div>
     <button (click)="addRow()" type="button" class="btn btn-primary">Agregar fila <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
-    <h5 class="subtotal-title">Subtotal: {{totalExtras}} €</h5>
+    <h5 class="subtotal-title">Subtotal: {{totalExtras | formatprice}} €</h5>
   </div>
 </div>

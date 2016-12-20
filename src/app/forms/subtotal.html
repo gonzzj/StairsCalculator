@@ -1,22 +1,22 @@
 <h4 class="card-title">Subtotal</h4>
 <div class="form-group row labels-group">
-    <label class="col-sm-5 concept">Concepto</label>
+    <label class="col-sm-4 concept">Concepto</label>
     <label class="col-sm-4 col-form-label">Descuento</label>
-    <label class="col-sm-2 col-form-label">Monto</label>
+    <label class="col-sm-3 col-form-label">Monto</label>
 </div>
 <div class="form-group row">
-  <div class="col-sm-5">
+  <div class="col-sm-4">
     <span>Total material</span>
   </div>
   <div class="col-sm-4">
     <span>-</span>
   </div>
-  <div class="col-sm-2">
-    <span>{{subTotalsAndExtras[0]["stair"]}} €</span>
+  <div class="col-sm-3">
+    <span>{{subTotalsAndExtras[0]["stair"] | formatprice}} €</span>
   </div>
 </div>
 <div class="form-group row">
-  <div class="col-sm-5">
+  <div class="col-sm-4">
     <span>Descuento material</span>
   </div>
   <div class="col-sm-4">
@@ -26,40 +26,40 @@
       <option value="eur">€</option>
     </select>
   </div>
-  <div class="col-sm-2">
-    <span>{{discountTotal}} €</span>
+  <div class="col-sm-3">
+    <span>{{discountTotal | formatprice}} €</span>
   </div>
 </div>
 <div class="form-group row">
-  <div class="col-sm-5">
+  <div class="col-sm-4">
     <span>Transporte</span>
   </div>
   <div class="col-sm-4">
     <span>-</span>
   </div>
-  <div class="col-sm-2">
-    <span>{{subTotalsAndExtras[0]["transport"]}} €</span>
+  <div class="col-sm-3">
+    <span>{{subTotalsAndExtras[0]["transport"] | formatprice}} €</span>
   </div>
 </div>
 <div class="form-group row">
-  <div class="col-sm-5">
+  <div class="col-sm-4">
     <span>Montaje</span>
   </div>
   <div class="col-sm-4">
     <span>-</span>
   </div>
-  <div class="col-sm-2">
-    <span>{{subTotalsAndExtras[0]["service"]}} €</span>
+  <div class="col-sm-3">
+    <span>{{subTotalsAndExtras[0]["service"] | formatprice}} €</span>
   </div>
 </div>
 <div class="form-group row">
-  <div class="col-sm-5">
+  <div class="col-sm-4">
     <span>Adicionales</span>
   </div>
   <div class="col-sm-4">
     <span>-</span>
   </div>
-  <div class="col-sm-2">
-    <span>{{subTotalsAndExtras[0]["extras"]}} €</span>
+  <div class="col-sm-3">
+    <span>{{subTotalsAndExtras[0]["extras"] | formatprice}} €</span>
   </div>
 </div>
