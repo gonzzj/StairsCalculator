@@ -40,6 +40,7 @@ export class StairsMeasureComponent implements OnInit {
    */
   constructor(private populateService: PopulateService, private cs: CommunicateService, private _fb: FormBuilder) {
     this.stairForm = this._fb.group({
+      cant: [1],
       model: ['', Validators.required],
       structure: ['', Validators.required],
       treads: this._fb.array([
@@ -177,6 +178,8 @@ export class StairsMeasureComponent implements OnInit {
     }
 
     this.subTotalRailing = priceModel;
+
+    this.subTotalRailing = this.subTotalRailing * this.stairForm.controls['cant'].value;
   }
 
   /**
@@ -218,6 +221,8 @@ export class StairsMeasureComponent implements OnInit {
     for (var itemTread of data.treads) {
       this.subTotalTreads = this.subTotalTreads + itemTread.price;
     }
+
+    this.subTotalTreads = this.subTotalTreads * this.stairForm.controls['cant'].value;
   }
 
   /**
@@ -242,6 +247,8 @@ export class StairsMeasureComponent implements OnInit {
     for (var itemAccessorie of data.accessories) {
       this.subTotalAccessories = this.subTotalAccessories + itemAccessorie.price;
     }
+
+    this.subTotalAccessories = this.subTotalAccessories * this.stairForm.controls['cant'].value;
   }
 
   /**

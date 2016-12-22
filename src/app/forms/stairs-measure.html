@@ -2,8 +2,12 @@
   <div class="card card-block">
     <h4 class="card-title">Escalera</h4>
     <div class="form-group row">
+      <label for="inputCant" class="col-sm-2 col-form-label">Cantidad escaleras</label>
+      <div class="col-sm-1">
+        <input type="number" id="inputCant" min="1" class="form-control" formControlName="cant">
+      </div>
       <label for="inputModel" class="col-sm-2 col-form-label">Modelo escalera</label>
-      <div class="col-sm-10">
+      <div class="col-sm-7">
         <select class="form-control custom-select" id="inputModel" formControlName="model">
           <option value="{{model.name}}" *ngFor="let model of populateModels">{{model.name}}</option>
         </select>

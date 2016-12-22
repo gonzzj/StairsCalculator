@@ -1,9 +1,9 @@
 <div [formGroup]="servicesForm">
   <div formArrayName="services">
-    <h4 class="card-title">Montaje y Servicios</h4>
+    <h4 class="card-title">Montaje</h4>
     <div class="form-group row labels-group">
       <label class="col-sm-2 col-form-label">Cant</label>
-      <label class="col-sm-3 col-form-label">Tipo</label>
+      <label class="col-sm-3 col-form-label">Zona</label>
       <label class="col-sm-4 col-form-label">Montaje</label>
     </div>
     <div class="form-group row" [formGroupName]="i" *ngFor="let service of servicesForm.controls.services.controls; let i=index">
@@ -11,10 +11,10 @@
         <input type="number" min="1" class="form-control" formControlName="cant">
       </div>
       <div class="col-sm-3">
-        <select class="form-control custom-select" formControlName="type">
+        <select class="form-control custom-select" formControlName="zone">
           <option>0-77K</option>
         </select>
-        <small [hidden]="service.controls.type.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+        <small [hidden]="service.controls.zone.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
 
       <div class="col-sm-5">
