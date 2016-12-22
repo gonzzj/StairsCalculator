@@ -443,11 +443,22 @@ export class CommunicateService {
           style: 'headers'
         },
         {
-          text: [
-            'Modelo escalera: ',
-            { text: this.zohoForm[0]['stair']['model'], style: 'strong' }
-          ],
-          style: 'row'
+          columns: [
+            {
+              text: [
+                'Cantidad escaleras: ',
+                { text: this.zohoForm[0]['stair']['cant'].toString(), style: 'strong' }
+              ],
+              fontSize: 9
+            },
+            {
+              text: [
+                'Modelo escalera: ',
+                { text: this.zohoForm[0]['stair']['model'], style: 'strong' }
+              ],
+              fontSize: 9
+            }
+          ]
         },
         {
           text: 'Estructura',
@@ -490,12 +501,16 @@ export class CommunicateService {
               text: [
                 'Modelo: ',
                 {text: this.zohoForm[0]['stair']['railing']['model'], style: 'strong'},
-                '\n\nAcabado: ',
-                {text: this.zohoForm[0]['stair']['railing']['finishMeasure'] + ' cm, ' + this.zohoForm[0]['stair']['railing']['finish'], style: 'strong'},
-                '\n\nPasamano: ',
-                {text: this.zohoForm[0]['stair']['railing']['railingMeasure'] + ' cm, ' + this.zohoForm[0]['stair']['railing']['railing'], style: 'strong'},
-                '\n\nConfiguración: ',
-                {text: this.zohoForm[0]['stair']['railing']['configurationMeasure'] + ' cm, ' + this.zohoForm[0]['stair']['railing']['configuration'], style: 'strong'},
+                {text: '\n\nConfiguración recta:', style: 'strong'},
+                '\n\n- Cantidad: ',
+                {text: this.zohoForm[0]['stair']['railing']['cantStraight'].toString(), style: 'strong'},
+                {text: '\n\nConfiguración curva:', style: 'strong'},
+                '\n\n- Cantidad: ',
+                {text: this.zohoForm[0]['stair']['railing']['cantCurve'].toString(), style: 'strong'},
+                '\n\n- Acabado: ',
+                {text: this.zohoForm[0]['stair']['railing']['finish'], style: 'strong'},
+                '\n\n- Pasamano: ',
+                {text: this.zohoForm[0]['stair']['railing']['railing'], style: 'strong'},
               ],
               style: 'row'
             },
@@ -505,10 +520,16 @@ export class CommunicateService {
                 {text: this.zohoForm[0]['stair']['guardrail']['measure'] + ' cm', style: 'strong'},
                 '\n\nModelo: ',
                 {text: this.zohoForm[0]['stair']['guardrail']['model'], style: 'strong'},
-                '\n\nAcabado: ',
+                {text: '\n\nConfiguración recta:', style: 'strong'},
+                '\n\n- Cantidad: ',
+                {text: this.zohoForm[0]['stair']['guardrail']['cantStraight'].toString(), style: 'strong'},
+                {text: '\n\nConfiguración curva:', style: 'strong'},
+                '\n\n- Cantidad: ',
+                {text: this.zohoForm[0]['stair']['guardrail']['cantCurve'].toString(), style: 'strong'},
+                '\n\n- Acabado: ',
                 {text: this.zohoForm[0]['stair']['guardrail']['finish'], style: 'strong'},
-                '\n\nPasamano: ',
-                {text: this.zohoForm[0]['stair']['guardrail']['guardrail'], style: 'strong'},
+                '\n\n- Pasamano: ',
+                {text: this.zohoForm[0]['stair']['guardrail']['railing'], style: 'strong'},
               ],
               style: 'row'
             },

@@ -50,18 +50,18 @@ export class StairsMeasureComponent implements OnInit {
       ]),
       railing: this._fb.group({
         model: ['', Validators.required],
-        finishMeasure: [1],
+        cantStraight: [1],
+        cantCurve: [1],
         finish: ['', Validators.required],
-        railingMeasure: [1],
-        railing: ['', Validators.required],
-        configurationMeasure: [1],
-        configuration: ['', Validators.required]
+        railing: ['', Validators.required]
       }),
       guardrail: this._fb.group({
         measure: [1],
         model: [''],
+        cantStraight: [1],
+        cantCurve: [1],
         finish: [''],
-        guardrail: ['']
+        railing: ['']
       })
     });
   }
