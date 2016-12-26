@@ -1,5 +1,6 @@
 import {Injectable, EventEmitter} from "@angular/core";
 import {stairTypes} from "../constants";
+import {extrasTypes} from "../constants";
 declare let pdfMake;
 
 @Injectable()
@@ -112,13 +113,13 @@ export class CommunicateService {
       var accessories = [];
       accessories.push([{text: 'Cant', style: 'tableHeaderCenter'}, {text: 'Accesorio', style: 'tableHeader'}, {text: 'Precio', style: 'tableHeaderCenter'}]);
       for (var accessorie of this.zohoForm[0]['stair']['accessories']) {
-        accessories.push([{text: accessorie.cant.toString(), style: 'tableTextCenter'}, {text: accessorie.accessorieName, style: 'tableText'}, {text: accessorie.price + ' €', style: 'tableTextCenter', bold: true}]);
+        accessories.push([{text: accessorie.cant.toString(), style: 'tableTextCenter'}, {text: accessorie.accessorieName, style: 'tableText'}, {text: this.formatPrice(accessorie.price) + ' €', style: 'tableTextCenter', bold: true}]);
       }
 
       var services = [];
       services.push([{text: 'Cant', style: 'tableHeaderCenter'}, {text: 'Tipo', style: 'tableHeaderCenter'}, {text: 'Montaje', style: 'tableHeaderCenter'}]);
       for (var service of this.zohoForm[0]['services']) {
-        services.push([{text: service.cant.toString(), style: 'tableTextCenter'}, {text: service.type, style: 'tableTextCenter'}, {text: service.serviceName, style: 'tableTextCenter'}]);
+        services.push([{text: service.cant.toString(), style: 'tableTextCenter'}, {text: service.zone, style: 'tableTextCenter'}, {text: service.serviceName, style: 'tableTextCenter'}]);
       }
 
       var transports = [];
@@ -128,9 +129,19 @@ export class CommunicateService {
       }
 
       var extras = [];
+      var extraType;
       extras.push([{text: 'Cant', style: 'tableHeaderCenter'}, {text: 'Extra', style: 'tableHeaderCenter'}, {text: 'Tipo', style: 'tableHeaderCenter'}, {text: 'Precio', style: 'tableHeaderCenter'}]);
       for (var extra of this.zohoForm[0]['extras']) {
-        extras.push([{text: extra.cant.toString(), style: 'tableTextCenter'}, {text: extra.extraName, style: 'tableTextCenter'}, {text: extra.type, style: 'tableTextCenter'}, {text: extra.price.toString() + ' €', style: 'tableTextCenter', bold: true}])
+        if (extra.type == 'stair') {
+          extraType = extrasTypes.stair;
+        } else if (extra.type == 'transport') {
+          extraType = extrasTypes.transport;
+        } else if (extra.type == 'service') {
+          extraType = extrasTypes.service;
+        } else {
+          extraType = extrasTypes.extras;
+        }
+        extras.push([{text: extra.cant.toString(), style: 'tableTextCenter'}, {text: extra.extraName, style: 'tableTextCenter'}, {text: extraType, style: 'tableTextCenter'}, {text: this.formatPrice(extra.price) + ' €', style: 'tableTextCenter', bold: true}])
       }
 
       if (!this.zohoForm[0]['observations']) {
@@ -268,7 +279,7 @@ export class CommunicateService {
           {
             columns: [
               {
-                text: 'Montaje y servicios',
+                text: 'Montaje',
                 style: 'headers'
               },
               {
@@ -333,23 +344,23 @@ export class CommunicateService {
                     [{text: 'Total material', style: 'tableText'}, {
                       text: '-',
                       style: 'tableTextCenter'
-                    }, {text: this.zohoForm[0]['subTotal'][0]['stair'] + ' €', style: 'tableTextCenter', bold: true}],
+                    }, {text: this.formatPrice(this.zohoForm[0]['subTotal'][0]['stair']) + ' €', style: 'tableTextCenter', bold: true}],
                     [{text: 'Descuento material', style: 'tableText'}, {
                       text: this.zohoForm[0]['discount'][0]['discount'],
                       style: 'tableTextCenter'
-                    }, {text: this.zohoForm[0]['discount'][0]['value'] + ' €', style: 'tableTextCenter', bold: true}],
+                    }, {text: this.formatPrice(this.zohoForm[0]['discount'][0]['value']) + ' €', style: 'tableTextCenter', bold: true}],
                     [{text: 'Transporte', style: 'tableText'}, {
                       text: '-',
                       style: 'tableTextCenter'
-                    }, {text: this.zohoForm[0]['subTotal'][0]['transport'] + ' €', style: 'tableTextCenter', bold: true}],
+                    }, {text: this.formatPrice(this.zohoForm[0]['subTotal'][0]['transport']) + ' €', style: 'tableTextCenter', bold: true}],
                     [{text: 'Montaje', style: 'tableText'}, {
                       text: '-',
                       style: 'tableTextCenter'
-                    }, {text: this.zohoForm[0]['subTotal'][0]['service'] + ' €', style: 'tableTextCenter', bold: true}],
+                    }, {text: this.formatPrice(this.zohoForm[0]['subTotal'][0]['service']) + ' €', style: 'tableTextCenter', bold: true}],
                     [{text: 'Adicionales', style: 'tableText'}, {
                       text: '-',
                       style: 'tableTextCenter'
-                    }, {text: this.zohoForm[0]['subTotal'][0]['extras'] + ' €', style: 'tableTextCenter', bold: true}],
+                    }, {text: this.formatPrice(this.zohoForm[0]['subTotal'][0]['extras']) + ' €', style: 'tableTextCenter', bold: true}],
                   ]
                 },
                 layout: 'headerLineOnly'
@@ -365,7 +376,7 @@ export class CommunicateService {
             fontSize: 9
           },
           {
-            text: 'Total: ' + this.zohoForm[0]['total'] + ' €',
+            text: 'Total: ' + this.formatPrice(this.zohoForm[0]['total']) + ' €',
             style: 'strong',
             fontSize: 20,
             alignment: 'right',
@@ -434,7 +445,7 @@ export class CommunicateService {
       var treads = [];
       treads.push([{ text: 'Cant', style: 'tableHeaderCenter' }, { text: 'Tipo peldaño', style: 'tableHeaderCenter'}, { text: 'Ancho', style: 'tableHeaderCenter' }, { text: 'Acabado', style: 'tableHeaderCenter' }, { text: 'Precio', style: 'tableHeaderCenter' }]);
       for (var tread of this.zohoForm[0]['stair']['treads']) {
-        treads.push([{ text: tread.cant.toString(), style: 'tableTextCenter' }, { text: tread.treadName, style: 'tableTextCenter' }, { text:  tread.measure, style: 'tableTextCenter' }, { text: tread.treadFinish, style: 'tableTextCenter' }, { text:  tread.price + ' €', style: 'tableTextCenter', bold: true }]);
+        treads.push([{ text: tread.cant.toString(), style: 'tableTextCenter' }, { text: tread.treadName, style: 'tableTextCenter' }, { text:  tread.measure, style: 'tableTextCenter' }, { text: tread.treadFinish, style: 'tableTextCenter' }, { text:  this.formatPrice(tread.price) + ' €', style: 'tableTextCenter', bold: true }]);
       }
 
       stair = [
@@ -503,10 +514,10 @@ export class CommunicateService {
                 {text: this.zohoForm[0]['stair']['railing']['model'], style: 'strong'},
                 {text: '\n\nConfiguración recta:', style: 'strong'},
                 '\n\n- Cantidad: ',
-                {text: this.zohoForm[0]['stair']['railing']['cantStraight'].toString(), style: 'strong'},
+                {text: this.zohoForm[0]['stair']['railing']['cantStraight'].toString() + "  -  0,00 €", style: 'strong'},
                 {text: '\n\nConfiguración curva:', style: 'strong'},
                 '\n\n- Cantidad: ',
-                {text: this.zohoForm[0]['stair']['railing']['cantCurve'].toString(), style: 'strong'},
+                {text: this.zohoForm[0]['stair']['railing']['cantCurve'].toString() + "  -  0,00 €", style: 'strong'},
                 '\n\n- Acabado: ',
                 {text: this.zohoForm[0]['stair']['railing']['finish'], style: 'strong'},
                 '\n\n- Pasamano: ',
@@ -522,10 +533,10 @@ export class CommunicateService {
                 {text: this.zohoForm[0]['stair']['guardrail']['model'], style: 'strong'},
                 {text: '\n\nConfiguración recta:', style: 'strong'},
                 '\n\n- Cantidad: ',
-                {text: this.zohoForm[0]['stair']['guardrail']['cantStraight'].toString(), style: 'strong'},
+                {text: this.zohoForm[0]['stair']['guardrail']['cantStraight'].toString() + "  -  0,00 €", style: 'strong'},
                 {text: '\n\nConfiguración curva:', style: 'strong'},
                 '\n\n- Cantidad: ',
-                {text: this.zohoForm[0]['stair']['guardrail']['cantCurve'].toString(), style: 'strong'},
+                {text: this.zohoForm[0]['stair']['guardrail']['cantCurve'].toString() + "  -  0,00 €", style: 'strong'},
                 '\n\n- Acabado: ',
                 {text: this.zohoForm[0]['stair']['guardrail']['finish'], style: 'strong'},
                 '\n\n- Pasamano: ',
@@ -598,6 +609,14 @@ export class CommunicateService {
     }
 
     return stair;
+  }
+
+  formatPrice(value) {
+    var coin: string;
+
+    coin = value.toFixed(2).replace(".", ",").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+
+    return coin;
   }
 }
 

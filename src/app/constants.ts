@@ -11,3 +11,11 @@ export const stairTypes = {
   kit: "Escalera kit",
   esc: "Escalera escamoteable",
 };
+
+
+export const extrasTypes = {
+  stair: "Escalera",
+  service: "Montaje",
+  transport: "Transporte",
+  extras: "Adicionales"
+};

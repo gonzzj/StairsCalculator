@@ -77,7 +77,7 @@ export class StairsMeasureComponent implements OnInit {
       this.calculateRailingPrice(data);
       this.calculateGuardrailPrice(data);
       this.calculateAccessoriesPrice(data);
-      this.totalStair = this.subTotalTreads + this.subTotalAccessories + this.subTotalRailing + this.subTotalGuardrail + this.calculateModelStructurePrice(data);
+      this.totalStair = (this.subTotalTreads * this.stairForm.controls['cant'].value) + (this.subTotalAccessories * this.stairForm.controls['cant'].value) + (this.subTotalRailing * this.stairForm.controls['cant'].value) + this.subTotalGuardrail + this.calculateModelStructurePrice(data);
       this.notifyTotal.emit(this.totalStair);
       this.cs.validateForm(this.stairForm.valid, "stair");
       this.cs.addZoho(this.stairForm.value, "stair");
@@ -178,8 +178,6 @@ export class StairsMeasureComponent implements OnInit {
     }
 
     this.subTotalRailing = priceModel;
-
-    this.subTotalRailing = this.subTotalRailing * this.stairForm.controls['cant'].value;
   }
 
   /**
@@ -221,8 +219,6 @@ export class StairsMeasureComponent implements OnInit {
     for (var itemTread of data.treads) {
       this.subTotalTreads = this.subTotalTreads + itemTread.price;
     }
-
-    this.subTotalTreads = this.subTotalTreads * this.stairForm.controls['cant'].value;
   }
 
   /**
@@ -247,8 +243,6 @@ export class StairsMeasureComponent implements OnInit {
     for (var itemAccessorie of data.accessories) {
       this.subTotalAccessories = this.subTotalAccessories + itemAccessorie.price;
     }
-
-    this.subTotalAccessories = this.subTotalAccessories * this.stairForm.controls['cant'].value;
   }
 
   /**
