@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HttpModule} from '@angular/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {Ng2CompleterModule} from 'ng2-completer';
 
 import {StairsComponent} from './stairs';
 import {TechnicalDataComponent} from './technical-data';
@@ -24,7 +25,8 @@ import {CommunicateService} from '../services/CommunicateService'
     CommonModule,
     HttpModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    Ng2CompleterModule
   ],
   declarations: [
     StairsComponent,

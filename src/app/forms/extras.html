@@ -25,7 +25,10 @@
         <small [hidden]="extra.controls.type.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
       <div class="col-sm-2">
-        <input type="number" class="form-control" min="0" formControlName="price">
+        <div class="input-group">
+          <input type="number" class="form-control" min="0" formControlName="price">
+          <div class="input-group-addon">€</div>
+        </div>
       </div>
       <div class="col-sm-1">
         <button (click)="removeRow(i)" type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>

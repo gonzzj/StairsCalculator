@@ -1,15 +1,16 @@
 {
   "dependencies": {
-    "@angular/core": "^2.0.0",
-    "@angular/compiler": "^2.0.0",
     "@angular/common": "^2.0.0",
+    "@angular/compiler": "^2.0.0",
+    "@angular/core": "^2.0.0",
+    "@angular/http": "^2.0.0",
     "@angular/platform-browser": "^2.0.0",
     "@angular/platform-browser-dynamic": "^2.0.0",
-    "@angular/http": "^2.0.0",
-    "rxjs": "5.0.0-beta.12",
-    "zone.js": "^0.6.23",
+    "@angular/router": "^3.0.0",
     "core-js": "^2.4.1",
-    "@angular/router": "^3.0.0"
+    "ng2-completer": "^0.4.0",
+    "rxjs": "5.0.0-beta.12",
+    "zone.js": "^0.6.23"
   },
   "devDependencies": {
     "del": "^2.0.2",
@@ -48,7 +49,7 @@
     "babel-eslint": "^6.0.2",
     "eslint-plugin-babel": "^3.1.0",
     "tslint": "^3.2.1",
-    "typescript": "^2.0.2",
+    "typescript": "2.0.2",
     "typings": "^1.0.4",
     "tslint-loader": "^2.1.0",
     "codelyzer": "^0.0.25"

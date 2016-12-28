@@ -3,6 +3,7 @@ import {PopulateService} from '../services/PopulateService';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {CommunicateService} from '../services/CommunicateService';
 import {formErrors} from '../constants';
+import {CompleterService, CompleterData} from 'ng2-completer';
 
 @Component({
     selector: 'stairs-kit',
@@ -15,6 +16,9 @@ export class StairsKitComponent implements OnInit {
   populateAccessories: any;
 
   private stairForm: FormGroup;
+  private dataServiceModels: CompleterData;
+  private dataServiceAccessories: CompleterData;
+  private dataServiceMeasure: CompleterData;
 
   subTotalAccessories: number = 0;
   totalStair: number = 0;
@@ -23,13 +27,21 @@ export class StairsKitComponent implements OnInit {
   isSubmit: boolean = false;
   emptyField = formErrors.message_emptyField;
 
+  //Test measure, remove it later
+  private dataMeasure = [
+    {name: '1231'},
+    {name: '23213'},
+    {name: '54334'}
+  ];
+
   /**
    * @constructor
    * @param populateService - service for populate the selects.
    * @param _fb
    * @param cs - service for communicate all the components.
+   * @param completerService - autocomplete
    */
-  constructor(private populateService: PopulateService, private _fb: FormBuilder, private cs: CommunicateService) {
+  constructor(private populateService: PopulateService, private _fb: FormBuilder, private cs: CommunicateService, private completerService: CompleterService) {
     this.stairForm = this._fb.group({
       model: ['', Validators.required],
       diameter: ['', Validators.required],
@@ -37,6 +49,8 @@ export class StairsKitComponent implements OnInit {
       accessories: this._fb.array([
       ])
     });
+
+    this.dataServiceMeasure = completerService.local(this.dataMeasure, 'name', 'name');
   }
 
   /**
@@ -136,11 +150,13 @@ export class StairsKitComponent implements OnInit {
     this.populateService.getAllModels()
       .then(data => {
         this.populateModels = data;
+        this.dataServiceModels = this.completerService.local(this.populateModels, 'name', 'name');
       });
 
     this.populateService.getAccessories()
       .then(data => {
         this.populateAccessories = data;
+        this.dataServiceAccessories = this.completerService.local(data, 'name', 'name');
       });
   }
 }

@@ -3,6 +3,7 @@ import {PopulateService} from '../services/PopulateService';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {CommunicateService} from '../services/CommunicateService';
 import {formErrors} from '../constants';
+import {CompleterService, CompleterData} from 'ng2-completer';
 
 @Component({
     selector: 'stairs-esc',
@@ -15,6 +16,8 @@ export class StairsEscComponent implements OnInit {
   populateAccessories: any;
 
   private stairForm: FormGroup;
+  private dataServiceModels: CompleterData;
+  private dataServiceAccessories: CompleterData;
 
   subTotalAccessories: number = 0;
   totalStair: number = 0;
@@ -28,8 +31,9 @@ export class StairsEscComponent implements OnInit {
    * @param populateService - service for populate the selects.
    * @param _fb
    * @param cs - service for communicate all the components.
+   * @param completerService - autocomplete
    */
-  constructor(private populateService: PopulateService, private _fb: FormBuilder, private cs: CommunicateService) {
+  constructor(private populateService: PopulateService, private _fb: FormBuilder, private cs: CommunicateService, private completerService: CompleterService) {
     this.stairForm = this._fb.group({
       model: ['', Validators.required],
       measure: ['', Validators.required],
@@ -135,11 +139,13 @@ export class StairsEscComponent implements OnInit {
     this.populateService.getAllModels()
       .then(data => {
         this.populateModels = data;
+        this.dataServiceModels = this.completerService.local(this.populateModels, 'name', 'name');
       });
 
     this.populateService.getAccessories()
       .then(data => {
         this.populateAccessories = data;
+        this.dataServiceAccessories = this.completerService.local(data, 'name', 'name');
       });
   }
 }

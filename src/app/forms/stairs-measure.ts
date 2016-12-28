@@ -3,6 +3,7 @@ import {PopulateService} from '../services/PopulateService';
 import {CommunicateService} from '../services/CommunicateService';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {formErrors} from '../constants';
+import {CompleterService, CompleterData} from 'ng2-completer';
 
 @Component({
     selector: 'stairs-measure',
@@ -21,6 +22,8 @@ export class StairsMeasureComponent implements OnInit {
   populateModelsRailing: any;
 
   private stairForm: FormGroup;
+  private dataServiceModels: CompleterData;
+  private dataServiceAccessories: CompleterData;
 
   subTotalTreads: number = 0;
   subTotalRailing: number = 0;
@@ -37,8 +40,9 @@ export class StairsMeasureComponent implements OnInit {
    * @param populateService - service for populate the selects.
    * @param cs - service for communicate all the components.
    * @param _fb
+   * @param completerService - autocomplete
    */
-  constructor(private populateService: PopulateService, private cs: CommunicateService, private _fb: FormBuilder) {
+  constructor(private populateService: PopulateService, private cs: CommunicateService, private _fb: FormBuilder, private completerService: CompleterService) {
     this.stairForm = this._fb.group({
       cant: [1],
       model: ['', Validators.required],
@@ -56,12 +60,13 @@ export class StairsMeasureComponent implements OnInit {
         railing: ['', Validators.required]
       }),
       guardrail: this._fb.group({
-        measure: [1],
-        model: [''],
-        cantStraight: [1],
-        cantCurve: [1],
-        finish: [''],
-        railing: ['']
+        activeGuardrail: [false],
+        measure: [{value: 1, disabled: true}],
+        model: [{value: "", disabled: true}],
+        cantStraight: [{value: 1, disabled: true}],
+        cantCurve: [{value: 1, disabled: true}],
+        finish: [{value: "", disabled: true}],
+        railing: [{value: "", disabled: true}]
       })
     });
   }
@@ -252,6 +257,7 @@ export class StairsMeasureComponent implements OnInit {
     this.populateService.getAllModels()
       .then(data => {
         this.populateModels = data;
+        this.dataServiceModels = this.completerService.local(data, 'name', 'name');
       });
 
     this.populateService.getTreadName()
@@ -282,11 +288,25 @@ export class StairsMeasureComponent implements OnInit {
     this.populateService.getAccessories()
       .then(data => {
         this.populateAccessories = data;
+        this.dataServiceAccessories = this.completerService.local(data, 'name', 'name');
       });
 
     this.populateService.getModelsRailing()
       .then(data => {
         this.populateModelsRailing = data;
       });
+  }
+
+  checkGuardrail(): void {
+    if (this.stairForm.controls['guardrail']['controls']['activeGuardrail'].value) {
+      this.stairForm.controls['guardrail'].enable();
+    } else {
+      this.stairForm.controls['guardrail']['controls']['measure'].disable();
+      this.stairForm.controls['guardrail']['controls']['model'].disable();
+      this.stairForm.controls['guardrail']['controls']['cantStraight'].disable();
+      this.stairForm.controls['guardrail']['controls']['cantCurve'].disable();
+      this.stairForm.controls['guardrail']['controls']['finish'].disable();
+      this.stairForm.controls['guardrail']['controls']['railing'].disable();
+    }
   }
 }

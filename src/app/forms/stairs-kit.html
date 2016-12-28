@@ -4,9 +4,7 @@
     <div class="form-group row">
       <label for="inputModel" class="col-sm-2 col-form-label">Modelo escalera</label>
       <div class="col-sm-10">
-        <select class="form-control custom-select" id="inputModel" formControlName="model">
-          <option value="{{model.name}}" *ngFor="let model of populateModels">{{model.name}}</option>
-        </select>
+        <ng2-completer [dataService]="dataServiceModels" [minSearchLength]="0" id="inputModel" formControlName="model"></ng2-completer>
         <small [hidden]="stairForm.controls.model.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
     </div>
@@ -27,13 +25,7 @@
     <div class="form-group row">
       <label for="inputMeasure" class="col-sm-2 col-form-label">Medida</label>
       <div class="col-sm-10">
-        <select class="form-control custom-select" id="inputMeasure" formControlName="measure">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </select>
+        <ng2-completer [dataService]="dataServiceMeasure" [minSearchLength]="0" id="inputMeasure" formControlName="measure"></ng2-completer>
         <small [hidden]="stairForm.controls.measure.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
     </div>
@@ -50,9 +42,7 @@
         <input type="number" min="1" class="form-control" formControlName="cant">
       </div>
       <div class="col-sm-8">
-        <select class="form-control custom-select" formControlName="accessorieName">
-          <option [value]="accessorieName.name" *ngFor="let accessorieName of populateAccessories">{{accessorieName.name}}</option>
-        </select>
+        <ng2-completer [dataService]="dataServiceAccessories" [minSearchLength]="0" formControlName="accessorieName"></ng2-completer>
         <small [hidden]="accessorie.controls.accessorieName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
 

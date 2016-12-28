@@ -8,9 +8,7 @@
       </div>
       <label for="inputModel" class="col-sm-2 col-form-label">Modelo escalera</label>
       <div class="col-sm-7">
-        <select class="form-control custom-select" id="inputModel" formControlName="model">
-          <option value="{{model.name}}" *ngFor="let model of populateModels">{{model.name}}</option>
-        </select>
+        <ng2-completer [dataService]="dataServiceModels" [minSearchLength]="0" id="inputModel" formControlName="model"></ng2-completer>
         <small [hidden]="stairForm.controls.model.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
     </div>
@@ -93,7 +91,7 @@
             <input type="number" min="1" class="form-control" placeholder="cm" id="inputCantStraight" formControlName="cantStraight">
           </div>
           <div class="col-sm-2">
-            <strong>0 €</strong>
+            <strong>0,00 €</strong>
           </div>
         </div>
         <h5 class="card-title">Configuración curva</h5>
@@ -103,7 +101,7 @@
             <input type="number" min="1" class="form-control" placeholder="cm" id="inputCantCurve" formControlName="cantCurve">
           </div>
           <div class="col-sm-2">
-            <strong>0 €</strong>
+            <strong>0,00 €</strong>
           </div>
         </div>
         <div class="form-group row">
@@ -130,6 +128,11 @@
       </div>
       <div class="card card-block" formGroupName="guardrail">
         <h4 class="card-title">Baranda de protección</h4>
+        <label class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" formControlName="activeGuardrail" (change)="checkGuardrail()">
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">Agregar baranda de protección</span>
+        </label>
         <div class="form-group row">
           <label for="inputMetersGuardrail" class="col-sm-3 col-form-label">Metros</label>
           <div class="col-sm-3">
@@ -149,7 +152,7 @@
             <input type="number" min="1" class="form-control" placeholder="cm" id="inputCantStraightGuardrail" formControlName="cantStraight">
           </div>
           <div class="col-sm-2">
-            <strong>0 €</strong>
+            <strong>0,00 €</strong>
           </div>
         </div>
         <h5 class="card-title">Configuración curva</h5>
@@ -159,7 +162,7 @@
             <input type="number" min="1" class="form-control" placeholder="cm" id="inputCantCurveGuardrail" formControlName="cantCurve">
           </div>
           <div class="col-sm-2">
-            <strong>0 €</strong>
+            <strong>0,00 €</strong>
           </div>
         </div>
         <div class="form-group row">
@@ -169,7 +172,6 @@
               <option>Pintado</option>
               <option>Inox</option>
             </select>
-            <small [hidden]="stairForm.controls.railing.controls.finish.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
           </div>
         </div>
         <div class="form-group row">
@@ -179,7 +181,6 @@
               <option>Madera</option>
               <option>Inox</option>
             </select>
-            <small [hidden]="stairForm.controls.railing.controls.railing.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
           </div>
         </div>
         <h5 class="subtotal-title">Subtotal: {{subTotalGuardrail | formatprice}} €</h5>
@@ -198,9 +199,7 @@
         <input type="number" min="1" class="form-control" formControlName="cant">
       </div>
       <div class="col-sm-8">
-        <select class="form-control custom-select" formControlName="accessorieName">
-          <option [value]="accessorieName.name" *ngFor="let accessorieName of populateAccessories">{{accessorieName.name}}</option>
-        </select>
+        <ng2-completer [dataService]="dataServiceAccessories" [minSearchLength]="0" formControlName="accessorieName"></ng2-completer>
         <small [hidden]="accessorie.controls.accessorieName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
 
