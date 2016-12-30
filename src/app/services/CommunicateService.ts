@@ -437,9 +437,29 @@ export class CommunicateService {
   getStairMail(stairType) {
     var stair;
     var stairTypeName;
+    var guardrail = [];
 
 
     if (stairType == 'measure') {
+      if (this.zohoForm[0]['stair']['guardrail']['activeGuardrail'] == true) {
+        guardrail = [
+          'Metros: ',
+          {text: this.zohoForm[0]['stair']['guardrail']['measure'] + ' cm', style: 'strong'},
+          '\n\nModelo: ',
+          {text: this.zohoForm[0]['stair']['guardrail']['model'], style: 'strong'},
+          {text: '\n\nConfiguración recta:', style: 'strong'},
+          '\n\n- Cantidad: ',
+          {text: this.zohoForm[0]['stair']['guardrail']['cantStraight'].toString() + "  -  0,00 €", style: 'strong'},
+          {text: '\n\nConfiguración curva:', style: 'strong'},
+          '\n\n- Cantidad: ',
+          {text: this.zohoForm[0]['stair']['guardrail']['cantCurve'].toString() + "  -  0,00 €", style: 'strong'},
+          '\n\n- Acabado: ',
+          {text: this.zohoForm[0]['stair']['guardrail']['finish'], style: 'strong'},
+          '\n\n- Pasamano: ',
+          {text: this.zohoForm[0]['stair']['guardrail']['railing'], style: 'strong'},
+        ]
+      }
+
       stairTypeName = stairTypes.measure;
 
       var treads = [];
@@ -526,22 +546,7 @@ export class CommunicateService {
               style: 'row'
             },
             {
-              text: [
-                'Metros: ',
-                {text: this.zohoForm[0]['stair']['guardrail']['measure'] + ' cm', style: 'strong'},
-                '\n\nModelo: ',
-                {text: this.zohoForm[0]['stair']['guardrail']['model'], style: 'strong'},
-                {text: '\n\nConfiguración recta:', style: 'strong'},
-                '\n\n- Cantidad: ',
-                {text: this.zohoForm[0]['stair']['guardrail']['cantStraight'].toString() + "  -  0,00 €", style: 'strong'},
-                {text: '\n\nConfiguración curva:', style: 'strong'},
-                '\n\n- Cantidad: ',
-                {text: this.zohoForm[0]['stair']['guardrail']['cantCurve'].toString() + "  -  0,00 €", style: 'strong'},
-                '\n\n- Acabado: ',
-                {text: this.zohoForm[0]['stair']['guardrail']['finish'], style: 'strong'},
-                '\n\n- Pasamano: ',
-                {text: this.zohoForm[0]['stair']['guardrail']['railing'], style: 'strong'},
-              ],
+              text: guardrail,
               style: 'row'
             },
           ]
