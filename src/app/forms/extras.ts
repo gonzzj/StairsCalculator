@@ -60,7 +60,7 @@ export class ExtrasComponent implements OnInit {
    */
   initExtra() {
     return this._fb.group({
-      cant: [1],
+      cant: [1, Validators.required],
       extraName: ['', Validators.required],
       type: ['', Validators.required],
       price: [0]

@@ -13,15 +13,27 @@
       </div>
     </div>
   </div>
-  <div class="card card-block">
+  <div class="card card-block" formGroupName="structure">
     <h4 class="card-title">Estructura</h4>
     <div class="form-group row">
-      <label for="inputStructure" class="col-sm-2 col-form-label">Acabado estructura</label>
+      <label for="inputTypeStructure" class="col-sm-2 col-form-label">Tipo estructura</label>
       <div class="col-sm-10">
-        <select class="form-control custom-select" id="inputStructure" formControlName="structure">
+        <select class="form-control custom-select" id="inputTypeStructure" formControlName="type">
+          <option value="standard">- Sin estructura -</option>
+          <option value="standard">Standard</option>
+          <option value="rectP3">Recto / P3</option>
+          <option value="P2/P1">P2 / P1</option>
+        </select>
+        <small [hidden]="stairForm.controls.structure.controls.type.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputFinishStructure" class="col-sm-2 col-form-label">Acabado estructura</label>
+      <div class="col-sm-10">
+        <select class="form-control custom-select" id="inputFinishStructure" formControlName="finish">
           <option value="{{structure.name}}" *ngFor="let structure of populateStructure">{{structure.name}}</option>
         </select>
-        <small [hidden]="stairForm.controls.structure.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+        <small [hidden]="stairForm.controls.structure.controls.finish.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
     </div>
   </div>
@@ -37,6 +49,7 @@
     <div class="form-group row" [formGroupName]="i" *ngFor="let tread of stairForm.controls.treads.controls; let i=index">
       <div class="col-sm-1">
         <input type="number" min="1" class="form-control" formControlName="cant">
+        <small [hidden]="tread.controls.cant.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i></small>
       </div>
       <div class="col-sm-3">
         <select class="form-control custom-select" formControlName="treadName">
@@ -88,7 +101,8 @@
         <div class="form-group row">
           <label for="inputCantStraight" class="col-sm-3 col-form-label">Cantidad</label>
           <div class="col-sm-7">
-            <input type="number" min="1" class="form-control" placeholder="cm" id="inputCantStraight" formControlName="cantStraight">
+            <input type="number" min="1" class="form-control" placeholder="mm" id="inputCantStraight" formControlName="cantStraight">
+            <small [hidden]="stairForm.controls.railing.controls.cantStraight.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
           </div>
           <div class="col-sm-2">
             <strong>0,00 €</strong>
@@ -98,20 +112,11 @@
         <div class="form-group row">
           <label for="inputCantCurve" class="col-sm-3 col-form-label">Cantidad</label>
           <div class="col-sm-7">
-            <input type="number" min="1" class="form-control" placeholder="cm" id="inputCantCurve" formControlName="cantCurve">
+            <input type="number" min="1" class="form-control" placeholder="mm" id="inputCantCurve" formControlName="cantCurve">
+            <small [hidden]="stairForm.controls.railing.controls.cantCurve.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
           </div>
           <div class="col-sm-2">
             <strong>0,00 €</strong>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="inputFinishRailing" class="col-sm-3 col-form-label">Acabado</label>
-          <div class="col-sm-7">
-            <select class="form-control custom-select" id="inputFinishRailing" formControlName="finish">
-              <option>Pintado</option>
-              <option>Inox</option>
-            </select>
-            <small [hidden]="stairForm.controls.railing.controls.finish.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
           </div>
         </div>
         <div class="form-group row">
@@ -124,6 +129,16 @@
             <small [hidden]="stairForm.controls.railing.controls.railing.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
           </div>
         </div>
+        <div class="form-group row">
+          <label for="inputFinishRailing" class="col-sm-3 col-form-label">Acabado</label>
+          <div class="col-sm-7">
+            <select class="form-control custom-select" id="inputFinishRailing" formControlName="finish">
+              <option>Pintado</option>
+              <option>Inox</option>
+            </select>
+            <small [hidden]="stairForm.controls.railing.controls.finish.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+          </div>
+        </div>
         <h5 class="subtotal-title">Subtotal: {{subTotalRailing | formatprice}} €</h5>
       </div>
       <div class="card card-block" formGroupName="guardrail">
@@ -134,12 +149,8 @@
           <span class="custom-control-description">Agregar baranda de protección</span>
         </label>
         <div class="form-group row">
-          <label for="inputMetersGuardrail" class="col-sm-3 col-form-label">Metros</label>
-          <div class="col-sm-3">
-            <input type="number" min="1" class="form-control" id="inputMetersGuardrail" formControlName="measure">
-          </div>
           <label for="inputModelGuardrail" class="col-sm-3 col-form-label">Modelo</label>
-          <div class="col-sm-3">
+          <div class="col-sm-9">
             <select class="form-control custom-select" id="inputModelGuardrail" formControlName="model">
               <option value="{{model.name}}" *ngFor="let model of populateModelsRailing">{{model.name}}</option>
             </select>
@@ -149,7 +160,7 @@
         <div class="form-group row">
           <label for="inputCantStraightGuardrail" class="col-sm-3 col-form-label">Cantidad</label>
           <div class="col-sm-7">
-            <input type="number" min="1" class="form-control" placeholder="cm" id="inputCantStraightGuardrail" formControlName="cantStraight">
+            <input type="number" min="1" class="form-control" placeholder="mm" id="inputCantStraightGuardrail" formControlName="cantStraight">
           </div>
           <div class="col-sm-2">
             <strong>0,00 €</strong>
@@ -159,19 +170,10 @@
         <div class="form-group row">
           <label for="inputCantCurveGuardrail" class="col-sm-3 col-form-label">Cantidad</label>
           <div class="col-sm-7">
-            <input type="number" min="1" class="form-control" placeholder="cm" id="inputCantCurveGuardrail" formControlName="cantCurve">
+            <input type="number" min="1" class="form-control" placeholder="mm" id="inputCantCurveGuardrail" formControlName="cantCurve">
           </div>
           <div class="col-sm-2">
             <strong>0,00 €</strong>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="inputFinishGuardrail" class="col-sm-3 col-form-label">Acabado</label>
-          <div class="col-sm-7">
-            <select class="form-control custom-select" id="inputFinishGuardrail" formControlName="finish">
-              <option>Pintado</option>
-              <option>Inox</option>
-            </select>
           </div>
         </div>
         <div class="form-group row">
@@ -183,6 +185,15 @@
             </select>
           </div>
         </div>
+        <div class="form-group row">
+          <label for="inputFinishGuardrail" class="col-sm-3 col-form-label">Acabado</label>
+          <div class="col-sm-7">
+            <select class="form-control custom-select" id="inputFinishGuardrail" formControlName="finish">
+              <option>Pintado</option>
+              <option>Inox</option>
+            </select>
+          </div>
+        </div>
         <h5 class="subtotal-title">Subtotal: {{subTotalGuardrail | formatprice}} €</h5>
       </div>
     </div>
@@ -190,15 +201,16 @@
   <div class="card card-block" formArrayName="accessories">
     <h4 class="card-title">Accesorios y Suplementos</h4>
     <div class="form-group row labels-group">
-      <label class="col-sm-1 col-form-label">Cant</label>
-      <label class="col-sm-8 col-form-label">Accesorio</label>
+      <label class="col-sm-2 col-form-label">Cant</label>
+      <label class="col-sm-7 col-form-label">Accesorio</label>
       <label class="col-sm-2 col-form-label">Precio</label>
     </div>
     <div class="form-group row" [formGroupName]="e" *ngFor="let accessorie of stairForm.controls.accessories.controls; let e=index">
-      <div class="col-sm-1">
+      <div class="col-sm-2">
         <input type="number" min="1" class="form-control" formControlName="cant">
+        <small [hidden]="accessorie.controls.cant.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i></small>
       </div>
-      <div class="col-sm-8">
+      <div class="col-sm-7">
         <ng2-completer [dataService]="dataServiceAccessories" [minSearchLength]="0" formControlName="accessorieName"></ng2-completer>
         <small [hidden]="accessorie.controls.accessorieName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>

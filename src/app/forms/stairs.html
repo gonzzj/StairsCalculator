@@ -3,12 +3,8 @@
   <stairs-measure *ngIf="stair == 'measure'" (notifyTotal)='totalStair($event)'></stairs-measure>
   <stairs-kit *ngIf="stair == 'kit'" (notifyTotal)='totalStair($event)'></stairs-kit>
   <stairs-esc *ngIf="stair == 'esc'" (notifyTotal)='totalStair($event)'></stairs-esc>
-  <div class="card-deck-wrapper">
-    <div class="card-deck">
-      <services class="card card-block" (notifyTotal)='totalService($event)'></services>
-      <transport class="card card-block" (notifyTotal)='totalTransport($event)'></transport>
-    </div>
-  </div>
+  <services class="card card-block" (notifyTotal)='totalService($event)'></services>
+  <transport class="card card-block" (notifyTotal)='totalTransport($event)'></transport>
   <extras class="card card-block" (notifyTotal)='totalExtras($event)'></extras>
   <observation class="card card-block"></observation>
   <div class="card-deck-wrapper">

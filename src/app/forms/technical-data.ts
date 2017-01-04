@@ -22,14 +22,14 @@ export class TechnicalDataComponent implements OnInit {
   constructor(private _fb: FormBuilder, private cs: CommunicateService) {
     this.technicalDataForm = this._fb.group({
       config: ['', Validators.required],
-      cantTreads: [1],
-      heightTreads: [1],
-      widthTreads: [1],
-      diameter: [1],
-      heightTotal: [1],
-      heightGround: [1],
-      heightHole: [1],
-      longHole: [1]
+      cantTreads: [1, Validators.required],
+      heightTreads: [1, Validators.required],
+      widthTreads: [1, Validators.required],
+      diameter: [1, Validators.required],
+      heightTotal: [1, Validators.required],
+      heightGround: [1, Validators.required],
+      heightHole: [1, Validators.required],
+      longHole: [1, Validators.required]
     });
   }
 

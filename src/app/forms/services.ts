@@ -56,7 +56,7 @@ export class ServicesComponent implements OnInit {
    */
   initService() {
     return this._fb.group({
-      cant: [1],
+      cant: [1, Validators.required],
       zone: ['', Validators.required],
       serviceName: ['', Validators.required]
     });

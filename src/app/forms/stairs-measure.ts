@@ -23,7 +23,6 @@ export class StairsMeasureComponent implements OnInit {
 
   private stairForm: FormGroup;
   private dataServiceModels: CompleterData;
-  private dataServiceAccessories: CompleterData;
 
   subTotalTreads: number = 0;
   subTotalRailing: number = 0;
@@ -44,9 +43,12 @@ export class StairsMeasureComponent implements OnInit {
    */
   constructor(private populateService: PopulateService, private cs: CommunicateService, private _fb: FormBuilder, private completerService: CompleterService) {
     this.stairForm = this._fb.group({
-      cant: [1],
+      cant: [1, Validators.required],
       model: ['', Validators.required],
-      structure: ['', Validators.required],
+      structure: this._fb.group({
+        type: ['', Validators.required],
+        finish: ['', Validators.required]
+      }),
       treads: this._fb.array([
         this.initTread(),
       ]),
@@ -54,19 +56,18 @@ export class StairsMeasureComponent implements OnInit {
       ]),
       railing: this._fb.group({
         model: ['', Validators.required],
-        cantStraight: [1],
-        cantCurve: [1],
-        finish: ['', Validators.required],
-        railing: ['', Validators.required]
+        cantStraight: [1, Validators.required],
+        cantCurve: [1, Validators.required],
+        railing: ['', Validators.required],
+        finish: ['', Validators.required]
       }),
       guardrail: this._fb.group({
         activeGuardrail: [false],
-        measure: [{value: 1, disabled: true}],
         model: [{value: "", disabled: true}],
         cantStraight: [{value: 1, disabled: true}],
         cantCurve: [{value: 1, disabled: true}],
-        finish: [{value: "", disabled: true}],
-        railing: [{value: "", disabled: true}]
+        railing: [{value: "", disabled: true}],
+        finish: [{value: "", disabled: true}]
       })
     });
   }
@@ -98,7 +99,7 @@ export class StairsMeasureComponent implements OnInit {
    */
   initTread() {
     return this._fb.group({
-      cant: [1],
+      cant: [1, Validators.required],
       treadName: ['', Validators.required],
       measure: ['', Validators.required],
       treadFinish: ['', Validators.required],
@@ -111,7 +112,7 @@ export class StairsMeasureComponent implements OnInit {
    */
   initAccessorie() {
     return this._fb.group({
-      cant: [1],
+      cant: [1, Validators.required],
       accessorieName: ['', Validators.required],
       price: [0]
     });
@@ -160,7 +161,7 @@ export class StairsMeasureComponent implements OnInit {
     }
 
     for (var structure of this.populateStructure) {
-      if (structure.name == data.structure) {
+      if (structure.name == data.structure.finish) {
         priceStructure = structure.price;
       }
     }
@@ -288,7 +289,6 @@ export class StairsMeasureComponent implements OnInit {
     this.populateService.getAccessories()
       .then(data => {
         this.populateAccessories = data;
-        this.dataServiceAccessories = this.completerService.local(data, 'name', 'name');
       });
 
     this.populateService.getModelsRailing()

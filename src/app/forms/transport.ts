@@ -56,7 +56,7 @@ export class TransportComponent implements OnInit {
    */
   initTransport() {
     return this._fb.group({
-      cant: [1],
+      cant: [1, Validators.required],
       zoneName: ['', Validators.required]
     });
   }
