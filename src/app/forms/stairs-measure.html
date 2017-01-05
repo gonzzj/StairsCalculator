@@ -19,10 +19,10 @@
       <label for="inputTypeStructure" class="col-sm-2 col-form-label">Tipo estructura</label>
       <div class="col-sm-10">
         <select class="form-control custom-select" id="inputTypeStructure" formControlName="type">
-          <option value="standard">- Sin estructura -</option>
-          <option value="standard">Standard</option>
-          <option value="rectP3">Recto / P3</option>
-          <option value="P2/P1">P2 / P1</option>
+          <option value="Sin estructura">- Sin estructura -</option>
+          <option value="Standard">Standard</option>
+          <option value="Recto / P3">Recto / P3</option>
+          <option value="P2 / P1">P2 / P1</option>
         </select>
         <small [hidden]="stairForm.controls.structure.controls.type.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
@@ -211,7 +211,9 @@
         <small [hidden]="accessorie.controls.cant.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i></small>
       </div>
       <div class="col-sm-7">
-        <ng2-completer [dataService]="dataServiceAccessories" [minSearchLength]="0" formControlName="accessorieName"></ng2-completer>
+        <select class="form-control custom-select" formControlName="accessorieName">
+          <option value="{{accessorie.name}}" *ngFor="let accessorie of populateAccessories">{{accessorie.name}}</option>
+        </select>
         <small [hidden]="accessorie.controls.accessorieName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
 

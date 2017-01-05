@@ -42,7 +42,9 @@
         <input type="number" min="1" class="form-control" formControlName="cant">
       </div>
       <div class="col-sm-7">
-        <ng2-completer [dataService]="dataServiceAccessories" [minSearchLength]="0" formControlName="accessorieName"></ng2-completer>
+        <select class="form-control custom-select" formControlName="accessorieName">
+          <option value="{{accessorie.name}}" *ngFor="let accessorie of populateAccessories">{{accessorie.name}}</option>
+        </select>
         <small [hidden]="accessorie.controls.accessorieName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
 

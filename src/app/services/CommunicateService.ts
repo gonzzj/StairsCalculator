@@ -117,7 +117,7 @@ export class CommunicateService {
       }
 
       var services = [];
-      services.push([{text: 'Cant', style: 'tableHeaderCenter'}, {text: 'Tipo', style: 'tableHeaderCenter'}, {text: 'Montaje', style: 'tableHeaderCenter'}]);
+      services.push([{text: 'Cant', style: 'tableHeaderCenter'}, {text: 'Zona', style: 'tableHeaderCenter'}, {text: 'Concepto', style: 'tableHeaderCenter'}]);
       for (var service of this.zohoForm[0]['services']) {
         services.push([{text: service.cant.toString(), style: 'tableTextCenter'}, {text: service.zone, style: 'tableTextCenter'}, {text: service.serviceName, style: 'tableTextCenter'}]);
       }
@@ -130,7 +130,7 @@ export class CommunicateService {
 
       var extras = [];
       var extraType;
-      extras.push([{text: 'Cant', style: 'tableHeaderCenter'}, {text: 'Extra', style: 'tableHeaderCenter'}, {text: 'Tipo', style: 'tableHeaderCenter'}, {text: 'Precio', style: 'tableHeaderCenter'}]);
+      extras.push([{text: 'Cant', style: 'tableHeaderCenter'}, {text: 'Concepto', style: 'tableHeaderCenter'}, {text: 'Atribuir', style: 'tableHeaderCenter'}, {text: 'Precio', style: 'tableHeaderCenter'}]);
       for (var extra of this.zohoForm[0]['extras']) {
         if (extra.type == 'stair') {
           extraType = extrasTypes.stair;
@@ -338,7 +338,7 @@ export class CommunicateService {
                   headerRows: 1,
                   body: [
                     [{text: 'Concepto', style: 'tableHeader'}, {text: 'Desc', style: 'tableHeaderCenter'}, {
-                      text: 'Monto',
+                      text: 'Importe',
                       style: 'tableHeaderCenter'
                     }],
                     [{text: 'Total material', style: 'tableText'}, {
@@ -498,7 +498,14 @@ export class CommunicateService {
         {
           text: [
             'Tipo estructura: ',
-            { text: this.zohoForm[0]['stair']['structure'], style: 'strong' }
+            { text: this.zohoForm[0]['stair']['structure']['type'], style: 'strong' }
+          ],
+          style: 'row'
+        },
+        {
+          text: [
+            'Acabado estructura: ',
+            { text: this.zohoForm[0]['stair']['structure']['finish'], style: 'strong' }
           ],
           style: 'row'
         },
