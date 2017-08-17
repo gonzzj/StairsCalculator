@@ -4,8 +4,8 @@
 
 @import "custom";
 @import "variables";
-@import "mixins/_hover";
-@import "mixins/_tab-focus";
+@import "mixins/hover";
+@import "mixins/tab-focus";
 
 @import "normalize";
 @import "reboot";
