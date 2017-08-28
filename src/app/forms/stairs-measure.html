@@ -13,29 +13,38 @@
       </div>
     </div>
   </div>
-  <div class="card card-block" formGroupName="structure">
+  <div class="card card-block" formArrayName="structures">
     <h4 class="card-title">Estructura</h4>
-    <div class="form-group row">
-      <label for="inputTypeStructure" class="col-sm-2 col-form-label">Tipo estructura</label>
-      <div class="col-sm-10">
+    <div class="form-group row labels-group">
+      <label class="col-sm-5 col-form-label">Tipo estructura</label>
+      <label class="col-sm-4 col-form-label">Acabado estructura</label>
+      <label class="col-sm-3 col-form-label">Precio</label>
+    </div>
+    <div class="form-group row" [formGroupName]="e" *ngFor="let structure of stairForm.controls.structures.controls; let e=index">
+      <div class="col-sm-5">
         <select class="form-control custom-select" id="inputTypeStructure" formControlName="type">
           <option value="Sin estructura">- Sin estructura -</option>
           <option value="Standard">Standard</option>
           <option value="Recto / P3">Recto / P3</option>
           <option value="P2 / P1">P2 / P1</option>
         </select>
-        <small [hidden]="stairForm.controls.structure.controls.type.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+        <small [hidden]="structure.controls.type.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
-    </div>
-    <div class="form-group row">
-      <label for="inputFinishStructure" class="col-sm-2 col-form-label">Acabado estructura</label>
-      <div class="col-sm-10">
+      <div class="col-sm-4">
         <select class="form-control custom-select" id="inputFinishStructure" formControlName="finish">
           <option value="{{structure.name}}" *ngFor="let structure of populateStructure">{{structure.name}}</option>
         </select>
-        <small [hidden]="stairForm.controls.structure.controls.finish.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+        <small [hidden]="structure.controls.finish.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+      </div>
+      <div class="col-sm-2">
+          <input type="hidden" formControlName="price">
+          <strong>{{stairForm.value.structures[e].price | formatprice}} €</strong>
+        </div>
+      <div class="col-sm-1">
+          <button (click)="removeRow(e, 'structures')" type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
       </div>
     </div>
+    <button (click)="addRow('structures')" type="button" class="btn btn-primary">Agregar fila <i class="fa fa-plus-circle" aria-hidden="true"></i></button>    
   </div>
   <div class="card card-block" formArrayName="treads">
     <h4 class="card-title">Peldaños y Contrahuellas</h4>

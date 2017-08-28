@@ -45,10 +45,9 @@ export class StairsMeasureComponent implements OnInit {
     this.stairForm = this._fb.group({
       cant: [1, Validators.required],
       model: ['', Validators.required],
-      structure: this._fb.group({
-        type: ['', Validators.required],
-        finish: ['', Validators.required]
-      }),
+      structures: this._fb.array([
+        this.initStructure(),
+      ]),
       treads: this._fb.array([
         this.initTread(),
       ]),
@@ -95,7 +94,18 @@ export class StairsMeasureComponent implements OnInit {
   }
 
   /**
-   * @return {FormGroup} A tread form
+   * @return {FormGroup} Structure form
+   */
+  initStructure() {
+    return this._fb.group({
+      type: ['', Validators.required],
+      finish: ['', Validators.required],
+      price: [0]
+    })
+  }
+
+  /**
+   * @return {FormGroup} Tread form
    */
   initTread() {
     return this._fb.group({
@@ -108,7 +118,7 @@ export class StairsMeasureComponent implements OnInit {
   }
 
   /**
-   * @returns {FormGroup} An accessorie form
+   * @returns {FormGroup} Accessorie form
    */
   initAccessorie() {
     return this._fb.group({
@@ -119,14 +129,16 @@ export class StairsMeasureComponent implements OnInit {
   }
 
   /**
-   * Add a new tread or accessorie form
+   * Add a new form
    *
    * @param nameControl - the form type
    */
   addRow(nameControl: string) {
     const control = <FormArray>this.stairForm.controls[nameControl];
 
-    if (nameControl == "treads") {
+    if (nameControl == "structures") {
+      control.push(this.initStructure());
+    } else if (nameControl == "treads") {
       control.push(this.initTread());
     } else {
       control.push(this.initAccessorie());
@@ -134,7 +146,7 @@ export class StairsMeasureComponent implements OnInit {
   }
 
   /**
-   * Remove a tread or accessorie form
+   * Remove a form
    *
    * @param i - id row form
    * @param nameControl - the form type
@@ -160,10 +172,19 @@ export class StairsMeasureComponent implements OnInit {
       }
     }
 
+    var cont;
     for (var structure of this.populateStructure) {
-      if (structure.name == data.structure.finish) {
-        priceStructure = structure.price;
+      cont = 0;
+      for (var itemStructure of data.structures) {
+        if (structure.name == itemStructure.finish) {
+          this.stairForm.value.structures[cont].price = structure.price;
+        }
+        cont++;
       }
+    }
+
+    for (var itemStructure of data.structures) {
+      priceStructure = priceStructure + itemStructure.price;
     }
 
     return priceModel + priceStructure;
