@@ -86,6 +86,7 @@ export class StairsMeasureComponent implements OnInit {
       this.notifyTotal.emit(this.totalStair);
       this.cs.validateForm(this.stairForm.valid, "stair");
       this.cs.addZoho(this.stairForm.value, "stair");
+      console.log(this.stairForm);
     });
 
     this.cs.submitted.subscribe(
@@ -124,6 +125,8 @@ export class StairsMeasureComponent implements OnInit {
     return this._fb.group({
       cant: [1, Validators.required],
       accessorieName: ['', Validators.required],
+      type: [''],
+      id: [''],
       price: [0]
     });
   }

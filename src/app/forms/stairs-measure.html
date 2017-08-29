@@ -14,15 +14,19 @@
     </div>
   </div>
   <div class="card card-block" formArrayName="structures">
-    <h4 class="card-title">Estructura</h4>
+    <h4 class="card-title">Estructuras</h4>
     <div class="form-group row labels-group">
-      <label class="col-sm-5 col-form-label">Tipo estructura</label>
+      <label class="col-sm-1 col-form-label">#</label>
+      <label class="col-sm-4 col-form-label">Tipo estructura</label>
       <label class="col-sm-4 col-form-label">Acabado estructura</label>
       <label class="col-sm-3 col-form-label">Precio</label>
     </div>
     <div class="form-group row" [formGroupName]="e" *ngFor="let structure of stairForm.controls.structures.controls; let e=index">
-      <div class="col-sm-5">
-        <select class="form-control custom-select" id="inputTypeStructure" formControlName="type">
+      <div class="col-sm-1">
+        {{e + 1}}
+      </div>
+      <div class="col-sm-4">
+        <select class="form-control custom-select" formControlName="type">
           <option value="Sin estructura">- Sin estructura -</option>
           <option value="Standard">Standard</option>
           <option value="Recto / P3">Recto / P3</option>
@@ -31,7 +35,7 @@
         <small [hidden]="structure.controls.type.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
       <div class="col-sm-4">
-        <select class="form-control custom-select" id="inputFinishStructure" formControlName="finish">
+        <select class="form-control custom-select" formControlName="finish">
           <option value="{{structure.name}}" *ngFor="let structure of populateStructure">{{structure.name}}</option>
         </select>
         <small [hidden]="structure.controls.finish.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
@@ -49,13 +53,17 @@
   <div class="card card-block" formArrayName="treads">
     <h4 class="card-title">Peldaños y Contrahuellas</h4>
     <div class="form-group row labels-group">
+      <label class="col-sm-1 col-form-label">#</label>
       <label class="col-sm-1 col-form-label">Cant</label>
       <label class="col-sm-3 col-form-label">Tipo Peldaño</label>
       <label class="col-sm-2 col-form-label">Ancho</label>
-      <label class="col-sm-3 col-form-label">Acabado</label>
+      <label class="col-sm-2 col-form-label">Acabado</label>
       <label class="col-sm-2 col-form-label">Precio</label>
     </div>
     <div class="form-group row" [formGroupName]="i" *ngFor="let tread of stairForm.controls.treads.controls; let i=index">
+      <div class="col-sm-1">
+        {{i + 1}}
+      </div>
       <div class="col-sm-1">
         <input type="number" min="1" class="form-control" formControlName="cant">
         <small [hidden]="tread.controls.cant.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i></small>
@@ -74,7 +82,7 @@
         <small [hidden]="tread.controls.measure.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-2">
         <select class="form-control custom-select" formControlName="treadFinish">
           <option [value]="treadFinish.name" *ngFor="let treadFinish of populateTreadFinish">{{treadFinish.name}}</option>
         </select>
@@ -211,19 +219,33 @@
     <h4 class="card-title">Accesorios y Suplementos</h4>
     <div class="form-group row labels-group">
       <label class="col-sm-2 col-form-label">Cant</label>
-      <label class="col-sm-7 col-form-label">Accesorio</label>
-      <label class="col-sm-2 col-form-label">Precio</label>
+      <label class="col-sm-3 col-form-label">Accesorio</label>
+      <label class="col-sm-2 col-form-label">Aplicar a</label>
+      <label class="col-sm-2 col-form-label">#</label>
+      <label class="col-sm-3 col-form-label">Precio</label>
     </div>
     <div class="form-group row" [formGroupName]="e" *ngFor="let accessorie of stairForm.controls.accessories.controls; let e=index">
       <div class="col-sm-2">
         <input type="number" min="1" class="form-control" formControlName="cant">
         <small [hidden]="accessorie.controls.cant.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i></small>
       </div>
-      <div class="col-sm-7">
+      <div class="col-sm-3">
         <select class="form-control custom-select" formControlName="accessorieName">
           <option value="{{accessorie.name}}" *ngFor="let accessorie of populateAccessories">{{accessorie.name}}</option>
         </select>
         <small [hidden]="accessorie.controls.accessorieName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+      </div>
+
+      <div class="col-sm-2">
+        <select class="form-control custom-select" formControlName="type">
+          <option value="structure">Estructura</option>
+        </select>
+      </div>
+
+      <div class="col-sm-2">
+        <select class="form-control custom-select" formControlName="id">
+          <option value="{{f}}" *ngFor="let item of stairForm.controls.structures.controls; let f=index">{{f + 1}}</option>
+        </select>
       </div>
 
       <div class="col-sm-2">
