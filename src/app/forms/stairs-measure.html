@@ -56,8 +56,8 @@
       <label class="col-sm-1 col-form-label">#</label>
       <label class="col-sm-1 col-form-label">Cant</label>
       <label class="col-sm-3 col-form-label">Tipo Peldaño</label>
-      <label class="col-sm-2 col-form-label">Ancho</label>
       <label class="col-sm-2 col-form-label">Acabado</label>
+      <label class="col-sm-2 col-form-label">Ancho</label>
       <label class="col-sm-2 col-form-label">Precio</label>
     </div>
     <div class="form-group row" [formGroupName]="i" *ngFor="let tread of stairForm.controls.treads.controls; let i=index">
@@ -74,26 +74,22 @@
         </select>
         <small [hidden]="tread.controls.treadName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
-
-      <div class="col-sm-2">
-        <select class="form-control custom-select" formControlName="measure">
-          <option [value]="measure.name" *ngFor="let measure of populateMeasure">{{measure.name}}</option>
-        </select>
-        <small [hidden]="tread.controls.measure.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
-      </div>
-
       <div class="col-sm-2">
         <select class="form-control custom-select" formControlName="treadFinish">
           <option [value]="treadFinish.name" *ngFor="let treadFinish of populateTreadFinish">{{treadFinish.name}}</option>
         </select>
         <small [hidden]="tread.controls.treadFinish.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
-
+      <div class="col-sm-2">
+        <select class="form-control custom-select" formControlName="measure">
+          <option [value]="measure.name" *ngFor="let measure of populateMeasure">{{measure.name}}</option>
+        </select>
+        <small [hidden]="tread.controls.measure.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+      </div>
       <div class="col-sm-2">
         <input type="hidden" formControlName="price">
         <strong>{{stairForm.value.treads[i].price | formatprice}} €</strong>
       </div>
-
       <div class="col-sm-1">
         <button (click)="removeRow(i, 'treads')" type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
       </div>
@@ -112,6 +108,26 @@
               <option value="{{model.name}}" *ngFor="let model of populateModelsRailing">{{model.name}}</option>
             </select>
             <small [hidden]="stairForm.controls.railing.controls.model.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputRailing" class="col-sm-3 col-form-label">Pasamano</label>
+          <div class="col-sm-9">
+            <select class="form-control custom-select" id="inputRailing" formControlName="railing">
+              <option>Madera</option>
+              <option>Inox</option>
+            </select>
+            <small [hidden]="stairForm.controls.railing.controls.railing.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputFinishRailing" class="col-sm-3 col-form-label">Acabado</label>
+          <div class="col-sm-9">
+            <select class="form-control custom-select" id="inputFinishRailing" formControlName="finish">
+              <option>Pintado</option>
+              <option>Inox</option>
+            </select>
+            <small [hidden]="stairForm.controls.railing.controls.finish.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
           </div>
         </div>
         <h5 class="card-title">Configuración recta</h5>
@@ -136,26 +152,6 @@
             <strong>0,00 €</strong>
           </div>
         </div>
-        <div class="form-group row">
-          <label for="inputRailing" class="col-sm-3 col-form-label">Pasamano</label>
-          <div class="col-sm-7">
-            <select class="form-control custom-select" id="inputRailing" formControlName="railing">
-              <option>Madera</option>
-              <option>Inox</option>
-            </select>
-            <small [hidden]="stairForm.controls.railing.controls.railing.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="inputFinishRailing" class="col-sm-3 col-form-label">Acabado</label>
-          <div class="col-sm-7">
-            <select class="form-control custom-select" id="inputFinishRailing" formControlName="finish">
-              <option>Pintado</option>
-              <option>Inox</option>
-            </select>
-            <small [hidden]="stairForm.controls.railing.controls.finish.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
-          </div>
-        </div>
         <h5 class="subtotal-title">Subtotal: {{subTotalRailing | formatprice}} €</h5>
       </div>
       <div class="card card-block" formGroupName="guardrail">
@@ -170,6 +166,24 @@
           <div class="col-sm-9">
             <select class="form-control custom-select" id="inputModelGuardrail" formControlName="model">
               <option value="{{model.name}}" *ngFor="let model of populateModelsRailing">{{model.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputGuardrailRailing" class="col-sm-3 col-form-label">Pasamano</label>
+          <div class="col-sm-9">
+            <select class="form-control custom-select" id="inputGuardrailRailing" formControlName="railing">
+              <option>Madera</option>
+              <option>Inox</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputFinishGuardrail" class="col-sm-3 col-form-label">Acabado</label>
+          <div class="col-sm-9">
+            <select class="form-control custom-select" id="inputFinishGuardrail" formControlName="finish">
+              <option>Pintado</option>
+              <option>Inox</option>
             </select>
           </div>
         </div>
@@ -191,24 +205,6 @@
           </div>
           <div class="col-sm-2">
             <strong>0,00 €</strong>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="inputGuardrailRailing" class="col-sm-3 col-form-label">Pasamano</label>
-          <div class="col-sm-7">
-            <select class="form-control custom-select" id="inputGuardrailRailing" formControlName="railing">
-              <option>Madera</option>
-              <option>Inox</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="inputFinishGuardrail" class="col-sm-3 col-form-label">Acabado</label>
-          <div class="col-sm-7">
-            <select class="form-control custom-select" id="inputFinishGuardrail" formControlName="finish">
-              <option>Pintado</option>
-              <option>Inox</option>
-            </select>
           </div>
         </div>
         <h5 class="subtotal-title">Subtotal: {{subTotalGuardrail | formatprice}} €</h5>

@@ -86,7 +86,6 @@ export class StairsMeasureComponent implements OnInit {
       this.notifyTotal.emit(this.totalStair);
       this.cs.validateForm(this.stairForm.valid, "stair");
       this.cs.addZoho(this.stairForm.value, "stair");
-      console.log(this.stairForm);
     });
 
     this.cs.submitted.subscribe(
@@ -321,11 +320,13 @@ export class StairsMeasureComponent implements OnInit {
       });
   }
 
+  /**
+   * Enable or Disable the Guardrail Form
+   */
   checkGuardrail(): void {
     if (this.stairForm.controls['guardrail']['controls']['activeGuardrail'].value) {
       this.stairForm.controls['guardrail'].enable();
     } else {
-      this.stairForm.controls['guardrail']['controls']['measure'].disable();
       this.stairForm.controls['guardrail']['controls']['model'].disable();
       this.stairForm.controls['guardrail']['controls']['cantStraight'].disable();
       this.stairForm.controls['guardrail']['controls']['cantCurve'].disable();
