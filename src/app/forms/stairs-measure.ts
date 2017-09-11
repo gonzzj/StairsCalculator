@@ -24,9 +24,16 @@ export class StairsMeasureComponent implements OnInit {
   private stairForm: FormGroup;
   private dataServiceModels: CompleterData;
 
+  idApplyAccessories: any;
+
+  subTotalStructures: number = 0;
   subTotalTreads: number = 0;
   subTotalRailing: number = 0;
+  subTotalRailingStraight: number = 0;
+  subTotalRailingCurve: number = 0;
   subTotalGuardrail: number = 0;
+  subTotalGuardrailStraight: number = 0;
+  subTotalGuardrailCurve: number = 0;
   subTotalAccessories: number = 0;
   totalStair: number = 0;
 
@@ -78,11 +85,13 @@ export class StairsMeasureComponent implements OnInit {
     this.populateSelects();
 
     this.stairForm.valueChanges.subscribe(data => {
+      this.calculateStructuresPrice(data);
       this.calculateTreadPrice(data);
       this.calculateRailingPrice(data);
       this.calculateGuardrailPrice(data);
       this.calculateAccessoriesPrice(data);
-      this.totalStair = (this.subTotalTreads * this.stairForm.controls['cant'].value) + (this.subTotalAccessories * this.stairForm.controls['cant'].value) + (this.subTotalRailing * this.stairForm.controls['cant'].value) + this.subTotalGuardrail + this.calculateModelStructurePrice(data);
+      console.log(this.stairForm.controls['cant'].value);
+      this.totalStair = (this.subTotalTreads * this.stairForm.controls['cant'].value) + (this.subTotalAccessories * this.stairForm.controls['cant'].value) + (this.subTotalRailing * this.stairForm.controls['cant'].value) + this.subTotalGuardrail + this.subTotalStructures + this.calculateModelPrice(data);
       this.notifyTotal.emit(this.totalStair);
       this.cs.validateForm(this.stairForm.valid, "stair");
       this.cs.addZoho(this.stairForm.value, "stair");
@@ -98,6 +107,7 @@ export class StairsMeasureComponent implements OnInit {
    */
   initStructure() {
     return this._fb.group({
+      cant: [1, Validators.required],
       type: ['', Validators.required],
       finish: ['', Validators.required],
       price: [0]
@@ -124,8 +134,9 @@ export class StairsMeasureComponent implements OnInit {
     return this._fb.group({
       cant: [1, Validators.required],
       accessorieName: ['', Validators.required],
-      type: [''],
+      type: ['structures'],
       id: [''],
+      unitPrice: [''],
       price: [0]
     });
   }
@@ -164,9 +175,8 @@ export class StairsMeasureComponent implements OnInit {
    * @param data - the form values
    * @returns {number}
    */
-  calculateModelStructurePrice(data) {
+  calculateModelPrice(data) {
     var priceModel = 0;
-    var priceStructure = 0;
 
     for (var model of this.populateModels) {
       if (model.name == data.model) {
@@ -174,22 +184,32 @@ export class StairsMeasureComponent implements OnInit {
       }
     }
 
+    return priceModel;
+  }
+
+  /**
+   * Calculate only the price of the structures
+   *
+   * @param data - the form values
+   */
+  calculateStructuresPrice(data) {
     var cont;
+    this.subTotalStructures = 0;
+    
     for (var structure of this.populateStructure) {
       cont = 0;
       for (var itemStructure of data.structures) {
         if (structure.name == itemStructure.finish) {
-          this.stairForm.value.structures[cont].price = structure.price;
+          this.stairForm.value.structures[cont].price = structure.price * itemStructure.cant;
+          this.calculateAccessoriesPrice(data);
         }
         cont++;
       }
     }
 
     for (var itemStructure of data.structures) {
-      priceStructure = priceStructure + itemStructure.price;
+      this.subTotalStructures = this.subTotalStructures + itemStructure.price;
     }
-
-    return priceModel + priceStructure;
   }
 
   /**
@@ -198,14 +218,20 @@ export class StairsMeasureComponent implements OnInit {
    * @param data - the form values
    */
   calculateRailingPrice(data) {
+    var priceStraight = 0;
+    var priceCurve = 0;
     var priceModel = 0;
 
     for (var model of this.populateModelsRailing) {
       if (model.name == data.railing.model) {
-        priceModel = model.price;
+        priceStraight = model.priceStraight * data.railing.cantStraight;
+        priceCurve = model.priceCurve * data.railing.cantCurve;
+        priceModel = priceStraight + priceCurve;
       }
     }
 
+    this.subTotalRailingStraight = priceStraight;
+    this.subTotalRailingCurve = priceCurve;
     this.subTotalRailing = priceModel;
   }
 
@@ -215,14 +241,20 @@ export class StairsMeasureComponent implements OnInit {
    * @param data - the form values
    */
   calculateGuardrailPrice(data) {
+    var priceStraight = 0;
+    var priceCurve = 0;
     var priceModel = 0;
 
     for (var model of this.populateModelsRailing) {
-      if (model.name == data.guardrail.model) {
-        priceModel = model.price;
+      if (model.name == data.guardrail.cantStraightmodel) {
+        priceStraight = model.priceStraight * data.guardrail.cantStraight;
+        priceCurve = model.priceCurve * data.guardrail.cantCurve;
+        priceModel = priceStraight + priceCurve;
       }
     }
 
+    this.subTotalGuardrailStraight = priceStraight;
+    this.subTotalGuardrailCurve = priceCurve;
     this.subTotalGuardrail = priceModel;
   }
 
@@ -261,10 +293,30 @@ export class StairsMeasureComponent implements OnInit {
 
     for (var accessorie of this.populateAccessories) {
       cont = 0;
+
       for (var itemAccessorie of data.accessories) {
-        if (accessorie.name == itemAccessorie.accessorieName) {
-          this.stairForm.value.accessories[cont].price = itemAccessorie.cant * accessorie.price;
+        if (itemAccessorie['type'] === 'railing') {
+          if (itemAccessorie['unitPrice'] === 'eur') {
+            if (accessorie.name == itemAccessorie.accessorieName) {
+              this.stairForm.value.accessories[cont].price = itemAccessorie.cant * accessorie.price;
+            }
+          } else if (itemAccessorie['unitPrice'] === 'porc'){
+            if (accessorie.name == itemAccessorie.accessorieName) {
+              this.stairForm.value.accessories[cont].price = ((this.subTotalRailing * accessorie.percentaje) / 100) * itemAccessorie.cant;
+            }
+          }
+        } else {
+          if (itemAccessorie['unitPrice'] === 'eur' && itemAccessorie['id']) {
+            if (accessorie.name == itemAccessorie.accessorieName) {
+              this.stairForm.value.accessories[cont].price = itemAccessorie.cant * accessorie.price;
+            }
+          } else if (itemAccessorie['unitPrice'] === 'porc' && itemAccessorie['id']) {
+            if (accessorie.name == itemAccessorie.accessorieName) {
+              this.stairForm.value.accessories[cont].price = ((this.stairForm.controls[itemAccessorie['type']]['controls'][itemAccessorie['id']].value.price * accessorie.percentaje) / 100) * itemAccessorie.cant;              
+            }
+          }
         }
+
         cont++;
       }
     }
@@ -318,6 +370,16 @@ export class StairsMeasureComponent implements OnInit {
       .then(data => {
         this.populateModelsRailing = data;
       });
+  }
+
+  /**
+   * Enable the accessorie id select
+   */
+  checkApply(accessorie, idAccessorie): void {
+    if (accessorie['controls']['type'].value === 'railing') {
+      accessorie['controls']['unitPrice'].setValue(null);
+      accessorie['controls']['id'].setValue(null);
+    }
   }
 
   /**

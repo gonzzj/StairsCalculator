@@ -17,13 +17,18 @@
     <h4 class="card-title">Estructuras</h4>
     <div class="form-group row labels-group">
       <label class="col-sm-1 col-form-label">#</label>
+      <label class="col-sm-1 col-form-label">Cant</label>
       <label class="col-sm-4 col-form-label">Tipo estructura</label>
-      <label class="col-sm-4 col-form-label">Acabado estructura</label>
+      <label class="col-sm-3 col-form-label">Acabado estructura</label>
       <label class="col-sm-3 col-form-label">Precio</label>
     </div>
     <div class="form-group row" [formGroupName]="e" *ngFor="let structure of stairForm.controls.structures.controls; let e=index">
       <div class="col-sm-1">
         {{e + 1}}
+      </div>
+      <div class="col-sm-1">
+        <input type="number" min="1" class="form-control" formControlName="cant">
+        <small [hidden]="structure.controls.cant.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i></small>
       </div>
       <div class="col-sm-4">
         <select class="form-control custom-select" formControlName="type">
@@ -34,7 +39,7 @@
         </select>
         <small [hidden]="structure.controls.type.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-3">
         <select class="form-control custom-select" formControlName="finish">
           <option value="{{structure.name}}" *ngFor="let structure of populateStructure">{{structure.name}}</option>
         </select>
@@ -49,6 +54,7 @@
       </div>
     </div>
     <button (click)="addRow('structures')" type="button" class="btn btn-primary">Agregar fila <i class="fa fa-plus-circle" aria-hidden="true"></i></button>    
+    <h5 class="subtotal-title">Subtotal: {{subTotalStructures | formatprice}} €</h5>
   </div>
   <div class="card card-block" formArrayName="treads">
     <h4 class="card-title">Peldaños y Contrahuellas</h4>
@@ -133,23 +139,23 @@
         <h5 class="card-title">Configuración recta</h5>
         <div class="form-group row">
           <label for="inputCantStraight" class="col-sm-3 col-form-label">Cantidad</label>
-          <div class="col-sm-7">
+          <div class="col-sm-6">
             <input type="number" min="1" class="form-control" placeholder="mm" id="inputCantStraight" formControlName="cantStraight">
             <small [hidden]="stairForm.controls.railing.controls.cantStraight.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
           </div>
-          <div class="col-sm-2">
-            <strong>0,00 €</strong>
+          <div class="col-sm-3">
+            <strong>{{subTotalRailingStraight | formatprice}} €</strong>
           </div>
         </div>
         <h5 class="card-title">Configuración curva</h5>
         <div class="form-group row">
           <label for="inputCantCurve" class="col-sm-3 col-form-label">Cantidad</label>
-          <div class="col-sm-7">
+          <div class="col-sm-6">
             <input type="number" min="1" class="form-control" placeholder="mm" id="inputCantCurve" formControlName="cantCurve">
             <small [hidden]="stairForm.controls.railing.controls.cantCurve.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
           </div>
-          <div class="col-sm-2">
-            <strong>0,00 €</strong>
+          <div class="col-sm-3">
+            <strong>{{subTotalRailingCurve | formatprice}} €</strong>
           </div>
         </div>
         <h5 class="subtotal-title">Subtotal: {{subTotalRailing | formatprice}} €</h5>
@@ -190,21 +196,21 @@
         <h5 class="card-title">Configuración recta</h5>
         <div class="form-group row">
           <label for="inputCantStraightGuardrail" class="col-sm-3 col-form-label">Cantidad</label>
-          <div class="col-sm-7">
+          <div class="col-sm-6">
             <input type="number" min="1" class="form-control" placeholder="mm" id="inputCantStraightGuardrail" formControlName="cantStraight">
           </div>
-          <div class="col-sm-2">
-            <strong>0,00 €</strong>
+          <div class="col-sm-3">
+            <strong>{{subTotalGuardrailStraight | formatprice}} €</strong>
           </div>
         </div>
         <h5 class="card-title">Configuración curva</h5>
         <div class="form-group row">
           <label for="inputCantCurveGuardrail" class="col-sm-3 col-form-label">Cantidad</label>
-          <div class="col-sm-7">
+          <div class="col-sm-6">
             <input type="number" min="1" class="form-control" placeholder="mm" id="inputCantCurveGuardrail" formControlName="cantCurve">
           </div>
-          <div class="col-sm-2">
-            <strong>0,00 €</strong>
+          <div class="col-sm-3">
+            <strong>{{subTotalGuardrailCurve | formatprice}} €</strong>
           </div>
         </div>
         <h5 class="subtotal-title">Subtotal: {{subTotalGuardrail | formatprice}} €</h5>
@@ -214,14 +220,14 @@
   <div class="card card-block" formArrayName="accessories">
     <h4 class="card-title">Accesorios y Suplementos</h4>
     <div class="form-group row labels-group">
-      <label class="col-sm-2 col-form-label">Cant</label>
+      <label class="col-sm-1 col-form-label">Cant</label>
       <label class="col-sm-3 col-form-label">Accesorio</label>
       <label class="col-sm-2 col-form-label">Aplicar a</label>
       <label class="col-sm-2 col-form-label">#</label>
-      <label class="col-sm-3 col-form-label">Precio</label>
+      <label class="offset-sm-1 col-sm-3 col-form-label">Precio</label>
     </div>
     <div class="form-group row" [formGroupName]="e" *ngFor="let accessorie of stairForm.controls.accessories.controls; let e=index">
-      <div class="col-sm-2">
+      <div class="col-sm-1">
         <input type="number" min="1" class="form-control" formControlName="cant">
         <small [hidden]="accessorie.controls.cant.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i></small>
       </div>
@@ -233,14 +239,23 @@
       </div>
 
       <div class="col-sm-2">
-        <select class="form-control custom-select" formControlName="type">
-          <option value="structure">Estructura</option>
+        <select class="form-control custom-select" formControlName="type" (change)="checkApply(accessorie, e)">
+          <option value="structures">Estructura</option>
+          <option value="treads">Peldaños</option>
+          <option value="railing">Baranda</option>
         </select>
       </div>
 
       <div class="col-sm-2">
-        <select class="form-control custom-select" formControlName="id">
-          <option value="{{f}}" *ngFor="let item of stairForm.controls.structures.controls; let f=index">{{f + 1}}</option>
+        <select class="form-control custom-select" formControlName="id" *ngIf="accessorie.controls.type.value != 'railing'">
+          <option value="{{f}}" *ngFor="let item of stairForm.controls[accessorie.controls.type.value]['controls']; let f=index">{{f + 1}}</option>
+        </select>
+      </div>
+
+      <div class="col-sm-1">
+        <select class="form-control custom-select" formControlName="unitPrice">
+          <option value="eur">€</option>
+          <option value="porc">%</option>
         </select>
       </div>
 

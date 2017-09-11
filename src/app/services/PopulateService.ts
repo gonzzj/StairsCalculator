@@ -125,7 +125,7 @@ export class PopulateService {
     }
 
     return new Promise(resolve => {
-      this.http.get('http://enesca.polarbeardevelopment.com/mock/getAccesories.php')
+      this.http.get('http://loscillo.com/enesca/mockv2/getAccesories.php')
         .map(res => res.json())
         .subscribe(data => {
           this.dataAccessories = data;
@@ -142,10 +142,10 @@ export class PopulateService {
     }
 
     return new Promise(resolve => {
-      this.http.get('http://enesca.polarbeardevelopment.com/mock/getModelsRailing.php')
+      this.http.get('http://loscillo.com/enesca/mockv2/getRailFinish.php')
         .map(res => res.json())
         .subscribe(data => {
-          this.dataModelsRailing = data.collection.items[0].data;
+          this.dataModelsRailing = data;
           resolve(this.dataModelsRailing);
         }, (error) => {
           console.log('Error');
