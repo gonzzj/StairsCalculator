@@ -102,9 +102,9 @@ export class ServicesComponent implements OnInit {
    * Get the data to populate the selects
    */
   populateSelects() {
-    this.populateService.getServices()
+    /*this.populateService.getServices()
       .then(data => {
         this.populateServices = data;
-      });
+      });*/
   }
 }

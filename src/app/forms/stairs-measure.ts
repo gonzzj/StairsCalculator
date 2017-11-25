@@ -149,9 +149,9 @@ export class StairsMeasureComponent implements OnInit {
   addRow(nameControl: string) {
     const control = <FormArray>this.stairForm.controls[nameControl];
 
-    if (nameControl == "structures") {
+    if (nameControl === 'structures') {
       control.push(this.initStructure());
-    } else if (nameControl == "treads") {
+    } else if (nameControl === 'treads') {
       control.push(this.initTread());
     } else {
       control.push(this.initAccessorie());
@@ -179,7 +179,7 @@ export class StairsMeasureComponent implements OnInit {
     var priceModel = 0;
 
     for (var model of this.populateModels) {
-      if (model.name == data.model) {
+      if (model.name === data.model) {
         priceModel = model.price;
       }
     }
@@ -195,11 +195,10 @@ export class StairsMeasureComponent implements OnInit {
   calculateStructuresPrice(data) {
     var cont;
     this.subTotalStructures = 0;
-    
     for (var structure of this.populateStructure) {
       cont = 0;
       for (var itemStructure of data.structures) {
-        if (structure.name == itemStructure.finish) {
+        if (structure.name === itemStructure.finish) {
           this.stairForm.value.structures[cont].price = structure.price * itemStructure.cant;
           this.calculateAccessoriesPrice(data);
         }
@@ -223,7 +222,7 @@ export class StairsMeasureComponent implements OnInit {
     var priceModel = 0;
 
     for (var model of this.populateModelsRailing) {
-      if (model.name == data.railing.model) {
+      if (model.name === data.railing.model) {
         priceStraight = model.priceStraight * data.railing.cantStraight;
         priceCurve = model.priceCurve * data.railing.cantCurve;
         priceModel = priceStraight + priceCurve;
@@ -246,7 +245,7 @@ export class StairsMeasureComponent implements OnInit {
     var priceModel = 0;
 
     for (var model of this.populateModelsRailing) {
-      if (model.name == data.guardrail.cantStraightmodel) {
+      if (model.name === data.guardrail.cantStraightmodel) {
         priceStraight = model.priceStraight * data.guardrail.cantStraight;
         priceCurve = model.priceCurve * data.guardrail.cantCurve;
         priceModel = priceStraight + priceCurve;
@@ -270,7 +269,7 @@ export class StairsMeasureComponent implements OnInit {
     for (var tread of this.populateTreadName) {
       cont = 0;
       for (var itemTread of data.treads) {
-        if (tread.name == itemTread.treadName) {
+        if (tread.name === itemTread.treadName) {
           this.stairForm.value.treads[cont].price = itemTread.cant * tread.price;
         }
         cont++;
@@ -297,22 +296,22 @@ export class StairsMeasureComponent implements OnInit {
       for (var itemAccessorie of data.accessories) {
         if (itemAccessorie['type'] === 'railing') {
           if (itemAccessorie['unitPrice'] === 'eur') {
-            if (accessorie.name == itemAccessorie.accessorieName) {
+            if (accessorie.name === itemAccessorie.accessorieName) {
               this.stairForm.value.accessories[cont].price = itemAccessorie.cant * accessorie.price;
             }
           } else if (itemAccessorie['unitPrice'] === 'porc'){
-            if (accessorie.name == itemAccessorie.accessorieName) {
+            if (accessorie.name === itemAccessorie.accessorieName) {
               this.stairForm.value.accessories[cont].price = ((this.subTotalRailing * accessorie.percentaje) / 100) * itemAccessorie.cant;
             }
           }
         } else {
           if (itemAccessorie['unitPrice'] === 'eur' && itemAccessorie['id']) {
-            if (accessorie.name == itemAccessorie.accessorieName) {
+            if (accessorie.name === itemAccessorie.accessorieName) {
               this.stairForm.value.accessories[cont].price = itemAccessorie.cant * accessorie.price;
             }
           } else if (itemAccessorie['unitPrice'] === 'porc' && itemAccessorie['id']) {
-            if (accessorie.name == itemAccessorie.accessorieName) {
-              this.stairForm.value.accessories[cont].price = ((this.stairForm.controls[itemAccessorie['type']]['controls'][itemAccessorie['id']].value.price * accessorie.percentaje) / 100) * itemAccessorie.cant;              
+            if (accessorie.name === itemAccessorie.accessorieName) {
+              this.stairForm.value.accessories[cont].price = ((this.stairForm.controls[itemAccessorie['type']]['controls'][itemAccessorie['id']].value.price * accessorie.percentaje) / 100) * itemAccessorie.cant;
             }
           }
         }
@@ -332,11 +331,10 @@ export class StairsMeasureComponent implements OnInit {
   populateSelects() {
     this.populateService.getAllModels()
       .then(data => {
-        this.populateModels = data;
         this.dataServiceModels = this.completerService.local(data, 'name', 'name');
       });
 
-    this.populateService.getTreadName()
+    /*this.populateService.getTreadName()
       .then(data => {
         this.populateTreadName = data;
       });
@@ -349,14 +347,14 @@ export class StairsMeasureComponent implements OnInit {
     this.populateService.getMeasure()
       .then(data => {
         this.populateMeasure = data;
-      });
+      });*/
 
     this.populateService.getStructure()
       .then(data => {
         this.populateStructure = data;
       });
 
-    this.populateService.getRiserFinish()
+    /*this.populateService.getRiserFinish()
       .then(data => {
         this.populateRiserFinish = data;
       });
@@ -369,7 +367,7 @@ export class StairsMeasureComponent implements OnInit {
     this.populateService.getModelsRailing()
       .then(data => {
         this.populateModelsRailing = data;
-      });
+      });*/
   }
 
   /**

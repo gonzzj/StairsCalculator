@@ -23,10 +23,10 @@ export class PopulateService {
     }
 
     return new Promise(resolve => {
-      this.http.get('http://enesca.polarbeardevelopment.com/mock/getAllModels.php')
+      this.http.get('http://admin.proclen.com/rest/escaleras-medida/modelos/')
         .map(res => res.json())
         .subscribe(data => {
-          this.dataModels = data.collection.items[0].data;
+          this.dataModels = data;
           resolve(this.dataModels);
         }, (error) => {
           console.log('Error');

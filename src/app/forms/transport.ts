@@ -101,9 +101,9 @@ export class TransportComponent implements OnInit {
    * Get the data to populate the selects
    */
   populateSelects() {
-    this.populateService.getZones()
+    /*this.populateService.getZones()
       .then(data => {
         this.populateZones = data;
-      });
+      });*/
   }
 }

@@ -46,7 +46,7 @@ export class StairsEscComponent implements OnInit {
    * Populate the selects, calculate the stair price when the form change and add the values to a JSON
    */
   ngOnInit() {
-    this.populateSelects();
+    //this.populateSelects();
 
     this.stairForm.valueChanges.subscribe(data => {
       this.calculateAccessoriesPrice(data);
