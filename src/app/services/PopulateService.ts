@@ -1,46 +1,85 @@
-import {Http} from "@angular/http";
+import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 
 @Injectable()
 export class PopulateService {
-  private dataModels: any;
+  private dataMeasureModels: any;
+  private dataKitModels: any;
+  private dataEscModels: any;
   private dataTreadName: any;
   private dataTreadFinish: any;
   private dataMeasure: any;
   private dataStructure: any;
-  private dataRiserFinish: any;
   private dataAccessories: any;
   private dataModelsRailing: any;
   private dataZones: any;
   private dataServices: any;
+  private dataDiamaterKit: any;
 
   constructor(private http: Http) {}
 
-  getAllModels() {
-    if (this.dataModels) {
-      return Promise.resolve(this.dataModels);
+  getMeasureModels() {
+
+    if (this.dataMeasureModels) {
+      return Promise.resolve(this.dataMeasureModels);
     }
 
     return new Promise(resolve => {
       this.http.get('http://admin.proclen.com/rest/escaleras-medida/modelos/')
         .map(res => res.json())
         .subscribe(data => {
-          this.dataModels = data;
-          resolve(this.dataModels);
+          this.dataMeasureModels = data;
+          resolve(this.dataMeasureModels);
         }, (error) => {
           console.log('Error');
         })
     });
   }
 
-  getTreadName() {
+  getKitModels() {
+
+    if (this.dataKitModels) {
+      return Promise.resolve(this.dataKitModels);
+    }
+
+    return new Promise(resolve => {
+      this.http.get('http://admin.proclen.com/rest/escaleras-kit/modelos/')
+        .map(res => res.json())
+        .subscribe(data => {
+          this.dataKitModels = data;
+          resolve(this.dataKitModels);
+        }, (error) => {
+          console.log('Error');
+        })
+    });
+  }
+
+  getEscModels() {
+
+    if (this.dataEscModels) {
+      return Promise.resolve(this.dataEscModels);
+    }
+
+    return new Promise(resolve => {
+      this.http.get('http://admin.proclen.com/rest/escaleras-escamoteables/modelos/')
+        .map(res => res.json())
+        .subscribe(data => {
+          this.dataEscModels = data;
+          resolve(this.dataEscModels);
+        }, (error) => {
+          console.log('Error');
+        })
+    });
+  }
+
+  getTreadName(idModel) {
     if (this.dataTreadName) {
       return Promise.resolve(this.dataTreadName);
     }
 
     return new Promise(resolve => {
-      this.http.get('http://enesca.polarbeardevelopment.com/mock/getTreadsNames.php')
+      this.http.get('http://admin.proclen.com/rest/escaleras-medida/peldanios-contrahuellas/?idEscalerasMedidaPeldano=' + idModel)
         .map(res => res.json())
         .subscribe(data => {
           this.dataTreadName = data;
@@ -51,34 +90,17 @@ export class PopulateService {
     });
   }
 
-  getTreadFinish() {
+  getTreadFinish(idTread) {
     if (this.dataTreadFinish) {
       return Promise.resolve(this.dataTreadFinish);
     }
 
     return new Promise(resolve => {
-      this.http.get('http://enesca.polarbeardevelopment.com/mock/getTreadFinish.php')
+      this.http.get('http://admin.proclen.com/rest/escaleras-medida/acabados-peldanios-contrahuellas/?idEscalerasMedidaPeldano=' + idTread)
         .map(res => res.json())
         .subscribe(data => {
           this.dataTreadFinish = data;
           resolve(this.dataTreadFinish);
-        }, (error) => {
-          console.log('Error');
-        })
-    });
-  }
-
-  getRiserFinish() {
-    if (this.dataRiserFinish) {
-      return Promise.resolve(this.dataRiserFinish);
-    }
-
-    return new Promise(resolve => {
-      this.http.get('http://enesca.polarbeardevelopment.com/mock/getRiserFinish.php')
-        .map(res => res.json())
-        .subscribe(data => {
-          this.dataRiserFinish = data;
-          resolve(this.dataRiserFinish);
         }, (error) => {
           console.log('Error');
         })
@@ -102,13 +124,30 @@ export class PopulateService {
     });
   }
 
-  getStructure() {
+  getStructure(idModel) {
     if (this.dataStructure) {
       return Promise.resolve(this.dataStructure);
     }
 
     return new Promise(resolve => {
-      this.http.get('http://enesca.polarbeardevelopment.com/mock/getStructure.php')
+      this.http.get('http://admin.proclen.com/rest/escaleras-medida/estructuras-tipo/?idEscaleraMedida=' + idModel)
+        .map(res => res.json())
+        .subscribe(data => {
+          this.dataStructure = data;
+          resolve(this.dataStructure);
+        }, (error) => {
+          console.log('Error');
+        })
+    });
+  }
+
+  getStructureFinish(idStructure) {
+    if (this.dataStructure) {
+      return Promise.resolve(this.dataStructure);
+    }
+
+    return new Promise(resolve => {
+      this.http.get('http://admin.proclen.com/rest/escaleras-medida/acabados-estructuras/' + idStructure)
         .map(res => res.json())
         .subscribe(data => {
           this.dataStructure = data;
@@ -181,6 +220,23 @@ export class PopulateService {
         .subscribe(data => {
           this.dataZones = data.collection.items[0].data;
           resolve(this.dataZones);
+        }, (error) => {
+          console.log('Error');
+        })
+    });
+  }
+
+  getDiameterKit(idModel) {
+    if (this.dataDiamaterKit) {
+      return Promise.resolve(this.dataDiamaterKit);
+    }
+
+    return new Promise(resolve => {
+      this.http.get('http://admin.proclen.com/rest/escaleras-kit/diametros/?idEscaleraKit=' + idModel)
+        .map(res => res.json())
+        .subscribe(data => {
+          this.dataDiamaterKit = data;
+          resolve(this.dataDiamaterKit);
         }, (error) => {
           console.log('Error');
         })

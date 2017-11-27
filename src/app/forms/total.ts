@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges} from '@angular/core';
-import {CommunicateService} from "../services/CommunicateService";
+import {CommunicateService} from '../services/CommunicateService';
 
 @Component({
     selector: 'total',

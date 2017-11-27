@@ -22,7 +22,6 @@ export class StairsMeasureComponent implements OnInit {
   populateModelsRailing: any;
 
   private stairForm: FormGroup;
-  private dataServiceModels: CompleterData;
 
   idApplyAccessories: any;
 
@@ -51,6 +50,7 @@ export class StairsMeasureComponent implements OnInit {
   constructor(private populateService: PopulateService, private cs: CommunicateService, private _fb: FormBuilder, private completerService: CompleterService) {
     this.stairForm = this._fb.group({
       cant: [1, Validators.required],
+      idModel: [0],
       model: ['', Validators.required],
       structures: this._fb.array([
         this.initStructure(),
@@ -85,17 +85,37 @@ export class StairsMeasureComponent implements OnInit {
     this.populateSelects();
 
     this.stairForm.valueChanges.subscribe(data => {
-      this.calculateStructuresPrice(data);
+      /*this.calculateStructuresPrice(data);
       this.calculateTreadPrice(data);
       this.calculateRailingPrice(data);
       this.calculateGuardrailPrice(data);
       this.calculateAccessoriesPrice(data);
-      console.log(this.stairForm.controls['cant'].value);
       this.totalStair = (this.subTotalTreads * this.stairForm.controls['cant'].value) + (this.subTotalAccessories * this.stairForm.controls['cant'].value) + (this.subTotalRailing * this.stairForm.controls['cant'].value) + this.subTotalGuardrail + this.subTotalStructures + this.calculateModelPrice(data);
       this.notifyTotal.emit(this.totalStair);
-      this.cs.validateForm(this.stairForm.valid, "stair");
-      this.cs.addZoho(this.stairForm.value, "stair");
+      this.cs.validateForm(this.stairForm.valid, 'stair');
+      this.cs.addZoho(this.stairForm.value, 'stair');*/
+      console.log(this.stairForm);
     });
+
+
+    // @TODO
+    this.stairForm.controls['model'].valueChanges.subscribe(data => {
+      for (var model of this.populateModels) {
+        if (model.name === data) {
+          this.stairForm.controls['idModel'].setValue(model.id);
+          this.populateService.getTreadName(model.id)
+            .then(data => {
+              this.populateTreadName = data;
+            });
+
+          this.populateService.getStructure(model.id)
+            .then(data => {
+              this.populateStructure = data;
+            });
+        }
+      }
+    });
+    
 
     this.cs.submitted.subscribe(
       data => this.isSubmit = data
@@ -119,6 +139,7 @@ export class StairsMeasureComponent implements OnInit {
    */
   initTread() {
     return this._fb.group({
+      id: [0],
       cant: [1, Validators.required],
       treadName: ['', Validators.required],
       measure: ['', Validators.required],
@@ -329,16 +350,12 @@ export class StairsMeasureComponent implements OnInit {
    * Get the data to populate the selects
    */
   populateSelects() {
-    this.populateService.getAllModels()
+    this.populateService.getMeasureModels()
       .then(data => {
-        this.dataServiceModels = this.completerService.local(data, 'name', 'name');
+        this.populateModels = data;
       });
 
-    /*this.populateService.getTreadName()
-      .then(data => {
-        this.populateTreadName = data;
-      });
-
+    /*
     this.populateService.getTreadFinish()
       .then(data => {
         this.populateTreadFinish = data;
@@ -349,17 +366,7 @@ export class StairsMeasureComponent implements OnInit {
         this.populateMeasure = data;
       });*/
 
-    this.populateService.getStructure()
-      .then(data => {
-        this.populateStructure = data;
-      });
-
-    /*this.populateService.getRiserFinish()
-      .then(data => {
-        this.populateRiserFinish = data;
-      });
-
-    this.populateService.getAccessories()
+    /*this.populateService.getAccessories()
       .then(data => {
         this.populateAccessories = data;
       });

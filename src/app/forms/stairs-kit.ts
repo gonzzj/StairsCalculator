@@ -16,9 +16,7 @@ export class StairsKitComponent implements OnInit {
   populateAccessories: any;
 
   private stairForm: FormGroup;
-  private dataServiceModels: CompleterData;
-  private dataServiceAccessories: CompleterData;
-  private dataServiceMeasure: CompleterData;
+  private populateDiameter: any;
 
   subTotalAccessories: number = 0;
   totalStair: number = 0;
@@ -26,13 +24,6 @@ export class StairsKitComponent implements OnInit {
   @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
   isSubmit: boolean = false;
   emptyField = formErrors.message_emptyField;
-
-  //Test measure, remove it later
-  private dataMeasure = [
-    {name: '1231'},
-    {name: '23213'},
-    {name: '54334'}
-  ];
 
   /**
    * @constructor
@@ -43,28 +34,41 @@ export class StairsKitComponent implements OnInit {
    */
   constructor(private populateService: PopulateService, private _fb: FormBuilder, private cs: CommunicateService, private completerService: CompleterService) {
     this.stairForm = this._fb.group({
+      idModel: [0],
       model: ['', Validators.required],
       diameter: ['', Validators.required],
       measure: ['', Validators.required],
       accessories: this._fb.array([
       ])
     });
-
-    this.dataServiceMeasure = completerService.local(this.dataMeasure, 'name', 'name');
   }
 
   /**
    * Populate the selects, calculate the stair price when the form change and add the values to a JSON
    */
   ngOnInit() {
-    //this.populateSelects();
+    this.populateSelects();
 
     this.stairForm.valueChanges.subscribe(data => {
-      this.calculateAccessoriesPrice(data);
+      /*this.calculateAccessoriesPrice(data);
       this.totalStair = this.subTotalAccessories + this.calculateModelPrice(data);
       this.notifyTotal.emit(this.totalStair);
       this.cs.validateForm(this.stairForm.valid, "stair");
-      this.cs.addZoho(this.stairForm.value, "stair");
+      this.cs.addZoho(this.stairForm.value, "stair");*/
+    });
+
+    // @TODO
+    this.stairForm.controls['model'].valueChanges.subscribe(data => {
+      for (var model of this.populateModels) {
+        if (model.name === data) {
+          this.stairForm.controls['idModel'].setValue(model.id);
+          console.log(model.name);
+          this.populateService.getDiameterKit(model.id)
+            .then(data => {
+              this.populateDiameter = data;
+            });
+        }
+      }
     });
 
     this.cs.submitted.subscribe(
@@ -147,16 +151,14 @@ export class StairsKitComponent implements OnInit {
    * Get the data to populate the selects
    */
   populateSelects() {
-    this.populateService.getAllModels()
+    this.populateService.getKitModels()
       .then(data => {
         this.populateModels = data;
-        this.dataServiceModels = this.completerService.local(this.populateModels, 'name', 'name');
       });
 
     this.populateService.getAccessories()
       .then(data => {
         this.populateAccessories = data;
-        this.dataServiceAccessories = this.completerService.local(data, 'name', 'name');
       });
   }
 }

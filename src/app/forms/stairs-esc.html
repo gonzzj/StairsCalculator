@@ -4,7 +4,9 @@
     <div class="form-group row">
       <label for="inputModel" class="col-sm-2 col-form-label">Modelo escalera</label>
       <div class="col-sm-10">
-        <ng2-completer [dataService]="dataServiceModels" [minSearchLength]="0" id="inputModel" formControlName="model"></ng2-completer>
+        <select class="form-control custom-select"  id="inputModel" formControlName="model">
+          <option value="{{model.name}}" *ngFor="let model of populateModels">{{model.name}}</option>
+        </select>
         <small [hidden]="stairForm.controls.model.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
     </div>

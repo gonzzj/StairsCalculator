@@ -16,8 +16,6 @@ export class StairsEscComponent implements OnInit {
   populateAccessories: any;
 
   private stairForm: FormGroup;
-  private dataServiceModels: CompleterData;
-  private dataServiceAccessories: CompleterData;
 
   subTotalAccessories: number = 0;
   totalStair: number = 0;
@@ -46,7 +44,7 @@ export class StairsEscComponent implements OnInit {
    * Populate the selects, calculate the stair price when the form change and add the values to a JSON
    */
   ngOnInit() {
-    //this.populateSelects();
+    this.populateSelects();
 
     this.stairForm.valueChanges.subscribe(data => {
       this.calculateAccessoriesPrice(data);
@@ -136,16 +134,14 @@ export class StairsEscComponent implements OnInit {
    * Get the data to populate the selects
    */
   populateSelects() {
-    this.populateService.getAllModels()
+    this.populateService.getEscModels()
       .then(data => {
         this.populateModels = data;
-        this.dataServiceModels = this.completerService.local(this.populateModels, 'name', 'name');
       });
 
     this.populateService.getAccessories()
       .then(data => {
         this.populateAccessories = data;
-        this.dataServiceAccessories = this.completerService.local(data, 'name', 'name');
       });
   }
 }
