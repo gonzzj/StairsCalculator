@@ -4,13 +4,10 @@ import {Injectable} from '@angular/core';
 
 @Injectable()
 export class PopulateService {
-  private dataMeasureModels: any;
   private dataKitModels: any;
   private dataEscModels: any;
-  private dataTreadName: any;
   private dataTreadFinish: any;
   private dataMeasure: any;
-  private dataStructure: any;
   private dataAccessories: any;
   private dataModelsRailing: any;
   private dataZones: any;
@@ -20,21 +17,8 @@ export class PopulateService {
   constructor(private http: Http) {}
 
   getMeasureModels() {
-
-    if (this.dataMeasureModels) {
-      return Promise.resolve(this.dataMeasureModels);
-    }
-
-    return new Promise(resolve => {
-      this.http.get('http://admin.proclen.com/rest/escaleras-medida/modelos/')
-        .map(res => res.json())
-        .subscribe(data => {
-          this.dataMeasureModels = data;
-          resolve(this.dataMeasureModels);
-        }, (error) => {
-          console.log('Error');
-        })
-    });
+    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/modelos/')
+    .map((res => res.json()));
   }
 
   getKitModels() {
@@ -74,20 +58,8 @@ export class PopulateService {
   }
 
   getTreadName(idModel) {
-    if (this.dataTreadName) {
-      return Promise.resolve(this.dataTreadName);
-    }
-
-    return new Promise(resolve => {
-      this.http.get('http://admin.proclen.com/rest/escaleras-medida/peldanios-contrahuellas/?idEscalerasMedidaPeldano=' + idModel)
-        .map(res => res.json())
-        .subscribe(data => {
-          this.dataTreadName = data;
-          resolve(this.dataTreadName);
-        }, (error) => {
-          console.log('Error');
-        })
-    });
+    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/peldanios-contrahuellas/?idEscalerasMedidaPeldano=' + idModel)
+    .map((res => res.json()));
   }
 
   getTreadFinish(idTread) {
@@ -125,37 +97,13 @@ export class PopulateService {
   }
 
   getStructure(idModel) {
-    if (this.dataStructure) {
-      return Promise.resolve(this.dataStructure);
-    }
-
-    return new Promise(resolve => {
-      this.http.get('http://admin.proclen.com/rest/escaleras-medida/estructuras-tipo/?idEscaleraMedida=' + idModel)
-        .map(res => res.json())
-        .subscribe(data => {
-          this.dataStructure = data;
-          resolve(this.dataStructure);
-        }, (error) => {
-          console.log('Error');
-        })
-    });
+    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/estructuras-tipo/?idEscaleraMedida=' + idModel)
+    .map((res => res.json()));
   }
 
   getStructureFinish(idStructure) {
-    if (this.dataStructure) {
-      return Promise.resolve(this.dataStructure);
-    }
-
-    return new Promise(resolve => {
-      this.http.get('http://admin.proclen.com/rest/escaleras-medida/acabados-estructuras/' + idStructure)
-        .map(res => res.json())
-        .subscribe(data => {
-          this.dataStructure = data;
-          resolve(this.dataStructure);
-        }, (error) => {
-          console.log('Error');
-        })
-    });
+    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/acabados-estructuras/' + idStructure)
+    .map((res => res.json()));
   }
 
   getAccessories() {

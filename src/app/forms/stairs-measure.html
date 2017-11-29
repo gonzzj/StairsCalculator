@@ -8,8 +8,8 @@
       </div>
       <label for="inputModel" class="col-sm-2 col-form-label">Modelo escalera</label>
       <div class="col-sm-7">
-        <select class="form-control custom-select"  id="inputModel" formControlName="model">
-          <option value="{{model.name}}" *ngFor="let model of populateModels">{{model.name}}</option>
+        <select class="form-control custom-select"  id="inputModel" formControlName="model" (change)="loadDataModel($event)">
+          <option value="{{model.id}}" *ngFor="let model of populateModels">{{model.name}}</option>
         </select>
         <small [hidden]="stairForm.controls.model.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
@@ -25,32 +25,7 @@
       <label class="col-sm-3 col-form-label">Precio</label>
     </div>
     <div class="form-group row" [formGroupName]="e" *ngFor="let structure of stairForm.controls.structures.controls; let e=index">
-      <div class="col-sm-1">
-        {{e + 1}}
-      </div>
-      <div class="col-sm-1">
-        <input type="number" min="1" class="form-control" formControlName="cant">
-        <small [hidden]="structure.controls.cant.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i></small>
-      </div>
-      <div class="col-sm-4">
-        <select class="form-control custom-select" formControlName="type">
-          <option value="{{structure.name}}" *ngFor="let structure of populateStructure">{{structure.name}}</option>
-        </select>
-        <small [hidden]="structure.controls.type.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
-      </div>
-      <div class="col-sm-3">
-        <select class="form-control custom-select" formControlName="finish">
-          <option value="{{structure.name}}" *ngFor="let structure of populateStructure">{{structure.name}}</option>
-        </select>
-        <small [hidden]="structure.controls.finish.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
-      </div>
-      <div class="col-sm-2">
-          <input type="hidden" formControlName="price">
-          <strong>{{stairForm.value.structures[e].price | formatprice}} €</strong>
-        </div>
-      <div class="col-sm-1">
-          <button (click)="removeRow(e, 'structures')" type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
-      </div>
+      <structure-input [group]="structure" [dataStructure]="populateStructure" [index]="e"></structure-input>
     </div>
     <button (click)="addRow('structures')" type="button" class="btn btn-primary">Agregar fila <i class="fa fa-plus-circle" aria-hidden="true"></i></button>    
     <h5 class="subtotal-title">Subtotal: {{subTotalStructures | formatprice}} €</h5>

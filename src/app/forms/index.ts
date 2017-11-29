@@ -19,6 +19,7 @@ import {FormatPricePipe} from '../pipes/formatprice';
 
 import {PopulateService} from '../services/PopulateService'
 import {CommunicateService} from '../services/CommunicateService'
+import { StructureInputComponent } from './structure-input/structure-input';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import {CommunicateService} from '../services/CommunicateService'
     SubTotalComponent,
     TotalComponent,
     ExtrasComponent,
-    FormatPricePipe
+    FormatPricePipe,
+    StructureInputComponent
   ],
   exports: [
     StairsComponent

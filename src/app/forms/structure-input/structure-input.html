@@ -1,0 +1,28 @@
+<div [formGroup]="structureInputForm">
+    <div class="col-sm-1">
+        {{index + 1}}
+    </div>
+    <div class="col-sm-1">
+        <input type="number" min="1" class="form-control" formControlName="cant">
+        <small [hidden]="structureInputForm.controls.cant.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i></small>
+    </div>
+    <div class="col-sm-4">
+        <select class="form-control custom-select" formControlName="type" (change)="loadDataStructure($event)">
+            <option value="{{structureName.id}}" *ngFor="let structureName of dataStructure">{{structureName.name}}</option>
+        </select>
+        <small [hidden]="structureInputForm.controls.type.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+    </div>
+    <div class="col-sm-3">
+        <select class="form-control custom-select" formControlName="finish">
+            <option value="{{structureFinish.id}}" *ngFor="let structureFinish of populateStructureFinish">{{structureFinish.name}}</option>
+        </select>
+        <small [hidden]="structureInputForm.controls.finish.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+    </div>
+    <div class="col-sm-2">
+        <input type="hidden" formControlName="price">
+        <strong>{{priceStructure | formatprice}} €</strong>
+    </div>
+    <!--<div class="col-sm-1">
+        <button (click)="removeRow(index, 'structures')" type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
+    </div>-->
+</div>
