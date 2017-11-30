@@ -5,6 +5,7 @@ import { PopulateService } from '../../services/PopulateService';
 import { SimpleChanges, OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { EventEmitter } from '@angular/common/src/facade/async';
 import { CommunicateService } from '../../services/CommunicateService';
+import { ChangeDetectorRef } from '@angular/core/src/change_detection/change_detector_ref';
 
 @Component({
     selector: 'structure-input',
@@ -21,7 +22,7 @@ export class StructureInputComponent implements OnInit, OnChanges {
     priceStructure: number = 0;
     isSubmit: boolean = false;
 
-    constructor(private populateService: PopulateService, private cs: CommunicateService) {}
+    constructor(private populateService: PopulateService, private cs: CommunicateService, private cdRef: ChangeDetectorRef) {}
 
     ngOnInit() {
         this.structureInputForm.valueChanges.subscribe(data => {
@@ -32,14 +33,17 @@ export class StructureInputComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        this.priceStructure = 0;
-        this.populateStructureFinish = undefined;
-        this.structureInputForm.controls['finish'].disable();
+        setTimeout(() => {
+            this.priceStructure = 0;
+            this.populateStructureFinish = undefined;
+            this.structureInputForm.controls['finish'].disable();
+        });
     }
 
-    loadDataStructure(e) {
+    loadStructureData(e) {
         let arrayFinish = [];
         this.structureInputForm.controls['finish'].disable();
+        this.priceStructure = 0;
 
         this.populateService.getStructureFinish(e.target.value).subscribe(data => {
             if (typeof data.length === 'undefined') {
@@ -49,7 +53,6 @@ export class StructureInputComponent implements OnInit, OnChanges {
                 this.populateStructureFinish = data;
             }
 
-            this.priceStructure = 0;
             this.structureInputForm.controls['finish'].enable();
         });
     }

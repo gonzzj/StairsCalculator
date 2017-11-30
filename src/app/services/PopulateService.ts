@@ -63,37 +63,13 @@ export class PopulateService {
   }
 
   getTreadFinish(idTread) {
-    if (this.dataTreadFinish) {
-      return Promise.resolve(this.dataTreadFinish);
-    }
-
-    return new Promise(resolve => {
-      this.http.get('http://admin.proclen.com/rest/escaleras-medida/acabados-peldanios-contrahuellas/?idEscalerasMedidaPeldano=' + idTread)
-        .map(res => res.json())
-        .subscribe(data => {
-          this.dataTreadFinish = data;
-          resolve(this.dataTreadFinish);
-        }, (error) => {
-          console.log('Error');
-        })
-    });
+    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/acabados-peldanios-contrahuellas/?idEscalerasMedidaPeldano=' + idTread)
+    .map((res => res.json()));
   }
 
-  getMeasure() {
-    if (this.dataMeasure) {
-      return Promise.resolve(this.dataMeasure);
-    }
-
-    return new Promise(resolve => {
-      this.http.get('http://enesca.polarbeardevelopment.com/mock/getMeasure.php')
-        .map(res => res.json())
-        .subscribe(data => {
-          this.dataMeasure = data;
-          resolve(this.dataMeasure);
-        }, (error) => {
-          console.log('Error');
-        })
-    });
+  getTreadMeasure(idTreadFinish) {
+    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/anchos-peldanios-contrahuellas/?idEscalerasMedidasPeldanosAcabado=' + idTreadFinish)
+    .map((res => res.json()));
   }
 
   getStructure(idModel) {

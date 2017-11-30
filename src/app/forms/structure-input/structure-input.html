@@ -7,7 +7,7 @@
         <small [hidden]="structureInputForm.controls.cant.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i></small>
     </div>
     <div class="col-sm-4">
-        <select class="form-control custom-select" formControlName="type" (change)="loadDataStructure($event)">
+        <select class="form-control custom-select" formControlName="type" (change)="loadStructureData($event)">
             <option value="{{structureName.id}}" *ngFor="let structureName of dataStructure">{{structureName.name}}</option>
         </select>
         <small [hidden]="structureInputForm.controls.type.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>

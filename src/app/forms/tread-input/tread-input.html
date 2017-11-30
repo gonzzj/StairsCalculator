@@ -1,0 +1,34 @@
+<div [formGroup]="treadInputForm">
+    <div class="col-sm-1">
+        {{index + 1}}
+    </div>
+    <div class="col-sm-1">
+        <input type="number" min="1" class="form-control" formControlName="cant">
+        <small [hidden]="treadInputForm.controls.cant.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i></small>
+    </div>
+    <div class="col-sm-3">
+        <select class="form-control custom-select" formControlName="treadName" (change)="loadTreadFinishData($event)">
+            <option [value]="treadName.id" *ngFor="let treadName of dataTread">{{treadName.name}}</option>
+        </select>
+        <small [hidden]="treadInputForm.controls.treadName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+    </div>
+    <div class="col-sm-2">
+        <select class="form-control custom-select" formControlName="treadFinish" (change)="loadMeasureData($event)">
+            <option [value]="treadFinish.id" *ngFor="let treadFinish of populateTreadFinish">{{treadFinish.name}}</option>
+        </select>
+        <small [hidden]="treadInputForm.controls.treadFinish.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+    </div>
+    <div class="col-sm-2">
+        <select class="form-control custom-select" formControlName="measure">
+            <option [value]="treadMeasure.id" *ngFor="let treadMeasure of populateTreadMeasure">{{treadMeasure.name}}</option>
+        </select>
+        <small [hidden]="treadInputForm.controls.measure.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+    </div>
+    <div class="col-sm-2">
+        <input type="hidden" formControlName="price">
+        <strong>{{priceTread | formatprice}} €</strong>
+    </div>
+    <div class="col-sm-1">
+        <button (click)="removeRow(index, 'treads')" type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
+    </div>
+</div>

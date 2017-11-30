@@ -4,7 +4,6 @@ import {CommunicateService} from '../services/CommunicateService';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {formErrors} from '../constants';
 import {CompleterService} from 'ng2-completer';
-import { DISABLED } from '@angular/forms/src/model';
 
 @Component({
     selector: 'stairs-measure',
@@ -15,8 +14,6 @@ import { DISABLED } from '@angular/forms/src/model';
 export class StairsMeasureComponent implements OnInit {
   populateModels: any;
   populateTreadName: any;
-  populateTreadFinish: any;
-  populateMeasure: any;
   populateStructure: any;
   populateRiserFinish: any;
   populateAccessories: any;
@@ -86,8 +83,8 @@ export class StairsMeasureComponent implements OnInit {
 
     this.stairForm.valueChanges.subscribe(data => {
       this.calculateStructuresPrice(data);
-      /*this.calculateTreadPrice(data);
-      this.calculateRailingPrice(data);
+      this.calculateTreadPrice(data);
+      /*this.calculateRailingPrice(data);
       this.calculateGuardrailPrice(data);
       this.calculateAccessoriesPrice(data);
       this.cs.validateForm(this.stairForm.valid, 'stair');
@@ -104,13 +101,20 @@ export class StairsMeasureComponent implements OnInit {
   }
 
   loadDataModel(e) {
-    this.populateService.getTreadName(e.target.value).subscribe(data => this.populateTreadName = data);
+    // @TODO Probar meter un popup loading para evitar tardar (solamente aca)
+
+    this.populateService.getTreadName(e.target.value).subscribe(data => { 
+      this.populateTreadName = data;
+      this.subTotalTreads = 0;
+
+      this.enableInputs('structures', 'type');
+    });
 
     this.populateService.getStructure(e.target.value).subscribe(data => {
       this.populateStructure = data;
       this.subTotalStructures = 0;
 
-      this.enableInputs('structures', 'type');
+      this.enableInputs('treads', 'treadName');
     });
   }
 
@@ -145,9 +149,9 @@ export class StairsMeasureComponent implements OnInit {
     return this._fb.group({
       id: [0],
       cant: [1, Validators.required],
-      treadName: ['', Validators.required],
-      measure: ['', Validators.required],
-      treadFinish: ['', Validators.required],
+      treadName: [{value: '', disabled: this.checkModelValue()}, Validators.required],
+      treadFinish: [{value: '', disabled: true}, Validators.required],
+      measure: [{value: '', disabled: true}, Validators.required],
       price: [0]
     });
   }
@@ -231,17 +235,6 @@ export class StairsMeasureComponent implements OnInit {
    */
   calculateTreadPrice(data) {
     this.subTotalTreads = 0;
-    var cont;
-
-    for (var tread of this.populateTreadName) {
-      cont = 0;
-      for (var itemTread of data.treads) {
-        if (tread.name === itemTread.treadName) {
-          this.stairForm.value.treads[cont].price = itemTread.cant * tread.price;
-        }
-        cont++;
-      }
-    }
 
     for (var itemTread of data.treads) {
       this.subTotalTreads = this.subTotalTreads + itemTread.price;
