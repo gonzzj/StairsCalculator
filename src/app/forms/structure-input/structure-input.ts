@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Input } from '@angular/core';
+import { Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms/src/model';
 import { PopulateService } from '../../services/PopulateService';
 import { SimpleChanges, OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
+import { EventEmitter } from '@angular/common/src/facade/async';
+import { CommunicateService } from '../../services/CommunicateService';
 
 @Component({
     selector: 'structure-input',
@@ -13,20 +15,26 @@ export class StructureInputComponent implements OnInit, OnChanges {
     @Input('group') structureInputForm: FormGroup;
     @Input('dataStructure') dataStructure: FormGroup;
     @Input('index') index: FormGroup;
+    @Output() getControlRow: EventEmitter<any> = new EventEmitter<any>();
+
     populateStructureFinish: any;
     priceStructure: number = 0;
+    isSubmit: boolean = false;
 
-    constructor(private populateService: PopulateService) {}
+    constructor(private populateService: PopulateService, private cs: CommunicateService) {}
 
     ngOnInit() {
         this.structureInputForm.valueChanges.subscribe(data => {
             this.calculatePrice(data);
         });
+
+        this.cs.submitted.subscribe(data => this.isSubmit = data);
     }
 
     ngOnChanges(changes: SimpleChanges) {
         this.priceStructure = 0;
         this.populateStructureFinish = undefined;
+        this.structureInputForm.controls['finish'].disable();
     }
 
     loadDataStructure(e) {
@@ -58,7 +66,7 @@ export class StructureInputComponent implements OnInit, OnChanges {
         }
     }
 
-    removeRow(i: number) {
-        // @TODO Probar recibir todo el stairForm para borrar el index...
+    removeRow(i: number, control: string) {
+        this.getControlRow.emit({index: i, name: control});
     }
 }

@@ -25,7 +25,7 @@
       <label class="col-sm-3 col-form-label">Precio</label>
     </div>
     <div class="form-group row" [formGroupName]="e" *ngFor="let structure of stairForm.controls.structures.controls; let e=index">
-      <structure-input [group]="structure" [dataStructure]="populateStructure" [index]="e"></structure-input>
+      <structure-input [group]="structure" [dataStructure]="populateStructure" [index]="e" (getControlRow)="removeRow($event)"></structure-input>
     </div>
     <button (click)="addRow('structures')" type="button" class="btn btn-primary">Agregar fila <i class="fa fa-plus-circle" aria-hidden="true"></i></button>    
     <h5 class="subtotal-title">Subtotal: {{subTotalStructures | formatprice}} €</h5>

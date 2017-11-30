@@ -4,6 +4,7 @@ import {CommunicateService} from '../services/CommunicateService';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {formErrors} from '../constants';
 import {CompleterService} from 'ng2-completer';
+import { DISABLED } from '@angular/forms/src/model';
 
 @Component({
     selector: 'stairs-measure',
@@ -81,18 +82,20 @@ export class StairsMeasureComponent implements OnInit {
    * Populate the stair model select, calculate the stair price when the form change and add all the values to a JSON
    */
   ngOnInit() {
-    this.populateSelects();
+    this.populateSelectModels();
 
     this.stairForm.valueChanges.subscribe(data => {
-      /*this.calculateStructuresPrice(data);
-      this.calculateTreadPrice(data);
+      this.calculateStructuresPrice(data);
+      /*this.calculateTreadPrice(data);
       this.calculateRailingPrice(data);
       this.calculateGuardrailPrice(data);
       this.calculateAccessoriesPrice(data);
-      this.totalStair = (this.subTotalTreads * this.stairForm.controls['cant'].value) + (this.subTotalAccessories * this.stairForm.controls['cant'].value) + (this.subTotalRailing * this.stairForm.controls['cant'].value) + this.subTotalGuardrail + this.subTotalStructures;
-      this.notifyTotal.emit(this.totalStair);
       this.cs.validateForm(this.stairForm.valid, 'stair');
       this.cs.addZoho(this.stairForm.value, 'stair');*/
+
+      // @TODO VER ESTO CON VANE PARA VERIFICAR
+      this.totalStair = (this.subTotalTreads * this.stairForm.controls['cant'].value) + (this.subTotalAccessories * this.stairForm.controls['cant'].value) + (this.subTotalRailing * this.stairForm.controls['cant'].value) + this.subTotalGuardrail + this.subTotalStructures;
+      this.notifyTotal.emit(this.totalStair);
     });
 
     this.cs.submitted.subscribe(
@@ -103,7 +106,24 @@ export class StairsMeasureComponent implements OnInit {
   loadDataModel(e) {
     this.populateService.getTreadName(e.target.value).subscribe(data => this.populateTreadName = data);
 
-    this.populateService.getStructure(e.target.value).subscribe(data => this.populateStructure = data);
+    this.populateService.getStructure(e.target.value).subscribe(data => {
+      this.populateStructure = data;
+      this.subTotalStructures = 0;
+
+      this.enableInputs('structures', 'type');
+    });
+  }
+
+  /**
+   * Enable all the first inputs
+   * 
+   * @param controlName - Control row
+   * @param controlInput - Input field
+   */
+  enableInputs(controlName, controlInput) {
+    for (var item of this.stairForm.controls[controlName]['controls']) {
+      item.controls[controlInput].enable();
+    }
   }
 
   /**
@@ -112,8 +132,8 @@ export class StairsMeasureComponent implements OnInit {
   initStructure() {
     return this._fb.group({
       cant: [1, Validators.required],
-      type: ['', Validators.required],
-      finish: ['', Validators.required],
+      type: [{value: '', disabled: this.checkModelValue()}, Validators.required],
+      finish: [{value: '', disabled: true}, Validators.required],
       price: [0]
     })
   }
@@ -147,6 +167,23 @@ export class StairsMeasureComponent implements OnInit {
   }
 
   /**
+   * Check if the model has a value
+   * 
+   * @returns {boolean} disableInput
+   */
+  checkModelValue() {
+    let disableInput : boolean = true;
+
+    if (typeof this.stairForm !== 'undefined') {
+      if (this.stairForm.value['model'] !== '') {
+        disableInput = false;
+      }
+    }
+
+    return disableInput;
+  }
+
+  /**
    * Add a new form
    *
    * @param nameControl - the form type
@@ -166,42 +203,55 @@ export class StairsMeasureComponent implements OnInit {
   /**
    * Remove a form
    *
-   * @param i - id row form
-   * @param nameControl - the form type
+   * @param controlInput - The Child Input
    */
-  removeRow(i: number, nameControl: string) {
-    const control = <FormArray>this.stairForm.controls[nameControl];
-    control.removeAt(i);
+  removeRow(controlInput: any) {
+    const control = <FormArray>this.stairForm.controls[controlInput.name];
+    control.removeAt(controlInput.index);
   }
 
   /**
    * Calculate only the price of the structures
    *
-   * @param data - the form values
+   * @param data - Form values
    */
   calculateStructuresPrice(data) {
-    var cont;
     this.subTotalStructures = 0;
-    for (var structure of this.populateStructure) {
+
+    for (var itemStructure of data.structures) {
+      // this.calculateAccessoriesPrice(data);
+      this.subTotalStructures = this.subTotalStructures + itemStructure.price;
+    }
+  }
+
+  /**
+   * Calculate only the price of the treads
+   *
+   * @param data - Form values
+   */
+  calculateTreadPrice(data) {
+    this.subTotalTreads = 0;
+    var cont;
+
+    for (var tread of this.populateTreadName) {
       cont = 0;
-      for (var itemStructure of data.structures) {
-        if (structure.name === itemStructure.finish) {
-          this.stairForm.value.structures[cont].price = structure.price * itemStructure.cant;
-          this.calculateAccessoriesPrice(data);
+      for (var itemTread of data.treads) {
+        if (tread.name === itemTread.treadName) {
+          this.stairForm.value.treads[cont].price = itemTread.cant * tread.price;
         }
         cont++;
       }
     }
 
-    for (var itemStructure of data.structures) {
-      this.subTotalStructures = this.subTotalStructures + itemStructure.price;
+    for (var itemTread of data.treads) {
+      this.subTotalTreads = this.subTotalTreads + itemTread.price;
     }
   }
 
   /**
    * Calculate only the price of the railing
    *
-   * @param data - the form values
+   * @param data - Form values
    */
   calculateRailingPrice(data) {
     var priceStraight = 0;
@@ -224,7 +274,7 @@ export class StairsMeasureComponent implements OnInit {
   /**
    * Calculate only the price of the railing
    *
-   * @param data - the form values
+   * @param data - Form values
    */
   calculateGuardrailPrice(data) {
     var priceStraight = 0;
@@ -245,33 +295,9 @@ export class StairsMeasureComponent implements OnInit {
   }
 
   /**
-   * Calculate only the price of the treads
-   *
-   * @param data - the form values
-   */
-  calculateTreadPrice(data) {
-    this.subTotalTreads = 0;
-    var cont;
-
-    for (var tread of this.populateTreadName) {
-      cont = 0;
-      for (var itemTread of data.treads) {
-        if (tread.name === itemTread.treadName) {
-          this.stairForm.value.treads[cont].price = itemTread.cant * tread.price;
-        }
-        cont++;
-      }
-    }
-
-    for (var itemTread of data.treads) {
-      this.subTotalTreads = this.subTotalTreads + itemTread.price;
-    }
-  }
-
-  /**
    * Calculate only the price of the accessories
    *
-   * @param data - the form values
+   * @param data - Form values
    */
   calculateAccessoriesPrice(data) {
     this.subTotalAccessories = 0;
@@ -313,31 +339,10 @@ export class StairsMeasureComponent implements OnInit {
   }
 
   /**
-   * Get the data to populate the selects
+   * Get the data to populate the stair models
    */
-  populateSelects() {
+  populateSelectModels() {
     this.populateService.getMeasureModels().subscribe(data => this.populateModels = data);
-
-    /*
-    this.populateService.getTreadFinish()
-      .then(data => {
-        this.populateTreadFinish = data;
-      });
-
-    this.populateService.getMeasure()
-      .then(data => {
-        this.populateMeasure = data;
-      });*/
-
-    /*this.populateService.getAccessories()
-      .then(data => {
-        this.populateAccessories = data;
-      });
-
-    this.populateService.getModelsRailing()
-      .then(data => {
-        this.populateModelsRailing = data;
-      });*/
   }
 
   /**
