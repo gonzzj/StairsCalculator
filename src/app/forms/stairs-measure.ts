@@ -15,7 +15,6 @@ export class StairsMeasureComponent implements OnInit {
   populateModels: any;
   populateTreadName: any;
   populateStructure: any;
-  populateRiserFinish: any;
   populateAccessories: any;
   populateModelsRailing: any;
 
@@ -58,11 +57,11 @@ export class StairsMeasureComponent implements OnInit {
       accessories: this._fb.array([
       ]),
       railing: this._fb.group({
-        model: ['', Validators.required],
-        cantStraight: [1, Validators.required],
-        cantCurve: [1, Validators.required],
-        railing: ['', Validators.required],
-        finish: ['', Validators.required]
+        model: [{value: '', disabled: true}, Validators.required],
+        cantStraight: [{value: 1, disabled: true}, Validators.required],
+        cantCurve: [{value: 1, disabled: true}, Validators.required],
+        railing: [{value: '', disabled: true}, Validators.required],
+        finish: [{value: '', disabled: true}, Validators.required]
       }),
       guardrail: this._fb.group({
         activeGuardrail: [false],
@@ -116,6 +115,16 @@ export class StairsMeasureComponent implements OnInit {
 
       this.enableInputs('treads', 'treadName');
     });
+
+    this.populateService.getModelsRailing(e.target.value).subscribe(data => {
+      this.populateModelsRailing = data;
+      this.subTotalRailing = 0;
+      this.subTotalGuardrailCurve = 0;
+      this.subTotalGuardrailStraight = 0;
+
+      this.enableInputs('railing', 'model');
+      console.log(this.populateModelsRailing);
+    });
   }
 
   /**
@@ -124,9 +133,11 @@ export class StairsMeasureComponent implements OnInit {
    * @param controlName - Control row
    * @param controlInput - Input field
    */
-  enableInputs(controlName, controlInput) {
-    for (var item of this.stairForm.controls[controlName]['controls']) {
+  enableInputs(controlName: string, controlInput: string) {
+    this.stairForm.controls['railing']['controls']
+    for (let item of this.stairForm.controls[controlName]['controls']) {
       item.controls[controlInput].enable();
+      console.log(item);
     }
   }
 
@@ -219,7 +230,7 @@ export class StairsMeasureComponent implements OnInit {
    *
    * @param data - Form values
    */
-  calculateStructuresPrice(data) {
+  calculateStructuresPrice(data: any) {
     this.subTotalStructures = 0;
 
     for (var itemStructure of data.structures) {
@@ -233,7 +244,7 @@ export class StairsMeasureComponent implements OnInit {
    *
    * @param data - Form values
    */
-  calculateTreadPrice(data) {
+  calculateTreadPrice(data: any) {
     this.subTotalTreads = 0;
 
     for (var itemTread of data.treads) {
@@ -246,7 +257,7 @@ export class StairsMeasureComponent implements OnInit {
    *
    * @param data - Form values
    */
-  calculateRailingPrice(data) {
+  calculateRailingPrice(data: any) {
     var priceStraight = 0;
     var priceCurve = 0;
     var priceModel = 0;
@@ -269,7 +280,7 @@ export class StairsMeasureComponent implements OnInit {
    *
    * @param data - Form values
    */
-  calculateGuardrailPrice(data) {
+  calculateGuardrailPrice(data: any) {
     var priceStraight = 0;
     var priceCurve = 0;
     var priceModel = 0;
@@ -292,7 +303,7 @@ export class StairsMeasureComponent implements OnInit {
    *
    * @param data - Form values
    */
-  calculateAccessoriesPrice(data) {
+  calculateAccessoriesPrice(data: any) {
     this.subTotalAccessories = 0;
     var cont;
 

@@ -57,27 +57,27 @@ export class PopulateService {
     });
   }
 
-  getTreadName(idModel) {
+  getTreadName(idModel: number) {
     return this.http.get('http://admin.proclen.com/rest/escaleras-medida/peldanios-contrahuellas/?idEscalerasMedidaPeldano=' + idModel)
     .map((res => res.json()));
   }
 
-  getTreadFinish(idTread) {
+  getTreadFinish(idTread: number) {
     return this.http.get('http://admin.proclen.com/rest/escaleras-medida/acabados-peldanios-contrahuellas/?idEscalerasMedidaPeldano=' + idTread)
     .map((res => res.json()));
   }
 
-  getTreadMeasure(idTreadFinish) {
+  getTreadMeasure(idTreadFinish: number) {
     return this.http.get('http://admin.proclen.com/rest/escaleras-medida/anchos-peldanios-contrahuellas/?idEscalerasMedidasPeldanosAcabado=' + idTreadFinish)
     .map((res => res.json()));
   }
 
-  getStructure(idModel) {
+  getStructure(idModel: number) {
     return this.http.get('http://admin.proclen.com/rest/escaleras-medida/estructuras-tipo/?idEscaleraMedida=' + idModel)
     .map((res => res.json()));
   }
 
-  getStructureFinish(idStructure) {
+  getStructureFinish(idStructure: number) {
     return this.http.get('http://admin.proclen.com/rest/escaleras-medida/acabados-estructuras/' + idStructure)
     .map((res => res.json()));
   }
@@ -99,21 +99,9 @@ export class PopulateService {
     });
   }
 
-  getModelsRailing() {
-    if (this.dataModelsRailing) {
-      return Promise.resolve(this.dataModelsRailing);
-    }
-
-    return new Promise(resolve => {
-      this.http.get('http://loscillo.com/enesca/mockv2/getRailFinish.php')
-        .map(res => res.json())
-        .subscribe(data => {
-          this.dataModelsRailing = data;
-          resolve(this.dataModelsRailing);
-        }, (error) => {
-          console.log('Error');
-        })
-    });
+  getModelsRailing(idModel: number) {
+    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/barandillas/?idEscaleraMedida=' + idModel)
+    .map((res => res.json()));
   }
 
   getServices() {

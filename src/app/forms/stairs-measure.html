@@ -54,7 +54,7 @@
           <label for="inputModelRailing" class="col-sm-3 col-form-label">Modelo</label>
           <div class="col-sm-9">
             <select class="form-control custom-select" id="inputModelRailing" formControlName="model">
-              <option value="{{model.name}}" *ngFor="let model of populateModelsRailing">{{model.name}}</option>
+              <option value="{{model.id}}" *ngFor="let model of populateModelsRailing">{{model.name}}</option>
             </select>
             <small [hidden]="stairForm.controls.railing.controls.model.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
           </div>
