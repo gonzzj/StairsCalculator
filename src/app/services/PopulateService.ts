@@ -21,42 +21,6 @@ export class PopulateService {
     .map((res => res.json()));
   }
 
-  getKitModels() {
-
-    if (this.dataKitModels) {
-      return Promise.resolve(this.dataKitModels);
-    }
-
-    return new Promise(resolve => {
-      this.http.get('http://admin.proclen.com/rest/escaleras-kit/modelos/')
-        .map(res => res.json())
-        .subscribe(data => {
-          this.dataKitModels = data;
-          resolve(this.dataKitModels);
-        }, (error) => {
-          console.log('Error');
-        })
-    });
-  }
-
-  getEscModels() {
-
-    if (this.dataEscModels) {
-      return Promise.resolve(this.dataEscModels);
-    }
-
-    return new Promise(resolve => {
-      this.http.get('http://admin.proclen.com/rest/escaleras-escamoteables/modelos/')
-        .map(res => res.json())
-        .subscribe(data => {
-          this.dataEscModels = data;
-          resolve(this.dataEscModels);
-        }, (error) => {
-          console.log('Error');
-        })
-    });
-  }
-
   getTreadName(idModel: number) {
     return this.http.get('http://admin.proclen.com/rest/escaleras-medida/peldanios-contrahuellas/?idEscalerasMedidaPeldano=' + idModel)
     .map((res => res.json()));
@@ -82,6 +46,36 @@ export class PopulateService {
     .map((res => res.json()));
   }
 
+  getRailingModels(idModel: number) {
+    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/barandillas/?idEscaleraMedida=' + idModel)
+    .map((res => res.json()));
+  }
+
+  getRailing(idRailingModel: number) {
+    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/pasamanos-barandillas/?idEscaleraMedidaBarandaPasamano=' + idRailingModel)
+    .map((res => res.json()));
+  }
+
+  getRailingFinish(idRailing: number) {
+    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/acabados-barandillas/?idEscalerasMedidaBarandillaPasamano=' + idRailing)
+    .map((res => res.json()));
+  }
+
+  getGuardrailModels(idModel: number) {
+    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/barandas/?idEscaleraMedida=' + idModel)
+    .map((res => res.json()));
+  }
+
+  getGuardrail(idGuardrailModel: number) {
+    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/pasamanos-barandas/?idEscaleraMedidaBaranda=' + idGuardrailModel)
+    .map((res => res.json()));
+  }
+
+  getGuardrailFinish(idGuardrail: number) {
+    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/acabados-barandas/?idEscaleraMedidaBarandaPasamano=' + idGuardrail)
+    .map((res => res.json()));
+  }
+
   getAccessories() {
     if (this.dataAccessories) {
       return Promise.resolve(this.dataAccessories);
@@ -97,11 +91,6 @@ export class PopulateService {
           console.log('Error');
         })
     });
-  }
-
-  getModelsRailing(idModel: number) {
-    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/barandillas/?idEscaleraMedida=' + idModel)
-    .map((res => res.json()));
   }
 
   getServices() {
@@ -138,6 +127,24 @@ export class PopulateService {
     });
   }
 
+  getKitModels() {
+
+    if (this.dataKitModels) {
+      return Promise.resolve(this.dataKitModels);
+    }
+
+    return new Promise(resolve => {
+      this.http.get('http://admin.proclen.com/rest/escaleras-kit/modelos/')
+        .map(res => res.json())
+        .subscribe(data => {
+          this.dataKitModels = data;
+          resolve(this.dataKitModels);
+        }, (error) => {
+          console.log('Error');
+        })
+    });
+  }
+
   getDiameterKit(idModel) {
     if (this.dataDiamaterKit) {
       return Promise.resolve(this.dataDiamaterKit);
@@ -149,6 +156,24 @@ export class PopulateService {
         .subscribe(data => {
           this.dataDiamaterKit = data;
           resolve(this.dataDiamaterKit);
+        }, (error) => {
+          console.log('Error');
+        })
+    });
+  }
+
+  getEscModels() {
+
+    if (this.dataEscModels) {
+      return Promise.resolve(this.dataEscModels);
+    }
+
+    return new Promise(resolve => {
+      this.http.get('http://admin.proclen.com/rest/escaleras-escamoteables/modelos/')
+        .map(res => res.json())
+        .subscribe(data => {
+          this.dataEscModels = data;
+          resolve(this.dataEscModels);
         }, (error) => {
           console.log('Error');
         })

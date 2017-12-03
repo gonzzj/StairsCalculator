@@ -1,0 +1,52 @@
+<div [formGroup]="guardrailForm">
+    <h4 class="card-title">Baranda Cerramiento</h4>
+    <label class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" formControlName="activeGuardrail" (change)="checkGuardrail()">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">Agregar baranda de protección</span>
+    </label>
+    <div class="form-group row">
+        <label for="inputModelGuardrail" class="col-sm-3 col-form-label">Modelo</label>
+        <div class="col-sm-9">
+            <select class="form-control custom-select" id="inputModelGuardrail" formControlName="model" (change)="loadGuardrailData($event)">
+                <option value="{{model.id}}" *ngFor="let model of dataGuardrail">{{model.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="inputGuardrailRailing" class="col-sm-3 col-form-label">Pasamano</label>
+        <div class="col-sm-9">
+            <select class="form-control custom-select" id="inputGuardrailRailing" formControlName="railing" (change)="loadGuardrailFinishData($event)">
+                <option value="{{guardrail.id}}" *ngFor="let guardrail of populateGuardrail">{{guardrail.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="inputFinishGuardrail" class="col-sm-3 col-form-label">Acabado</label>
+        <div class="col-sm-9">
+            <select class="form-control custom-select" id="inputFinishGuardrail" formControlName="finish">
+                <option value="{{guardrailFinish.id}}" *ngFor="let guardrailFinish of populateGuardrailFinish">{{guardrailFinish.name}}</option>
+            </select>
+        </div>
+    </div>
+    <h5 class="card-title">Configuración recta</h5>
+    <div class="form-group row">
+        <label for="inputCantStraightGuardrail" class="col-sm-3 col-form-label">Cantidad</label>
+        <div class="col-sm-6">
+            <input type="number" min="1" class="form-control" id="inputCantStraightGuardrail" formControlName="cantStraight">
+        </div>
+        <div class="col-sm-3">
+            <strong>{{priceGuardrailStraight | formatprice}} €</strong>
+        </div>
+    </div>
+    <h5 class="card-title">Configuración curva</h5>
+    <div class="form-group row">
+        <label for="inputCantCurveGuardrail" class="col-sm-3 col-form-label">Cantidad</label>
+        <div class="col-sm-6">
+            <input type="number" min="1" class="form-control" id="inputCantCurveGuardrail" formControlName="cantCurve">
+        </div>
+        <div class="col-sm-3">
+            <strong>{{priceGuardrailCurve | formatprice}} €</strong>
+        </div>
+    </div>
+</div>

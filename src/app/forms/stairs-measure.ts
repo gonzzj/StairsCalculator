@@ -3,7 +3,6 @@ import {PopulateService} from '../services/PopulateService';
 import {CommunicateService} from '../services/CommunicateService';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {formErrors} from '../constants';
-import {CompleterService} from 'ng2-completer';
 
 @Component({
     selector: 'stairs-measure',
@@ -17,6 +16,7 @@ export class StairsMeasureComponent implements OnInit {
   populateStructure: any;
   populateAccessories: any;
   populateModelsRailing: any;
+  populateModelsGuardrail: any;
 
   private stairForm: FormGroup;
 
@@ -25,11 +25,7 @@ export class StairsMeasureComponent implements OnInit {
   subTotalStructures: number = 0;
   subTotalTreads: number = 0;
   subTotalRailing: number = 0;
-  subTotalRailingStraight: number = 0;
-  subTotalRailingCurve: number = 0;
   subTotalGuardrail: number = 0;
-  subTotalGuardrailStraight: number = 0;
-  subTotalGuardrailCurve: number = 0;
   subTotalAccessories: number = 0;
   totalStair: number = 0;
 
@@ -42,9 +38,8 @@ export class StairsMeasureComponent implements OnInit {
    * @param populateService - service for populate the selects.
    * @param cs - service for communicate all the components.
    * @param _fb
-   * @param completerService - autocomplete
    */
-  constructor(private populateService: PopulateService, private cs: CommunicateService, private _fb: FormBuilder, private completerService: CompleterService) {
+  constructor(private populateService: PopulateService, private cs: CommunicateService, private _fb: FormBuilder) {
     this.stairForm = this._fb.group({
       cant: [1, Validators.required],
       model: ['', Validators.required],
@@ -58,8 +53,10 @@ export class StairsMeasureComponent implements OnInit {
       ]),
       railing: this._fb.group({
         model: [{value: '', disabled: true}, Validators.required],
-        cantStraight: [{value: 1, disabled: true}, Validators.required],
-        cantCurve: [{value: 1, disabled: true}, Validators.required],
+        cantStraight: [1, Validators.required],
+        priceStraight: [0],
+        cantCurve: [1, Validators.required],
+        priceCurve: [0],
         railing: [{value: '', disabled: true}, Validators.required],
         finish: [{value: '', disabled: true}, Validators.required]
       }),
@@ -67,7 +64,9 @@ export class StairsMeasureComponent implements OnInit {
         activeGuardrail: [false],
         model: [{value: '', disabled: true}],
         cantStraight: [{value: 1, disabled: true}],
+        priceStraight: [0],
         cantCurve: [{value: 1, disabled: true}],
+        priceCurve: [0],
         railing: [{value: '', disabled: true}],
         finish: [{value: '', disabled: true}]
       })
@@ -83,20 +82,27 @@ export class StairsMeasureComponent implements OnInit {
     this.stairForm.valueChanges.subscribe(data => {
       this.calculateStructuresPrice(data);
       this.calculateTreadPrice(data);
-      /*this.calculateRailingPrice(data);
-      this.calculateGuardrailPrice(data);
+      this.calculateRailingPrice(data);
+      /*this.calculateGuardrailPrice(data);
       this.calculateAccessoriesPrice(data);
       this.cs.validateForm(this.stairForm.valid, 'stair');
       this.cs.addZoho(this.stairForm.value, 'stair');*/
 
       // @TODO VER ESTO CON VANE PARA VERIFICAR
-      this.totalStair = (this.subTotalTreads * this.stairForm.controls['cant'].value) + (this.subTotalAccessories * this.stairForm.controls['cant'].value) + (this.subTotalRailing * this.stairForm.controls['cant'].value) + this.subTotalGuardrail + this.subTotalStructures;
+      this.totalStair = (this.subTotalTreads + this.subTotalAccessories + this.subTotalRailing + this.subTotalGuardrail + this.subTotalStructures) * this.stairForm.controls['cant'].value;
       this.notifyTotal.emit(this.totalStair);
     });
 
     this.cs.submitted.subscribe(
       data => this.isSubmit = data
     );
+  }
+
+  /**
+   * Get the data to populate the stair models
+   */
+  populateSelectModels() {
+    this.populateService.getMeasureModels().subscribe(data => this.populateModels = data);
   }
 
   loadDataModel(e) {
@@ -116,14 +122,18 @@ export class StairsMeasureComponent implements OnInit {
       this.enableInputs('treads', 'treadName');
     });
 
-    this.populateService.getModelsRailing(e.target.value).subscribe(data => {
+    this.populateService.getRailingModels(e.target.value).subscribe(data => {
       this.populateModelsRailing = data;
       this.subTotalRailing = 0;
-      this.subTotalGuardrailCurve = 0;
-      this.subTotalGuardrailStraight = 0;
 
       this.enableInputs('railing', 'model');
-      console.log(this.populateModelsRailing);
+    });
+
+    this.populateService.getGuardrailModels(e.target.value).subscribe(data => {
+      this.populateModelsGuardrail = data;
+      this.subTotalGuardrail = 0;
+
+      this.enableInputs('guardrail', 'model');
     });
   }
 
@@ -134,10 +144,12 @@ export class StairsMeasureComponent implements OnInit {
    * @param controlInput - Input field
    */
   enableInputs(controlName: string, controlInput: string) {
-    this.stairForm.controls['railing']['controls']
-    for (let item of this.stairForm.controls[controlName]['controls']) {
-      item.controls[controlInput].enable();
-      console.log(item);
+    if (controlName == 'railing' || controlName == 'guardrail') {
+      this.stairForm.controls[controlName]['controls'][controlInput].enable();
+    } else {
+      for (let item of this.stairForm.controls[controlName]['controls']) {
+        item.controls[controlInput].enable();
+      }
     }
   }
 
@@ -258,21 +270,9 @@ export class StairsMeasureComponent implements OnInit {
    * @param data - Form values
    */
   calculateRailingPrice(data: any) {
-    var priceStraight = 0;
-    var priceCurve = 0;
-    var priceModel = 0;
+    this.subTotalRailing = 0;
 
-    for (var model of this.populateModelsRailing) {
-      if (model.name === data.railing.model) {
-        priceStraight = model.priceStraight * data.railing.cantStraight;
-        priceCurve = model.priceCurve * data.railing.cantCurve;
-        priceModel = priceStraight + priceCurve;
-      }
-    }
-
-    this.subTotalRailingStraight = priceStraight;
-    this.subTotalRailingCurve = priceCurve;
-    this.subTotalRailing = priceModel;
+    this.subTotalRailing = data.railing['priceStraight'] + data.railing['priceCurve']
   }
 
   /**
@@ -281,21 +281,9 @@ export class StairsMeasureComponent implements OnInit {
    * @param data - Form values
    */
   calculateGuardrailPrice(data: any) {
-    var priceStraight = 0;
-    var priceCurve = 0;
-    var priceModel = 0;
-
-    for (var model of this.populateModelsRailing) {
-      if (model.name === data.guardrail.cantStraightmodel) {
-        priceStraight = model.priceStraight * data.guardrail.cantStraight;
-        priceCurve = model.priceCurve * data.guardrail.cantCurve;
-        priceModel = priceStraight + priceCurve;
-      }
-    }
-
-    this.subTotalGuardrailStraight = priceStraight;
-    this.subTotalGuardrailCurve = priceCurve;
-    this.subTotalGuardrail = priceModel;
+    this.subTotalGuardrail = 0;
+    
+    this.subTotalGuardrail = data.guardrail['priceStraight'] + data.guardrail['priceCurve']
   }
 
   /**
@@ -343,34 +331,12 @@ export class StairsMeasureComponent implements OnInit {
   }
 
   /**
-   * Get the data to populate the stair models
-   */
-  populateSelectModels() {
-    this.populateService.getMeasureModels().subscribe(data => this.populateModels = data);
-  }
-
-  /**
    * Enable the accessorie id select
    */
   checkApply(accessorie, idAccessorie): void {
     if (accessorie['controls']['type'].value === 'railing') {
       accessorie['controls']['unitPrice'].setValue(null);
       accessorie['controls']['id'].setValue(null);
-    }
-  }
-
-  /**
-   * Enable or Disable the Guardrail Form
-   */
-  checkGuardrail(): void {
-    if (this.stairForm.controls['guardrail']['controls']['activeGuardrail'].value) {
-      this.stairForm.controls['guardrail'].enable();
-    } else {
-      this.stairForm.controls['guardrail']['controls']['model'].disable();
-      this.stairForm.controls['guardrail']['controls']['cantStraight'].disable();
-      this.stairForm.controls['guardrail']['controls']['cantCurve'].disable();
-      this.stairForm.controls['guardrail']['controls']['finish'].disable();
-      this.stairForm.controls['guardrail']['controls']['railing'].disable();
     }
   }
 }

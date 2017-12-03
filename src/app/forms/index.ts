@@ -21,6 +21,8 @@ import {PopulateService} from '../services/PopulateService'
 import {CommunicateService} from '../services/CommunicateService'
 import { StructureInputComponent } from './structure-input/structure-input';
 import { TreadInputComponent } from './tread-input/tread-input';
+import { RailingFormComponent } from './railing/railing';
+import { GuardrailFormComponent } from './guardrail/guardrail';
 
 @NgModule({
   imports: [
@@ -44,7 +46,9 @@ import { TreadInputComponent } from './tread-input/tread-input';
     ExtrasComponent,
     FormatPricePipe,
     StructureInputComponent,
-    TreadInputComponent
+    TreadInputComponent,
+    RailingFormComponent,
+    GuardrailFormComponent
   ],
   exports: [
     StairsComponent

@@ -5,7 +5,6 @@ import { PopulateService } from '../../services/PopulateService';
 import { SimpleChanges, OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { EventEmitter } from '@angular/common/src/facade/async';
 import { CommunicateService } from '../../services/CommunicateService';
-import { ChangeDetectorRef } from '@angular/core/src/change_detection/change_detector_ref';
 
 @Component({
     selector: 'tread-input',
@@ -23,7 +22,7 @@ export class TreadInputComponent implements OnInit, OnChanges {
     priceTread: number = 0;
     isSubmit: boolean = false;
 
-    constructor(private populateService: PopulateService, private cs: CommunicateService, private cdRef: ChangeDetectorRef) {}
+    constructor(private populateService: PopulateService, private cs: CommunicateService) {}
 
     ngOnInit() {
         this.treadInputForm.valueChanges.subscribe(data => {
