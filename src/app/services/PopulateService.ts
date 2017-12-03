@@ -93,21 +93,24 @@ export class PopulateService {
     });
   }
 
-  getServices() {
-    if (this.dataServices) {
-      return Promise.resolve(this.dataServices);
+  getServices(stairData) {
+    let url: string;
+
+    if (stairData[0]['stairType'] == 'measure') {
+      url = 'http://admin.proclen.com/rest/escaleras-medida/tipos-montajes/?idEscaleraMedida=';
+    } else if (stairData[0]['stairType'] == 'kit') {
+      url = 'http://admin.proclen.com/rest/escaleras-kit/tipos-montajes/?idEscaleraKit=';
+    } else {
+      url = 'http://admin.proclen.com/rest/escaleras-escamoteables/tipos-montajes/?idEscaleraEscamoteable=';
     }
 
-    return new Promise(resolve => {
-      this.http.get('http://enesca.polarbeardevelopment.com/mock/getServices.php')
-        .map(res => res.json())
-        .subscribe(data => {
-          this.dataServices = data.collection.items[0].data;
-          resolve(this.dataServices);
-        }, (error) => {
-          console.log('Error');
-        })
-    });
+    return this.http.get(url + stairData[0]['stairModelId'])
+    .map((res => res.json()));
+  }
+
+  getServicesZones() {
+    return this.http.get('http://admin.proclen.com/rest/zonas-montajes/')
+    .map((res => res.json()));
   }
 
   getZones() {

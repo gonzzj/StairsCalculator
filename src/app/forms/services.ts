@@ -3,6 +3,8 @@ import {PopulateService} from '../services/PopulateService';
 import {FormArray, FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {CommunicateService} from '../services/CommunicateService';
 import {formErrors} from '../constants';
+import { Input } from '@angular/core/src/metadata/directives';
+import { SimpleChanges, OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
     selector: 'services',
@@ -10,8 +12,10 @@ import {formErrors} from '../constants';
 })
 
 /** Class service child component */
-export class ServicesComponent implements OnInit {
+export class ServicesComponent implements OnInit, OnChanges {
+  @Input('stairData') stairData: Array<Object>;
   populateServices: any;
+  populateServicesZones: any;
 
   private servicesForm: FormGroup;
 
@@ -37,8 +41,6 @@ export class ServicesComponent implements OnInit {
    * Populate the selects, calculate the service price when the form change and add the values to a JSON
    */
   ngOnInit() {
-    this.populateSelects();
-
     this.servicesForm.valueChanges.subscribe(data => {
       this.calculateServicePrice(data);
       this.notifyTotal.emit(this.subTotalServices);
@@ -51,14 +53,64 @@ export class ServicesComponent implements OnInit {
     );
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    setTimeout(() => {
+      if (typeof this.stairData !== 'undefined') {
+        if (this.stairData[0]['stairModelId'] !== '') {
+          this.populateServiceSelects();
+
+          this.enableInputs();
+        }
+      }
+    });
+  }
+
+  enableInputs() {
+    if (this.servicesForm.controls['services']['controls'].length != 0) {
+      for (let item of this.servicesForm.controls['services']['controls']) {
+        item.controls['serviceName'].enable();
+        item.controls['zone'].enable();
+      }
+    }
+  }
+  
+  /**
+   * Check if the model has a value
+   * 
+   * @returns {boolean} disableInput
+   */
+  checkModelValue() {
+    let disableInput : boolean = true;
+
+    if (typeof this.stairData !== 'undefined') {
+      if (this.stairData[0]['stairModelId'] !== '') {
+        disableInput = false;
+      }
+    }
+
+    return disableInput;
+  }
+
+  /**
+   * Get the data to populate the selects
+   */
+  populateServiceSelects() {
+    if (typeof this.stairData !== 'undefined') {
+      this.populateService.getServices(this.stairData).subscribe(data => this.populateServices = data);
+      
+      this.populateService.getServicesZones().subscribe(data => this.populateServicesZones = data);
+    }
+  }
+
   /**
    * @return {FormGroup} A service form
    */
   initService() {
     return this._fb.group({
       cant: [1, Validators.required],
-      zone: ['', Validators.required],
-      serviceName: ['', Validators.required]
+      zone: [{value: '', disabled: this.checkModelValue()}, Validators.required],
+      serviceName: [{value: '', disabled: this.checkModelValue()}, Validators.required],
+      price: [0]
     });
   }
 
@@ -75,36 +127,21 @@ export class ServicesComponent implements OnInit {
    *
    * @param i - id row form
    */
-  removeRow(i: number) {
-    const control = <FormArray>this.servicesForm.controls['services'];
-    control.removeAt(i);
+  removeRow(controlInput: any) {
+    const control = <FormArray>this.servicesForm.controls[controlInput.name];
+    control.removeAt(controlInput.index);
   }
 
   /**
    * Calculate the price of the services
    *
    * @param data - the form values
-   * @returns {number}
    */
   calculateServicePrice(data) {
     this.subTotalServices = 0;
-
-    for (var service of this.populateServices) {
-      for (var itemService of data.services) {
-        if (service.name == itemService.serviceName) {
-          this.subTotalServices = this.subTotalServices + (itemService.cant * service.price);
-        }
-      }
+    
+    for (var itemService of data.services) {
+      this.subTotalServices = this.subTotalServices + itemService.price;
     }
-  }
-
-  /**
-   * Get the data to populate the selects
-   */
-  populateSelects() {
-    /*this.populateService.getServices()
-      .then(data => {
-        this.populateServices = data;
-      });*/
   }
 }

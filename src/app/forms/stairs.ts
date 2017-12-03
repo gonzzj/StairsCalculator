@@ -8,6 +8,7 @@ import {CommunicateService} from '../services/CommunicateService';
 
 /** Class father component stairs */
 export class StairsComponent {
+  stairData:Array<Object>;
   stair: string = "measure";
   total: number = 0;
   subTotals:Array<Object>;
@@ -58,6 +59,20 @@ export class StairsComponent {
     this.subTotals[0]["subTotalStair"] = 0;
 
     this.calculateTotal();
+  }
+
+  /**
+   * Set the model id and stair type and send to childs components
+   * 
+   * @param message - the Model Id
+   */
+  setStair(message: number):void {
+    this.stairData = [
+      {
+        stairType: this.stair,
+        stairModelId: message
+      } 
+    ]
   }
 
   /**

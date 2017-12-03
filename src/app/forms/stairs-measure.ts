@@ -29,6 +29,7 @@ export class StairsMeasureComponent implements OnInit {
   subTotalAccessories: number = 0;
   totalStair: number = 0;
 
+  @Output() notifyModelId: EventEmitter<number> = new EventEmitter<number>();
   @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
   isSubmit: boolean = false;
   emptyField = formErrors.message_emptyField;
@@ -83,14 +84,15 @@ export class StairsMeasureComponent implements OnInit {
       this.calculateStructuresPrice(data);
       this.calculateTreadPrice(data);
       this.calculateRailingPrice(data);
-      /*this.calculateGuardrailPrice(data);
-      this.calculateAccessoriesPrice(data);
+      this.calculateGuardrailPrice(data);
+      /*this.calculateAccessoriesPrice(data);
       this.cs.validateForm(this.stairForm.valid, 'stair');
       this.cs.addZoho(this.stairForm.value, 'stair');*/
 
       // @TODO VER ESTO CON VANE PARA VERIFICAR
       this.totalStair = (this.subTotalTreads + this.subTotalAccessories + this.subTotalRailing + this.subTotalGuardrail + this.subTotalStructures) * this.stairForm.controls['cant'].value;
       this.notifyTotal.emit(this.totalStair);
+      this.notifyModelId.emit(this.stairForm.value['model']);
     });
 
     this.cs.submitted.subscribe(

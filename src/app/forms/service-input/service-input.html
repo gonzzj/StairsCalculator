@@ -1,0 +1,25 @@
+<div [formGroup]="serviceInputForm">
+    <div class="col-sm-2">
+        <input type="number" min="1" class="form-control" formControlName="cant">
+        <small [hidden]="serviceInputForm.controls.cant.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i></small>
+    </div>
+    <div class="col-sm-3">
+        <select class="form-control custom-select" formControlName="zone">
+            <option [value]="zone.id" *ngFor="let zone of dataServiceZones">{{zone.name}}</option>
+        </select>
+        <small [hidden]="serviceInputForm.controls.zone.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+    </div>
+    <div class="col-sm-4">
+        <select class="form-control custom-select" formControlName="serviceName">
+            <option [value]="service.id" *ngFor="let service of dataService">{{service.name}}</option>
+        </select>
+        <small [hidden]="serviceInputForm.controls.serviceName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+    </div>
+    <div class="col-sm-2">
+        <input type="hidden" formControlName="price">
+        <strong>{{priceService | formatprice}} €</strong>
+    </div>
+    <div class="col-sm-1">
+        <button (click)="removeRow(index, 'services')" type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
+    </div>
+</div>

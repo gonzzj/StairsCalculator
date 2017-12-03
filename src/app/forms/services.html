@@ -3,31 +3,12 @@
     <h4 class="card-title">Montaje</h4>
     <div class="form-group row labels-group">
       <label class="col-sm-2 col-form-label">Cant</label>
-      <label class="col-sm-4 col-form-label">Zona</label>
-      <label class="col-sm-5 col-form-label">Concepto</label>
+      <label class="col-sm-3 col-form-label">Zona</label>
+      <label class="col-sm-4 col-form-label">Concepto</label>
+      <label class="col-sm-3 col-form-label">Precio</label>
     </div>
     <div class="form-group row" [formGroupName]="i" *ngFor="let service of servicesForm.controls.services.controls; let i=index">
-      <div class="col-sm-2">
-        <input type="number" min="1" class="form-control" formControlName="cant">
-        <small [hidden]="service.controls.cant.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i></small>
-      </div>
-      <div class="col-sm-4">
-        <select class="form-control custom-select" formControlName="zone">
-          <option>0-77K</option>
-        </select>
-        <small [hidden]="service.controls.zone.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
-      </div>
-
-      <div class="col-sm-5">
-        <select class="form-control custom-select" formControlName="serviceName">
-          <option [value]="serviceName.name" *ngFor="let serviceName of populateServices">{{serviceName.name}}</option>
-        </select>
-        <small [hidden]="service.controls.serviceName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
-      </div>
-
-      <div class="col-sm-1">
-        <button (click)="removeRow(i)" type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
-      </div>
+      <service-input [group]="service" [dataService]="populateServices" [dataServiceZones]="populateServicesZones" [index]="i" (getControlRow)="removeRow($event)"></service-input>
     </div>
     <button (click)="addRow()" type="button" class="btn btn-primary">Agregar fila <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
     <h5 class="subtotal-title">Subtotal: {{subTotalServices | formatprice}} €</h5>

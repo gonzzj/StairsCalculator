@@ -23,6 +23,7 @@ import { StructureInputComponent } from './structure-input/structure-input';
 import { TreadInputComponent } from './tread-input/tread-input';
 import { RailingFormComponent } from './railing/railing';
 import { GuardrailFormComponent } from './guardrail/guardrail';
+import { ServiceInputComponent } from './service-input/service-input';
 
 @NgModule({
   imports: [
@@ -48,7 +49,8 @@ import { GuardrailFormComponent } from './guardrail/guardrail';
     StructureInputComponent,
     TreadInputComponent,
     RailingFormComponent,
-    GuardrailFormComponent
+    GuardrailFormComponent,
+    ServiceInputComponent
   ],
   exports: [
     StairsComponent
