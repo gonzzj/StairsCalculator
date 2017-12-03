@@ -65,6 +65,17 @@ export class ServicesComponent implements OnInit, OnChanges {
     });
   }
 
+  /**
+   * Get the data to populate the selects
+   */
+  populateServiceSelects() {
+    if (typeof this.stairData !== 'undefined') {
+      this.populateService.getServices(this.stairData).subscribe(data => this.populateServices = data);
+      
+      this.populateService.getServicesZones().subscribe(data => this.populateServicesZones = data);
+    }
+  }
+
   enableInputs() {
     if (this.servicesForm.controls['services']['controls'].length != 0) {
       for (let item of this.servicesForm.controls['services']['controls']) {
@@ -92,17 +103,6 @@ export class ServicesComponent implements OnInit, OnChanges {
   }
 
   /**
-   * Get the data to populate the selects
-   */
-  populateServiceSelects() {
-    if (typeof this.stairData !== 'undefined') {
-      this.populateService.getServices(this.stairData).subscribe(data => this.populateServices = data);
-      
-      this.populateService.getServicesZones().subscribe(data => this.populateServicesZones = data);
-    }
-  }
-
-  /**
    * @return {FormGroup} A service form
    */
   initService() {
@@ -125,7 +125,7 @@ export class ServicesComponent implements OnInit, OnChanges {
   /**
    * Remove a service form
    *
-   * @param i - id row form
+   * @param controlInput - row form
    */
   removeRow(controlInput: any) {
     const control = <FormArray>this.servicesForm.controls[controlInput.name];

@@ -1,9 +1,9 @@
 <div [formGroup]="serviceInputForm">
-    <div class="col-sm-2">
+    <div class="col-sm-1">
         <input type="number" min="1" class="form-control" formControlName="cant">
         <small [hidden]="serviceInputForm.controls.cant.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i></small>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-4">
         <select class="form-control custom-select" formControlName="zone">
             <option [value]="zone.id" *ngFor="let zone of dataServiceZones">{{zone.name}}</option>
         </select>

@@ -1,0 +1,19 @@
+<div [formGroup]="transportInputForm">
+    <div class="col-sm-1">
+        <input type="number" class="form-control" min="1" formControlName="cant">
+        <small [hidden]="transportInputForm.controls.cant.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i></small>
+    </div>
+    <div class="col-sm-8">
+        <select class="form-control custom-select" formControlName="zoneName">
+            <option [value]="zone.id" *ngFor="let zone of dataZones">{{zone.name}}</option>
+        </select>
+        <small [hidden]="transportInputForm.controls.zoneName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
+    </div>
+    <div class="col-sm-2">
+        <input type="hidden" formControlName="price">
+        <strong>{{priceTransport | formatprice}} €</strong>
+    </div>
+    <div class="col-sm-1">
+        <button (click)="removeRow(index, 'transports')" type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
+    </div>
+</div>

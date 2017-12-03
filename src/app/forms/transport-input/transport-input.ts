@@ -7,24 +7,23 @@ import { EventEmitter } from '@angular/common/src/facade/async';
 import { CommunicateService } from '../../services/CommunicateService';
 
 @Component({
-    selector: 'service-input',
-    template: require('./service-input.html')
+    selector: 'transport-input',
+    template: require('./transport-input.html')
 })
 
-export class ServiceInputComponent implements OnInit, OnChanges {
-    @Input('group') serviceInputForm: FormGroup;
-    @Input('dataService') dataService: any;
-    @Input('dataServiceZones') dataServiceZones: any;
+export class TransportInputComponent implements OnInit, OnChanges {
+    @Input('group') transportInputForm: FormGroup;
+    @Input('dataZones') dataZones: any;
     @Input('index') index: FormGroup;
     @Output() getControlRow: EventEmitter<any> = new EventEmitter<any>();
 
-    priceService: number = 0;
+    priceTransport: number = 0;
     isSubmit: boolean = false;
 
     constructor(private populateService: PopulateService, private cs: CommunicateService) {}
 
     ngOnInit() {
-        this.serviceInputForm.valueChanges.subscribe(data => {
+        this.transportInputForm.valueChanges.subscribe(data => {
             this.calculatePrice(data);
         });
 
@@ -33,17 +32,17 @@ export class ServiceInputComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         setTimeout(() => {
-            this.priceService = 0;
+            this.priceTransport = 0;
         });
     }
 
     calculatePrice(data) {
-        if (typeof this.dataService !== 'undefined') {
-            for (let service of this.dataService) {
-                if (service.id === Number(data.serviceName)) {
-                    this.priceService = service.Precio * data.cant;
+        if (typeof this.dataZones !== 'undefined') {
+            for (let zone of this.dataZones) {
+                if (zone.id === Number(data.zoneName)) {
+                    this.priceTransport = zone.Precio * data.cant;
 
-                    this.serviceInputForm.value['price'] = this.priceService;
+                    this.transportInputForm.value['price'] = this.priceTransport;
                 }
             }
         }

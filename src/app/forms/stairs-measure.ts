@@ -92,7 +92,6 @@ export class StairsMeasureComponent implements OnInit {
       // @TODO VER ESTO CON VANE PARA VERIFICAR
       this.totalStair = (this.subTotalTreads + this.subTotalAccessories + this.subTotalRailing + this.subTotalGuardrail + this.subTotalStructures) * this.stairForm.controls['cant'].value;
       this.notifyTotal.emit(this.totalStair);
-      this.notifyModelId.emit(this.stairForm.value['model']);
     });
 
     this.cs.submitted.subscribe(
@@ -109,6 +108,7 @@ export class StairsMeasureComponent implements OnInit {
 
   loadDataModel(e) {
     // @TODO Probar meter un popup loading para evitar tardar (solamente aca)
+    this.notifyModelId.emit(this.stairForm.value['model']);
 
     this.populateService.getTreadName(e.target.value).subscribe(data => { 
       this.populateTreadName = data;

@@ -113,21 +113,19 @@ export class PopulateService {
     .map((res => res.json()));
   }
 
-  getZones() {
-    if (this.dataZones) {
-      return Promise.resolve(this.dataZones);
+  getTransportZones(stairData) {
+    let url: string;
+    
+    if (stairData[0]['stairType'] == 'measure') {
+      url = 'http://admin.proclen.com/rest/escaleras-medida/transportes/?idEscaleraMedida=';
+    } else if (stairData[0]['stairType'] == 'kit') {
+      url = 'http://admin.proclen.com/rest/escaleras-kit/transportes/?idEscaleraKit=';
+    } else {
+      url = 'http://admin.proclen.com/rest/escaleras-escamoteables/transportes/?idEscaleraEscamoteable=';
     }
 
-    return new Promise(resolve => {
-      this.http.get('http://enesca.polarbeardevelopment.com/mock/getZones.php')
-        .map(res => res.json())
-        .subscribe(data => {
-          this.dataZones = data.collection.items[0].data;
-          resolve(this.dataZones);
-        }, (error) => {
-          console.log('Error');
-        })
-    });
+    return this.http.get(url + stairData[0]['stairModelId'])
+    .map((res => res.json()));
   }
 
   getKitModels() {

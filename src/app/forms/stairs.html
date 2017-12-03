@@ -4,7 +4,7 @@
   <stairs-kit *ngIf="stair == 'kit'" (notifyTotal)='totalStair($event)'></stairs-kit>
   <stairs-esc *ngIf="stair == 'esc'" (notifyTotal)='totalStair($event)'></stairs-esc>
   <services class="card card-block" [stairData]="stairData" (notifyTotal)='totalService($event)'></services>
-  <transport class="card card-block" (notifyTotal)='totalTransport($event)'></transport>
+  <transport class="card card-block" [stairData]="stairData" (notifyTotal)='totalTransport($event)'></transport>
   <extras class="card card-block" (notifyTotal)='totalExtras($event)'></extras>
   <observation class="card card-block"></observation>
   <div class="card-deck-wrapper">
