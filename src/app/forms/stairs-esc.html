@@ -4,8 +4,8 @@
     <div class="form-group row">
       <label for="inputModel" class="col-sm-2 col-form-label">Modelo escalera</label>
       <div class="col-sm-10">
-        <select class="form-control custom-select"  id="inputModel" formControlName="model">
-          <option value="{{model.name}}" *ngFor="let model of populateModels">{{model.name}}</option>
+        <select class="form-control custom-select"  id="inputModel" formControlName="model" (change)="loadDataModel($event)">
+          <option value="{{model.id}}" *ngFor="let model of populateModels">{{model.name}}</option>
         </select>
         <small [hidden]="stairForm.controls.model.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
@@ -28,17 +28,17 @@
   <div class="card card-block" formArrayName="accessories">
     <h4 class="card-title">Accesorios y Suplementos</h4>
     <div class="form-group row labels-group">
-      <label class="col-sm-2 col-form-label">Cant</label>
-      <label class="col-sm-7 col-form-label">Accesorio</label>
+      <label class="col-sm-1 col-form-label">Cant</label>
+      <label class="col-sm-8 col-form-label">Accesorio</label>
       <label class="col-sm-2 col-form-label">Precio</label>
     </div>
     <div class="form-group row" [formGroupName]="e" *ngFor="let accessorie of stairForm.controls.accessories.controls; let e=index">
-      <div class="col-sm-2">
+      <div class="col-sm-1">
         <input type="number" min="1" class="form-control" formControlName="cant">
       </div>
-      <div class="col-sm-7">
+      <div class="col-sm-8">
         <select class="form-control custom-select" formControlName="accessorieName">
-          <option value="{{accessorie.name}}" *ngFor="let accessorie of populateAccessories">{{accessorie.name}}</option>
+          <option value="{{accessorie.id}}" *ngFor="let accessorie of populateAccessories">{{accessorie.name}}</option>
         </select>
         <small [hidden]="accessorie.controls.accessorieName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>

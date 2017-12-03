@@ -16,8 +16,18 @@ export class PopulateService {
 
   constructor(private http: Http) {}
 
-  getMeasureModels() {
-    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/modelos/')
+  getModels(stairType) {
+    let url: string;
+    
+    if (stairType == 'measure') {
+      url = 'http://admin.proclen.com/rest/escaleras-medida/modelos/';
+    } else if (stairType == 'kit') {
+      url = 'http://admin.proclen.com/rest/escaleras-kit/modelos/';
+    } else {
+      url = 'http://admin.proclen.com/rest/escaleras-escamoteables/modelos/';
+    }
+
+    return this.http.get(url)
     .map((res => res.json()));
   }
 
@@ -76,21 +86,20 @@ export class PopulateService {
     .map((res => res.json()));
   }
 
-  getAccessories() {
-    if (this.dataAccessories) {
-      return Promise.resolve(this.dataAccessories);
+  // @TODO No funciona la llamada de escaleras Type Measure
+  getAccessories(stairType, idModel) {
+    let url: string;
+    
+    if (stairType == 'measure') {
+      url = 'http://admin.proclen.com/rest/escaleras-medida/accesorios/?idEscaleraMedida=';
+    } else if (stairType == 'kit') {
+      url = 'http://admin.proclen.com/rest/escaleras-kit/accesorios/?idEscaleraKit=';
+    } else {
+      url = 'http://admin.proclen.com/rest/escaleras-escamoteables/accesorios/?idEscaleraEscamoteable=';
     }
 
-    return new Promise(resolve => {
-      this.http.get('http://loscillo.com/enesca/mockv2/getAccesories.php')
-        .map(res => res.json())
-        .subscribe(data => {
-          this.dataAccessories = data;
-          resolve(this.dataAccessories);
-        }, (error) => {
-          console.log('Error');
-        })
-    });
+    return this.http.get(url + idModel)
+    .map((res => res.json()));
   }
 
   getServices(stairData) {
@@ -128,56 +137,13 @@ export class PopulateService {
     .map((res => res.json()));
   }
 
-  getKitModels() {
-
-    if (this.dataKitModels) {
-      return Promise.resolve(this.dataKitModels);
-    }
-
-    return new Promise(resolve => {
-      this.http.get('http://admin.proclen.com/rest/escaleras-kit/modelos/')
-        .map(res => res.json())
-        .subscribe(data => {
-          this.dataKitModels = data;
-          resolve(this.dataKitModels);
-        }, (error) => {
-          console.log('Error');
-        })
-    });
+  getKitDiameters(idModel) {
+    return this.http.get('http://admin.proclen.com/rest/escaleras-kit/diametros/?idEscaleraKit=' + idModel)
+    .map((res => res.json()));
   }
 
-  getDiameterKit(idModel) {
-    if (this.dataDiamaterKit) {
-      return Promise.resolve(this.dataDiamaterKit);
-    }
-
-    return new Promise(resolve => {
-      this.http.get('http://admin.proclen.com/rest/escaleras-kit/diametros/?idEscaleraKit=' + idModel)
-        .map(res => res.json())
-        .subscribe(data => {
-          this.dataDiamaterKit = data;
-          resolve(this.dataDiamaterKit);
-        }, (error) => {
-          console.log('Error');
-        })
-    });
-  }
-
-  getEscModels() {
-
-    if (this.dataEscModels) {
-      return Promise.resolve(this.dataEscModels);
-    }
-
-    return new Promise(resolve => {
-      this.http.get('http://admin.proclen.com/rest/escaleras-escamoteables/modelos/')
-        .map(res => res.json())
-        .subscribe(data => {
-          this.dataEscModels = data;
-          resolve(this.dataEscModels);
-        }, (error) => {
-          console.log('Error');
-        })
-    });
+  getKitDiameterMeasures(idKitDiameter) {
+    return this.http.get('http://admin.proclen.com/rest/escaleras-kit/medidas-diametros/?idEscaleraKitDiametro=' + idKitDiameter)
+    .map((res => res.json()));
   }
 }

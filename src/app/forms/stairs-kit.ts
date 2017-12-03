@@ -13,14 +13,16 @@ import {CompleterService, CompleterData} from 'ng2-completer';
 /** Class stair of type kit */
 export class StairsKitComponent implements OnInit {
   populateModels: any;
+  populateKitDiameters: any;
+  populateKitMeasure: any;
   populateAccessories: any;
 
   private stairForm: FormGroup;
-  private populateDiameter: any;
 
   subTotalAccessories: number = 0;
   totalStair: number = 0;
 
+  @Output() notifyModelId: EventEmitter<number> = new EventEmitter<number>();
   @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
   isSubmit: boolean = false;
   emptyField = formErrors.message_emptyField;
@@ -36,8 +38,8 @@ export class StairsKitComponent implements OnInit {
     this.stairForm = this._fb.group({
       idModel: [0],
       model: ['', Validators.required],
-      diameter: ['', Validators.required],
-      measure: ['', Validators.required],
+      diameter: [{value: '', disabled: true}, Validators.required],
+      measure: [{value: '', disabled: true}, Validators.required],
       accessories: this._fb.array([
       ])
     });
@@ -47,28 +49,14 @@ export class StairsKitComponent implements OnInit {
    * Populate the selects, calculate the stair price when the form change and add the values to a JSON
    */
   ngOnInit() {
-    this.populateSelects();
+    this.populateSelectModels();
 
     this.stairForm.valueChanges.subscribe(data => {
-      /*this.calculateAccessoriesPrice(data);
+      this.calculateAccessoriesPrice(data);
       this.totalStair = this.subTotalAccessories + this.calculateModelPrice(data);
       this.notifyTotal.emit(this.totalStair);
       this.cs.validateForm(this.stairForm.valid, "stair");
-      this.cs.addZoho(this.stairForm.value, "stair");*/
-    });
-
-    // @TODO
-    this.stairForm.controls['model'].valueChanges.subscribe(data => {
-      for (var model of this.populateModels) {
-        if (model.name === data) {
-          this.stairForm.controls['idModel'].setValue(model.id);
-          console.log(model.name);
-          this.populateService.getDiameterKit(model.id)
-            .then(data => {
-              this.populateDiameter = data;
-            });
-        }
-      }
+      this.cs.addZoho(this.stairForm.value, "stair");
     });
 
     this.cs.submitted.subscribe(
@@ -77,14 +65,80 @@ export class StairsKitComponent implements OnInit {
   }
 
   /**
+   * Get the data to populate the selects
+   */
+  populateSelectModels() {
+    this.populateService.getModels('kit').subscribe(data => this.populateModels = data);
+  }
+
+  loadDataModel(e) { 
+    this.notifyModelId.emit(this.stairForm.value['model']);
+    this.stairForm.controls['measure'].disable();
+
+    this.populateService.getKitDiameters(e.target.value).subscribe(data => {
+      this.populateKitDiameters = data;
+
+      this.enableInputs('diameter', '');
+    });
+
+    this.populateService.getAccessories('kit', e.target.value).subscribe(data => {
+      this.populateAccessories = data;
+      this.subTotalAccessories = 0;
+
+      this.enableInputs('accessories', 'accessorieName');
+    });
+  }
+
+  loadKitMeasure(e) {
+    this.populateService.getKitDiameterMeasures(e.target.value).subscribe(data => {
+      this.populateKitMeasure = data;
+
+      this.enableInputs('measure', '');
+    });
+  }
+
+  /**
+   * Enable all the first inputs
+   * 
+   * @param controlName - Control row
+   * @param controlInput - Input field
+   */
+  enableInputs(controlName: string, controlInput: string) {
+    if (controlName == 'diameter' || controlName == 'measure') {
+      this.stairForm.controls[controlName].enable();
+    } else {
+      for (let item of this.stairForm.controls[controlName]['controls']) {
+        item.controls[controlInput].enable();
+      }
+    }
+  }
+
+  /**
    * @return {FormGroup} An accessorie form
    */
   initAccessorie() {
     return this._fb.group({
       cant: [1],
-      accessorieName: ['', Validators.required],
+      accessorieName: [{value: '', disabled: this.checkModelValue()}, Validators.required],
       price: [0]
     });
+  }
+
+  /**
+   * Check if the model has a value
+   * 
+   * @returns {boolean} disableInput
+   */
+  checkModelValue() {
+    let disableInput : boolean = true;
+
+    if (typeof this.stairForm !== 'undefined') {
+      if (this.stairForm.value['model'] !== '') {
+        disableInput = false;
+      }
+    }
+
+    return disableInput;
   }
 
   /**
@@ -112,13 +166,15 @@ export class StairsKitComponent implements OnInit {
    * @returns {number}
    */
   calculateModelPrice(data) {
-    var priceModel = 0;
+    let priceModel = 0;
 
-    for (var model of this.populateModels) {
-      if (model.name == data.model) {
-        priceModel = model.price;
+    if (typeof data.measure !== 'undefined') {
+      for (let measure of this.populateKitMeasure) {
+        if (measure.id == Number(data.measure)) {
+          priceModel = measure.Precio;
+        }
       }
-    }
+    } 
 
     return priceModel;
   }
@@ -132,33 +188,22 @@ export class StairsKitComponent implements OnInit {
     this.subTotalAccessories = 0;
     var cont;
 
-    for (var accessorie of this.populateAccessories) {
-      cont = 0;
-      for (var itemAccessorie of data.accessories) {
-        if (accessorie.name == itemAccessorie.accessorieName) {
-          this.stairForm.value.accessories[cont].price = itemAccessorie.cant * accessorie.price;
+    if (typeof this.populateAccessories !== 'undefined') {
+
+      for (var accessorie of this.populateAccessories) {
+        cont = 0;
+        for (var itemAccessorie of data.accessories) {
+          if (accessorie.id == Number(itemAccessorie.accessorieName)) {
+            this.stairForm.value.accessories[cont].price = itemAccessorie.cant * accessorie.Precio;
+          }
+          cont++;
         }
-        cont++;
       }
+
+      for (var itemAccessorie of data.accessories) {
+        this.subTotalAccessories = this.subTotalAccessories + itemAccessorie.price;
+      }
+
     }
-
-    for (var itemAccessorie of data.accessories) {
-      this.subTotalAccessories = this.subTotalAccessories + itemAccessorie.price;
-    }
-  }
-
-  /**
-   * Get the data to populate the selects
-   */
-  populateSelects() {
-    this.populateService.getKitModels()
-      .then(data => {
-        this.populateModels = data;
-      });
-
-    this.populateService.getAccessories()
-      .then(data => {
-        this.populateAccessories = data;
-      });
   }
 }

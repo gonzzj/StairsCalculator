@@ -85,8 +85,8 @@ export class StairsMeasureComponent implements OnInit {
       this.calculateTreadPrice(data);
       this.calculateRailingPrice(data);
       this.calculateGuardrailPrice(data);
-      /*this.calculateAccessoriesPrice(data);
-      this.cs.validateForm(this.stairForm.valid, 'stair');
+      //this.calculateAccessoriesPrice(data);
+      /*this.cs.validateForm(this.stairForm.valid, 'stair');
       this.cs.addZoho(this.stairForm.value, 'stair');*/
 
       // @TODO VER ESTO CON VANE PARA VERIFICAR
@@ -103,7 +103,7 @@ export class StairsMeasureComponent implements OnInit {
    * Get the data to populate the stair models
    */
   populateSelectModels() {
-    this.populateService.getMeasureModels().subscribe(data => this.populateModels = data);
+    this.populateService.getModels('measure').subscribe(data => this.populateModels = data);
   }
 
   loadDataModel(e) {
@@ -136,6 +136,13 @@ export class StairsMeasureComponent implements OnInit {
       this.subTotalGuardrail = 0;
 
       this.enableInputs('guardrail', 'model');
+    });
+
+    this.populateService.getAccessories('measure', e.target.value).subscribe(data => {
+      this.populateAccessories = data;
+      this.subTotalAccessories = 0;
+
+      this.enableInputs('accessories', 'accessorieName');
     });
   }
 
@@ -187,7 +194,7 @@ export class StairsMeasureComponent implements OnInit {
   initAccessorie() {
     return this._fb.group({
       cant: [1, Validators.required],
-      accessorieName: ['', Validators.required],
+      accessorieName: [{value: '', disabled: this.checkModelValue()}, Validators.required],
       type: ['structures'],
       id: [''],
       unitPrice: [''],
@@ -262,6 +269,7 @@ export class StairsMeasureComponent implements OnInit {
     this.subTotalTreads = 0;
 
     for (var itemTread of data.treads) {
+      // this.calculateAccessoriesPrice(data);
       this.subTotalTreads = this.subTotalTreads + itemTread.price;
     }
   }
