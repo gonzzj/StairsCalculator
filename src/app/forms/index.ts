@@ -25,6 +25,7 @@ import { RailingFormComponent } from './railing/railing';
 import { GuardrailFormComponent } from './guardrail/guardrail';
 import { ServiceInputComponent } from './service-input/service-input';
 import { TransportInputComponent } from './transport-input/transport-input';
+import { ModalLoadingComponent } from './modal-loading/modal-loading';
 
 @NgModule({
   imports: [
@@ -52,7 +53,8 @@ import { TransportInputComponent } from './transport-input/transport-input';
     RailingFormComponent,
     GuardrailFormComponent,
     ServiceInputComponent,
-    TransportInputComponent
+    TransportInputComponent,
+    ModalLoadingComponent
   ],
   exports: [
     StairsComponent

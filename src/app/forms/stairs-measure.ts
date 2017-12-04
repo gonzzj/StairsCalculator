@@ -3,6 +3,8 @@ import {PopulateService} from '../services/PopulateService';
 import {CommunicateService} from '../services/CommunicateService';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {formErrors} from '../constants';
+declare var jquery:any;
+declare var $ :any;
 
 @Component({
     selector: 'stairs-measure',
@@ -86,8 +88,8 @@ export class StairsMeasureComponent implements OnInit {
       this.calculateRailingPrice(data);
       this.calculateGuardrailPrice(data);
       //this.calculateAccessoriesPrice(data);
-      /*this.cs.validateForm(this.stairForm.valid, 'stair');
-      this.cs.addZoho(this.stairForm.value, 'stair');*/
+      this.cs.validateForm(this.stairForm.valid, 'stair');
+      this.cs.addZoho(this.stairForm.value, 'stair');
 
       // @TODO VER ESTO CON VANE PARA VERIFICAR
       this.totalStair = (this.subTotalTreads + this.subTotalAccessories + this.subTotalRailing + this.subTotalGuardrail + this.subTotalStructures) * this.stairForm.controls['cant'].value;
@@ -108,6 +110,7 @@ export class StairsMeasureComponent implements OnInit {
 
   loadDataModel(e) {
     // @TODO Probar meter un popup loading para evitar tardar (solamente aca)
+
     this.notifyModelId.emit(this.stairForm.value['model']);
 
     this.populateService.getTreadName(e.target.value).subscribe(data => { 
@@ -244,6 +247,16 @@ export class StairsMeasureComponent implements OnInit {
   removeRow(controlInput: any) {
     const control = <FormArray>this.stairForm.controls[controlInput.name];
     control.removeAt(controlInput.index);
+  }
+
+  /**
+   * Remove an Accessorie form
+   *
+   * @param controlInput - The Child Input
+   */
+  removeAccessorieRow(index, name) {
+    const control = <FormArray>this.stairForm.controls[name];
+    control.removeAt(index);
   }
 
   /**

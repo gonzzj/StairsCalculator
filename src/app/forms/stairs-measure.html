@@ -106,11 +106,12 @@
       </div>
 
       <div class="col-sm-1">
-        <button (click)="removeRow(e, 'accessories')" type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <button (click)="removeAccessorieRow(e, 'accessories')" type="button" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
       </div>
     </div>
     <button (click)="addRow('accessories')" type="button" class="btn btn-primary">Agregar fila <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
     <h5 class="subtotal-title">Subtotal: {{subTotalAccessories | formatprice}} €</h5>
   </div>
+  <modal-loading></modal-loading>
 </div>
 

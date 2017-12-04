@@ -14,6 +14,7 @@ import { SimpleChanges, OnChanges } from '@angular/core/src/metadata/lifecycle_h
 /** Class transport child component */
 export class TransportComponent implements OnInit, OnChanges {
   @Input('stairData') stairData: Array<Object>;
+  @Input('stairName') stairName: string;
   populateZones: any;
 
   private transportsForm: FormGroup;
@@ -59,6 +60,17 @@ export class TransportComponent implements OnInit, OnChanges {
             this.populateTransportSelects();
             
             this.enableInputs();
+        }
+      }
+
+      if (typeof changes['stairName'] !== 'undefined') {
+        if (changes['stairName']['currentValue'] !== changes['stairName']['previousValue']) {
+          this.transportsForm = this._fb.group({
+            transports: this._fb.array([
+            ])
+          });
+
+          // @TODO arreglar bug cuando cambia el stair type
         }
       }
     });

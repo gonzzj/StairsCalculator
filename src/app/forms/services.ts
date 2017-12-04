@@ -14,6 +14,7 @@ import { SimpleChanges, OnChanges } from '@angular/core/src/metadata/lifecycle_h
 /** Class service child component */
 export class ServicesComponent implements OnInit, OnChanges {
   @Input('stairData') stairData: Array<Object>;
+  @Input('stairName') stairName: string;
   populateServices: any;
   populateServicesZones: any;
 
@@ -60,6 +61,17 @@ export class ServicesComponent implements OnInit, OnChanges {
           this.populateServiceSelects();
 
           this.enableInputs();
+        }
+      }
+
+      if (typeof changes['stairName'] !== 'undefined') {
+        if (changes['stairName']['currentValue'] !== changes['stairName']['previousValue']) {
+          this.servicesForm = this._fb.group({
+            services: this._fb.array([
+            ])
+          });
+
+          // @TODO arreglar bug cuando cambia el stair type
         }
       }
     });
