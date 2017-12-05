@@ -3,7 +3,8 @@ import {PopulateService} from '../services/PopulateService';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {CommunicateService} from '../services/CommunicateService';
 import {formErrors} from '../constants';
-import {CompleterService, CompleterData} from 'ng2-completer';
+declare var jquery:any;
+declare var $ :any;
 
 @Component({
     selector: 'stairs-kit',
@@ -32,9 +33,8 @@ export class StairsKitComponent implements OnInit {
    * @param populateService - service for populate the selects.
    * @param _fb
    * @param cs - service for communicate all the components.
-   * @param completerService - autocomplete
    */
-  constructor(private populateService: PopulateService, private _fb: FormBuilder, private cs: CommunicateService, private completerService: CompleterService) {
+  constructor(private populateService: PopulateService, private _fb: FormBuilder, private cs: CommunicateService) {
     this.stairForm = this._fb.group({
       idModel: [0],
       model: ['', Validators.required],
@@ -72,6 +72,13 @@ export class StairsKitComponent implements OnInit {
   }
 
   loadDataModel(e) { 
+    let dataLoading = [{
+      diameter: false,
+      accessories: false
+    }];
+
+    $('#modalLoading').modal('show');
+
     this.notifyModelId.emit(this.stairForm.value['model']);
     this.stairForm.controls['measure'].disable();
 
@@ -79,6 +86,9 @@ export class StairsKitComponent implements OnInit {
       this.populateKitDiameters = data;
 
       this.enableInputs('diameter', '');
+
+      dataLoading[0]['diameter'] = true;
+      this.hideLoading(dataLoading);
     });
 
     this.populateService.getAccessories('kit', e.target.value).subscribe(data => {
@@ -86,6 +96,9 @@ export class StairsKitComponent implements OnInit {
       this.subTotalAccessories = 0;
 
       this.enableInputs('accessories', 'accessorieName');
+
+      dataLoading[0]['accessories'] = true;
+      this.hideLoading(dataLoading);
     });
   }
 
@@ -95,6 +108,12 @@ export class StairsKitComponent implements OnInit {
 
       this.enableInputs('measure', '');
     });
+  }
+
+  hideLoading(dataLoading) {
+    if (dataLoading[0]['diameter'] == true && dataLoading[0]['accessories'] == true) {
+      $('#modalLoading').modal('hide');
+    }
   }
 
   /**

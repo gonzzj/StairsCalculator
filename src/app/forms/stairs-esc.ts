@@ -3,7 +3,8 @@ import {PopulateService} from '../services/PopulateService';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {CommunicateService} from '../services/CommunicateService';
 import {formErrors} from '../constants';
-import {CompleterService, CompleterData} from 'ng2-completer';
+declare var jquery:any;
+declare var $ :any;
 
 @Component({
     selector: 'stairs-esc',
@@ -31,9 +32,8 @@ export class StairsEscComponent implements OnInit {
    * @param populateService - service for populate the selects.
    * @param _fb
    * @param cs - service for communicate all the components.
-   * @param completerService - autocomplete
    */
-  constructor(private populateService: PopulateService, private _fb: FormBuilder, private cs: CommunicateService, private completerService: CompleterService) {
+  constructor(private populateService: PopulateService, private _fb: FormBuilder, private cs: CommunicateService) {
     this.stairForm = this._fb.group({
       model: ['', Validators.required],
       measure: [{value: '', disabled: true}, Validators.required],
@@ -69,6 +69,12 @@ export class StairsEscComponent implements OnInit {
   }
 
   loadDataModel(e) { 
+    let dataLoading = [{
+      accessories: false
+    }];
+
+    $('#modalLoading').modal('show');
+
     this.notifyModelId.emit(this.stairForm.value['model']);
 
     //this.populateService.getKitDiameters(e.target.value).subscribe(data => {
@@ -77,12 +83,22 @@ export class StairsEscComponent implements OnInit {
       this.stairForm.controls['measure'].enable();
     //});
 
-    this.populateService.getAccessories('kit', e.target.value).subscribe(data => {
+    this.populateService.getAccessories('esc', e.target.value).subscribe(data => {
       this.populateAccessories = data;
+      console.log(data);
       this.subTotalAccessories = 0;
 
       this.enableInputs('accessories', 'accessorieName');
+
+      dataLoading[0]['accessories'] = true;
+      this.hideLoading(dataLoading);
     });
+  }
+
+  hideLoading(dataLoading) {
+    if (dataLoading[0]['accessories'] == true) {
+      $('#modalLoading').modal('hide');
+    }
   }
 
   /**

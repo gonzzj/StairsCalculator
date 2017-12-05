@@ -109,22 +109,36 @@ export class StairsMeasureComponent implements OnInit {
   }
 
   loadDataModel(e) {
-    // @TODO Probar meter un popup loading para evitar tardar (solamente aca)
+    let dataLoading = [{
+      structures: false,
+      treads: false,
+      accessories: false,
+      railing: false,
+      guardrail: false
+    }];
+
+    $('#modalLoading').modal('show');
 
     this.notifyModelId.emit(this.stairForm.value['model']);
 
-    this.populateService.getTreadName(e.target.value).subscribe(data => { 
+    this.populateService.getTreadName(e.target.value).subscribe(data => {
       this.populateTreadName = data;
       this.subTotalTreads = 0;
 
-      this.enableInputs('structures', 'type');
+      this.enableInputs('treads', 'treadName');
+
+      dataLoading[0]['treads'] = true;
+      this.hideLoading(dataLoading);
     });
 
     this.populateService.getStructure(e.target.value).subscribe(data => {
       this.populateStructure = data;
       this.subTotalStructures = 0;
 
-      this.enableInputs('treads', 'treadName');
+      this.enableInputs('structures', 'type');
+
+      dataLoading[0]['structures'] = true;
+      this.hideLoading(dataLoading);
     });
 
     this.populateService.getRailingModels(e.target.value).subscribe(data => {
@@ -132,6 +146,9 @@ export class StairsMeasureComponent implements OnInit {
       this.subTotalRailing = 0;
 
       this.enableInputs('railing', 'model');
+
+      dataLoading[0]['railing'] = true;
+      this.hideLoading(dataLoading);
     });
 
     this.populateService.getGuardrailModels(e.target.value).subscribe(data => {
@@ -139,6 +156,9 @@ export class StairsMeasureComponent implements OnInit {
       this.subTotalGuardrail = 0;
 
       this.enableInputs('guardrail', 'model');
+
+      dataLoading[0]['guardrail'] = true;
+      this.hideLoading(dataLoading);
     });
 
     this.populateService.getAccessories('measure', e.target.value).subscribe(data => {
@@ -146,7 +166,16 @@ export class StairsMeasureComponent implements OnInit {
       this.subTotalAccessories = 0;
 
       this.enableInputs('accessories', 'accessorieName');
+
+      dataLoading[0]['accessories'] = true;
+      this.hideLoading(dataLoading);
     });
+  }
+
+  hideLoading(dataLoading) {
+    if (dataLoading[0]['railing'] == true && dataLoading[0]['guardrail'] == true && dataLoading[0]['accessories'] == true && dataLoading[0]['structures'] == true && dataLoading[0]['treads'] == true) {
+      $('#modalLoading').modal('hide');
+    }
   }
 
   /**
@@ -305,7 +334,7 @@ export class StairsMeasureComponent implements OnInit {
    */
   calculateGuardrailPrice(data: any) {
     this.subTotalGuardrail = 0;
-    
+
     this.subTotalGuardrail = data.guardrail['priceStraight'] + data.guardrail['priceCurve']
   }
 
