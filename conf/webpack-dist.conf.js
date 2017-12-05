@@ -17,10 +17,16 @@ module.exports = {
       },
       {
         test: /\.(css|scss)$/,
-        loaders: ExtractTextPlugin.extract({
+        loaders: [
+          'style',
+          'css',
+          'sass',
+          'postcss'
+        ]
+        /* loaders: ExtractTextPlugin.extract({
           fallbackLoader: 'style',
           loader: 'css?minimize!sass!postcss'
-        })
+        })*/
       },
       {
         test: /\.ts$/,
