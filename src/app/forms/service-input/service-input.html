@@ -5,13 +5,13 @@
     </div>
     <div class="col-sm-4">
         <select class="form-control custom-select" formControlName="zone">
-            <option [value]="zone.id" *ngFor="let zone of dataServiceZones">{{zone.name}}</option>
+            <option value="{{zone.id}}" *ngFor="let zone of dataServiceZones">{{zone.name}}</option>
         </select>
         <small [hidden]="serviceInputForm.controls.zone.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
     </div>
     <div class="col-sm-4">
         <select class="form-control custom-select" formControlName="serviceName">
-            <option [value]="service.id" *ngFor="let service of dataService">{{service.name}}</option>
+            <option value="{{service.id}}" *ngFor="let service of dataService">{{service.name}}</option>
         </select>
         <small [hidden]="serviceInputForm.controls.serviceName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
     </div>

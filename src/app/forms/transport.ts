@@ -54,31 +54,29 @@ export class TransportComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    setTimeout(() => {
-      if (typeof this.stairData !== 'undefined') {
-        if (this.stairData[0]['stairModelId'] !== '') {
-            this.populateTransportSelects();
-            
-            this.enableInputs();
-        }
-      }
+    if (typeof this.stairData !== 'undefined') {
+      if (this.stairData[0]['stairModelId'] !== '') {
+          this.populateTransportSelects();
 
-      if (typeof changes['stairName'] !== 'undefined') {
-        if (changes['stairName']['currentValue'] !== changes['stairName']['previousValue']) {
-          this.transportsForm = this._fb.group({
-            transports: this._fb.array([
-            ])
-          });
-
-          // @TODO arreglar bug cuando cambia el stair type
-        }
+          this.enableInputs();
       }
-    });
+    }
+
+    if (typeof changes['stairName'] !== 'undefined') {
+      if (changes['stairName']['currentValue'] !== changes['stairName']['previousValue']) {
+        this.transportsForm = this._fb.group({
+          transports: this._fb.array([
+          ])
+        });
+
+        // @TODO arreglar bug cuando cambia el stair type
+      }
+    }
   }
 
   /**
-  * Get the data to populate the selects
-  */
+   * Get the data to populate the selects
+   */
   populateTransportSelects() {
     if (typeof this.stairData !== 'undefined') {
       this.populateService.getTransportZones(this.stairData).subscribe(data => this.populateZones = data);
@@ -92,7 +90,7 @@ export class TransportComponent implements OnInit, OnChanges {
       }
     }
   }
-  
+
   /**
    * Check if the model has a value
    * 
@@ -147,7 +145,7 @@ export class TransportComponent implements OnInit, OnChanges {
    */
   calculateTransportPrice(data) {
     this.subTotalTransports = 0;
-    
+
     for (var itemTransport of data.transports) {
       this.subTotalTransports = this.subTotalTransports + itemTransport.price;
     }

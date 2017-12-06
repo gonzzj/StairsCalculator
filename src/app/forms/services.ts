@@ -55,26 +55,24 @@ export class ServicesComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    setTimeout(() => {
-      if (typeof this.stairData !== 'undefined') {
-        if (this.stairData[0]['stairModelId'] !== '') {
-          this.populateServiceSelects();
+    if (typeof this.stairData !== 'undefined') {
+      if (this.stairData[0]['stairModelId'] !== '') {
+        this.populateServiceSelects();
 
-          this.enableInputs();
-        }
+        this.enableInputs();
       }
+    }
 
-      if (typeof changes['stairName'] !== 'undefined') {
-        if (changes['stairName']['currentValue'] !== changes['stairName']['previousValue']) {
-          this.servicesForm = this._fb.group({
-            services: this._fb.array([
-            ])
-          });
+    if (typeof changes['stairName'] !== 'undefined') {
+      if (changes['stairName']['currentValue'] !== changes['stairName']['previousValue']) {
+        this.servicesForm = this._fb.group({
+          services: this._fb.array([
+          ])
+        });
 
-          // @TODO arreglar bug cuando cambia el stair type
-        }
+        // @TODO arreglar bug cuando cambia el stair type
       }
-    });
+    }
   }
 
   /**
@@ -83,7 +81,7 @@ export class ServicesComponent implements OnInit, OnChanges {
   populateServiceSelects() {
     if (typeof this.stairData !== 'undefined') {
       this.populateService.getServices(this.stairData).subscribe(data => this.populateServices = data);
-      
+
       this.populateService.getServicesZones().subscribe(data => this.populateServicesZones = data);
     }
   }
@@ -96,7 +94,7 @@ export class ServicesComponent implements OnInit, OnChanges {
       }
     }
   }
-  
+
   /**
    * Check if the model has a value
    * 
@@ -151,7 +149,7 @@ export class ServicesComponent implements OnInit, OnChanges {
    */
   calculateServicePrice(data) {
     this.subTotalServices = 0;
-    
+
     for (var itemService of data.services) {
       this.subTotalServices = this.subTotalServices + itemService.price;
     }
