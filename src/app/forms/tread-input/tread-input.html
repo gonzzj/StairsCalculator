@@ -8,7 +8,10 @@
     </div>
     <div class="col-sm-3">
         <select class="form-control custom-select" formControlName="treadName" (change)="loadTreadFinishData($event)">
-            <option [value]="treadName.id" *ngFor="let treadName of dataTread">{{treadName.name}}</option>
+            <option [value]="treadName.id" *ngFor="let treadName of dataTread">
+                <span *ngIf="treadName.tipo === 1">{{treadName.name}} - Peldaño</span>
+                <span *ngIf="treadName.tipo === 2">{{treadName.name}} - [C]</span>
+            </option>
         </select>
         <small [hidden]="treadInputForm.controls.treadName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
     </div>

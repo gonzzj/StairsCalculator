@@ -17,17 +17,24 @@ export class TransportInputComponent implements OnInit, OnChanges {
     @Input('index') index: FormGroup;
     @Output() getControlRow: EventEmitter<any> = new EventEmitter<any>();
 
+    transportZones: any;
     priceTransport: number = 0;
     isSubmit: boolean = false;
 
     constructor(private populateService: PopulateService, private cs: CommunicateService) {}
 
     ngOnInit() {
+        this.loadZones();
+
         this.transportInputForm.valueChanges.subscribe(data => {
             this.calculatePrice(data);
         });
 
         this.cs.submitted.subscribe(data => this.isSubmit = data);
+    }
+
+    loadZones() {
+        this.populateService.getTransportZones().subscribe(data => this.transportZones = data);
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -38,9 +45,9 @@ export class TransportInputComponent implements OnInit, OnChanges {
 
     calculatePrice(data) {
         if (typeof this.dataZones !== 'undefined') {
-            for (let zone of this.dataZones) {
-                if (zone.id === Number(data.zoneName)) {
-                    this.priceTransport = zone.Precio * data.cant;
+            for (let priceZone of this.dataZones) {
+                if (priceZone.ZonaId === Number(data.zoneName)) {
+                    this.priceTransport = priceZone.Precio * data.cant;
 
                     this.transportInputForm.value['price'] = this.priceTransport;
                 }

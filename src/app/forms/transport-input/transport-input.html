@@ -5,7 +5,7 @@
     </div>
     <div class="col-sm-8">
         <select class="form-control custom-select" formControlName="zoneName">
-            <option [value]="zone.id" *ngFor="let zone of dataZones">{{zone.name}}</option>
+            <option [value]="zone.id" *ngFor="let zone of transportZones">{{zone.name}}</option>
         </select>
         <small [hidden]="transportInputForm.controls.zoneName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
     </div>

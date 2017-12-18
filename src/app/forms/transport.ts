@@ -79,7 +79,7 @@ export class TransportComponent implements OnInit, OnChanges {
    */
   populateTransportSelects() {
     if (typeof this.stairData !== 'undefined') {
-      this.populateService.getTransportZones(this.stairData).subscribe(data => this.populateZones = data);
+      this.populateService.getTransportPrices(this.stairData).subscribe(data => this.populateZones = data);
     }
   }
 

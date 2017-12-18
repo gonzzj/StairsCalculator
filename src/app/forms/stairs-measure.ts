@@ -92,7 +92,7 @@ export class StairsMeasureComponent implements OnInit {
       this.cs.addZoho(this.stairForm.value, 'stair');
 
       // @TODO VER ESTO CON VANE PARA VERIFICAR
-      this.totalStair = (this.subTotalTreads + this.subTotalAccessories + this.subTotalRailing + this.subTotalGuardrail + this.subTotalStructures) * this.stairForm.controls['cant'].value;
+      this.totalStair = this.subTotalTreads + this.subTotalAccessories + this.subTotalRailing + this.subTotalGuardrail + (this.subTotalStructures * this.stairForm.controls['cant'].value);
       this.notifyTotal.emit(this.totalStair);
     });
 

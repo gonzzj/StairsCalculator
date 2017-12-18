@@ -4,24 +4,15 @@ import {Injectable} from '@angular/core';
 
 @Injectable()
 export class PopulateService {
-  private dataKitModels: any;
-  private dataEscModels: any;
-  private dataTreadFinish: any;
-  private dataMeasure: any;
-  private dataAccessories: any;
-  private dataModelsRailing: any;
-  private dataZones: any;
-  private dataServices: any;
-  private dataDiamaterKit: any;
 
   constructor(private http: Http) {}
 
   getModels(stairType) {
     let url: string;
-    
-    if (stairType == 'measure') {
+
+    if (stairType === 'measure') {
       url = 'http://admin.proclen.com/rest/escaleras-medida/modelos/';
-    } else if (stairType == 'kit') {
+    } else if (stairType === 'kit') {
       url = 'http://admin.proclen.com/rest/escaleras-kit/modelos/';
     } else {
       url = 'http://admin.proclen.com/rest/escaleras-escamoteables/modelos/';
@@ -32,7 +23,7 @@ export class PopulateService {
   }
 
   getTreadName(idModel: number) {
-    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/peldanios-contrahuellas/?idEscalerasMedidaPeldano=' + idModel)
+    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/peldanios-contrahuellas/?idEscaleraMedida=' + idModel)
     .map((res => res.json()));
   }
 
@@ -89,10 +80,10 @@ export class PopulateService {
   // @TODO No funciona la llamada de escaleras Type Measure
   getAccessories(stairType, idModel) {
     let url: string;
-    
-    if (stairType == 'measure') {
+
+    if (stairType === 'measure') {
       url = 'http://admin.proclen.com/rest/escaleras-medida/accesorios/?idEscaleraMedida=';
-    } else if (stairType == 'kit') {
+    } else if (stairType === 'kit') {
       url = 'http://admin.proclen.com/rest/escaleras-kit/accesorios/?idEscaleraKit=';
     } else {
       url = 'http://admin.proclen.com/rest/escaleras-escamoteables/accesorios/?idEscaleraEscamoteable=';
@@ -105,9 +96,9 @@ export class PopulateService {
   getServices(stairData) {
     let url: string;
 
-    if (stairData[0]['stairType'] == 'measure') {
+    if (stairData[0]['stairType'] === 'measure') {
       url = 'http://admin.proclen.com/rest/escaleras-medida/tipos-montajes/?idEscaleraMedida=';
-    } else if (stairData[0]['stairType'] == 'kit') {
+    } else if (stairData[0]['stairType'] === 'kit') {
       url = 'http://admin.proclen.com/rest/escaleras-kit/tipos-montajes/?idEscaleraKit=';
     } else {
       url = 'http://admin.proclen.com/rest/escaleras-escamoteables/tipos-montajes/?idEscaleraEscamoteable=';
@@ -122,9 +113,9 @@ export class PopulateService {
     .map((res => res.json()));
   }
 
-  getTransportZones(stairData) {
+  getTransportPrices(stairData) {
     let url: string;
-    
+
     if (stairData[0]['stairType'] == 'measure') {
       url = 'http://admin.proclen.com/rest/escaleras-medida/transportes/?idEscaleraMedida=';
     } else if (stairData[0]['stairType'] == 'kit') {
@@ -134,6 +125,11 @@ export class PopulateService {
     }
 
     return this.http.get(url + stairData[0]['stairModelId'])
+    .map((res => res.json()));
+  }
+
+  getTransportZones() {
+    return this.http.get('http://admin.proclen.com/rest/zonas-transportes/')
     .map((res => res.json()));
   }
 
