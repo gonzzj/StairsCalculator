@@ -43,7 +43,7 @@ export class PopulateService {
   }
 
   getStructureFinish(idStructure: number) {
-    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/acabados-estructuras/' + idStructure)
+    return this.http.get('http://admin.proclen.com/rest/escaleras-medida/acabados-estructuras/?idEscalerasMedidaEstructuraTipo=' + idStructure)
     .map((res => res.json()));
   }
 
@@ -77,7 +77,6 @@ export class PopulateService {
     .map((res => res.json()));
   }
 
-  // @TODO No funciona la llamada de escaleras Type Measure
   getAccessories(stairType, idModel) {
     let url: string;
 

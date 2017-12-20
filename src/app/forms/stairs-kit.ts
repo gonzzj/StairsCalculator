@@ -189,11 +189,11 @@ export class StairsKitComponent implements OnInit {
 
     if (typeof data.measure !== 'undefined') {
       for (let measure of this.populateKitMeasure) {
-        if (measure.id == Number(data.measure)) {
+        if (measure.id === Number(data.measure)) {
           priceModel = measure.Precio;
         }
       }
-    } 
+    }
 
     return priceModel;
   }

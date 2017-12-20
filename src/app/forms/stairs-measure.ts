@@ -87,11 +87,10 @@ export class StairsMeasureComponent implements OnInit {
       this.calculateTreadPrice(data);
       this.calculateRailingPrice(data);
       this.calculateGuardrailPrice(data);
-      //this.calculateAccessoriesPrice(data);
+      this.calculateAccessoriesPrice(data);
       this.cs.validateForm(this.stairForm.valid, 'stair');
       this.cs.addZoho(this.stairForm.value, 'stair');
 
-      // @TODO VER ESTO CON VANE PARA VERIFICAR
       this.totalStair = this.subTotalTreads + this.subTotalAccessories + this.subTotalRailing + this.subTotalGuardrail + (this.subTotalStructures * this.stairForm.controls['cant'].value);
       this.notifyTotal.emit(this.totalStair);
     });
@@ -345,39 +344,41 @@ export class StairsMeasureComponent implements OnInit {
    */
   calculateAccessoriesPrice(data: any) {
     this.subTotalAccessories = 0;
-    var cont;
+    let cont;
 
-    for (var accessorie of this.populateAccessories) {
-      cont = 0;
+    if (typeof this.populateAccessories !== 'undefined') {
+      for (let accessorie of this.populateAccessories) {
+        cont = 0;
 
-      for (var itemAccessorie of data.accessories) {
-        if (itemAccessorie['type'] === 'railing') {
-          if (itemAccessorie['unitPrice'] === 'eur') {
-            if (accessorie.name === itemAccessorie.accessorieName) {
-              this.stairForm.value.accessories[cont].price = itemAccessorie.cant * accessorie.price;
+        for (let itemAccessorie of data.accessories) {
+          if (itemAccessorie['type'] === 'railing') {
+            if (itemAccessorie['unitPrice'] === 'eur') {
+              if (accessorie.id === Number(itemAccessorie.accessorieName)) {
+                this.stairForm.value.accessories[cont].price = itemAccessorie.cant * accessorie.Precio;
+              }
+            } else if (itemAccessorie['unitPrice'] === 'porc'){
+              if (accessorie.id === Number(itemAccessorie.accessorieName)) {
+                this.stairForm.value.accessories[cont].price = ((this.subTotalRailing * accessorie.Porcentaje) / 100) * itemAccessorie.cant;
+              }
             }
-          } else if (itemAccessorie['unitPrice'] === 'porc'){
-            if (accessorie.name === itemAccessorie.accessorieName) {
-              this.stairForm.value.accessories[cont].price = ((this.subTotalRailing * accessorie.percentaje) / 100) * itemAccessorie.cant;
+          } else {
+            if (itemAccessorie['unitPrice'] === 'eur' && itemAccessorie['id']) {
+              if (accessorie.id === Number(itemAccessorie.accessorieName)) {
+                this.stairForm.value.accessories[cont].price = itemAccessorie.cant * accessorie.Precio;
+              }
+            } else if (itemAccessorie['unitPrice'] === 'porc' && itemAccessorie['id']) {
+              if (accessorie.id === Number(itemAccessorie.accessorieName)) {
+                this.stairForm.value.accessories[cont].price = ((this.stairForm.controls[itemAccessorie['type']]['controls'][itemAccessorie['id']].value.price * accessorie.Porcentaje) / 100) * itemAccessorie.cant;
+              }
             }
           }
-        } else {
-          if (itemAccessorie['unitPrice'] === 'eur' && itemAccessorie['id']) {
-            if (accessorie.name === itemAccessorie.accessorieName) {
-              this.stairForm.value.accessories[cont].price = itemAccessorie.cant * accessorie.price;
-            }
-          } else if (itemAccessorie['unitPrice'] === 'porc' && itemAccessorie['id']) {
-            if (accessorie.name === itemAccessorie.accessorieName) {
-              this.stairForm.value.accessories[cont].price = ((this.stairForm.controls[itemAccessorie['type']]['controls'][itemAccessorie['id']].value.price * accessorie.percentaje) / 100) * itemAccessorie.cant;
-            }
-          }
+
+          cont++;
         }
-
-        cont++;
       }
     }
 
-    for (var itemAccessorie of data.accessories) {
+    for (let itemAccessorie of data.accessories) {
       this.subTotalAccessories = this.subTotalAccessories + itemAccessorie.price;
     }
   }

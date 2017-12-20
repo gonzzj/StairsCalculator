@@ -14,7 +14,7 @@ declare var $ :any;
 /** Class stair of type esc */
 export class StairsEscComponent implements OnInit {
   populateModels: any;
-  populateEscMeasure: any;
+  populateEscMeasures: any;
   populateAccessories: any;
 
   private stairForm: FormGroup;
@@ -68,7 +68,7 @@ export class StairsEscComponent implements OnInit {
     this.populateService.getModels('esc').subscribe(data => this.populateModels = data);
   }
 
-  loadDataModel(e) { 
+  loadDataModel(e) {
     let dataLoading = [{
       accessories: false
     }];
@@ -77,15 +77,14 @@ export class StairsEscComponent implements OnInit {
 
     this.notifyModelId.emit(this.stairForm.value['model']);
 
-    //this.populateService.getKitDiameters(e.target.value).subscribe(data => {
-    //this.populateKitDiameters = data;
+    this.populateService.getKitDiameterMeasures(e.target.value).subscribe(data => {
+      this.populateEscMeasures = data;
 
       this.stairForm.controls['measure'].enable();
-    //});
+    });
 
     this.populateService.getAccessories('esc', e.target.value).subscribe(data => {
       this.populateAccessories = data;
-      console.log(data);
       this.subTotalAccessories = 0;
 
       this.enableInputs('accessories', 'accessorieName');
@@ -172,11 +171,13 @@ export class StairsEscComponent implements OnInit {
   calculateModelPrice(data) {
     var priceModel = 0;
 
-    /*for (var model of this.populateModels) {
-      if (model.name == data.model) {
-        priceModel = model.price;
+    if (typeof data.measure !== 'undefined') {
+      for (let measure of this.populateEscMeasures) {
+        if (measure.id === Number(data.measure)) {
+          priceModel = measure.Precio;
+        }
       }
-    }*/
+    }
 
     return priceModel;
   }

@@ -15,11 +15,7 @@
       <label for="inputMeasure" class="col-sm-2 col-form-label">Medida</label>
       <div class="col-sm-10">
         <select class="form-control custom-select" id="inputMeasure" formControlName="measure">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
+          <option value="{{measure.id}}" *ngFor="let measure of populateEscMeasures">{{measure.name}}</option>
         </select>
         <small [hidden]="stairForm.controls.measure.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
