@@ -77,7 +77,7 @@ export class StairsEscComponent implements OnInit {
 
     this.notifyModelId.emit(this.stairForm.value['model']);
 
-    this.populateService.getKitDiameterMeasures(e.target.value).subscribe(data => {
+    this.populateService.getEscMeasures(e.target.value).subscribe(data => {
       this.populateEscMeasures = data;
 
       this.stairForm.controls['measure'].enable();

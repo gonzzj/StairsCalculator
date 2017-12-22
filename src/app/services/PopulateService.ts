@@ -141,4 +141,9 @@ export class PopulateService {
     return this.http.get('http://admin.proclen.com/rest/escaleras-kit/medidas-diametros/?idEscaleraKitDiametro=' + idKitDiameter)
     .map((res => res.json()));
   }
+
+  getEscMeasures(idModel) {
+    return this.http.get('http://admin.proclen.com/rest/escaleras-escamoteables/tamanios/?idEscaleraEscamoteable=' + idModel)
+    .map((res => res.json()));
+  }
 }
