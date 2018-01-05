@@ -75,11 +75,13 @@ export class GuardrailFormComponent implements OnInit, OnChanges {
             this.populateGuardrailFinish = data;
 
             this.guardrailForm.controls['finish'].enable();
+            this.guardrailForm.controls['cantStraight'].enable();
+            this.guardrailForm.controls['cantCurve'].enable();
         });
     }
 
     calculatePrice(data) {
-        if (typeof this.populateGuardrailFinish !== 'undefined') {
+        if (typeof this.populateGuardrailFinish !== 'undefined' && typeof data.cantStraight !== 'undefined') {
             for (var guardrailFinish of this.populateGuardrailFinish) {
                 if (guardrailFinish.id === Number(data.finish)) {
                     this.priceGuardrailStraight = guardrailFinish['Precio metro recta'] * data.cantStraight;
@@ -93,8 +95,8 @@ export class GuardrailFormComponent implements OnInit, OnChanges {
     }
 
     /**
-    * Enable or Disable the Guardrail Form
-    */
+     *  Enable or Disable the Guardrail Form
+     */
     checkGuardrail(): void {
         if (this.guardrailForm.controls['activeGuardrail'].value) {
             if (this.stairModel.value != '') {
@@ -106,6 +108,9 @@ export class GuardrailFormComponent implements OnInit, OnChanges {
             this.guardrailForm.controls['cantCurve'].disable();
             this.guardrailForm.controls['finish'].disable();
             this.guardrailForm.controls['railing'].disable();
+
+            this.priceGuardrailStraight = 0;
+            this.priceGuardrailCurve = 0;
         }
     }
 }
