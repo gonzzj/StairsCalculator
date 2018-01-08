@@ -1,4 +1,4 @@
-1) NPM install
+1) NPM install o gulpt install
 2) Borrar todo lo que tiene el directorio bower adentro
 3) Bower install
 4) NPM run serve o gulp serve
