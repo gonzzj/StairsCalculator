@@ -14,7 +14,7 @@ export class GuardrailFormComponent implements OnInit, OnChanges {
     @Input('group') guardrailForm: FormGroup;
     @Input('dataGuardrail') dataGuardrail: FormGroup;
     @Input('stairModel') stairModel: FormGroup;
-    
+
     populateGuardrail: any;
     populateGuardrailFinish: any;
     priceGuardrailStraight: number = 0;

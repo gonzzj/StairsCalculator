@@ -29,12 +29,12 @@
     <div class="form-group row">
         <label for="inputNumSteps" class="col-sm-2 col-form-label">Nro peldaños</label>
         <div class="col-sm-4">
-            <input type="number" class="form-control" id="inputNumSteps" min="1" formControlName="cantTreads">
+            <input type="number" class="form-control" id="inputNumSteps" min="0" formControlName="cantTreads">
             <small [hidden]="technicalDataForm.controls.cantTreads.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
         </div>
         <label for="inputHeightSteps" class="col-sm-2 col-form-label">Nro alturas</label>
         <div class="col-sm-4">
-            <input type="number" class="form-control" id="inputHeightSteps" min="1" formControlName="heightTreads">
+            <input type="number" class="form-control" id="inputHeightSteps" min="0" formControlName="heightTreads">
             <small [hidden]="technicalDataForm.controls.heightTreads.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
         </div>
     </div>
@@ -42,7 +42,7 @@
       <label for="inputWidthSteps" class="col-sm-2 col-form-label">Ancho peldaño</label>
       <div class="col-sm-4">
         <div class="input-group">
-          <input type="number" class="form-control" id="inputWidthSteps" min="1" formControlName="widthTreads">
+          <input type="number" class="form-control" id="inputWidthSteps" min="0" formControlName="widthTreads">
           <div class="input-group-addon">cm</div>
         </div>
         <small [hidden]="technicalDataForm.controls.widthTreads.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
@@ -50,7 +50,7 @@
       <label for="inputDiameter" class="col-sm-2 col-form-label">Diametro</label>
       <div class="col-sm-4">
         <div class="input-group">
-          <input type="number" class="form-control" id="inputDiameter" min="1" formControlName="diameter">
+          <input type="number" class="form-control" id="inputDiameter" min="0" formControlName="diameter">
           <div class="input-group-addon">cm</div>
         </div>
         <small [hidden]="technicalDataForm.controls.diameter.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
@@ -60,7 +60,7 @@
         <label for="inputHeightTotal" class="col-sm-2 col-form-label">Altura total</label>
         <div class="col-sm-4">
             <div class="input-group">
-                <input type="number" class="form-control" id="inputHeightTotal" min="1" formControlName="heightTotal">
+                <input type="number" class="form-control" id="inputHeightTotal" min="0" formControlName="heightTotal">
                 <div class="input-group-addon">cm</div>
             </div>
             <small [hidden]="technicalDataForm.controls.heightTotal.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
@@ -68,7 +68,7 @@
         <label for="inputHeightGround" class="col-sm-2 col-form-label">Altura suelo/techo</label>
         <div class="col-sm-4">
             <div class="input-group">
-                <input type="number" class="form-control" id="inputHeightGround" min="1" formControlName="heightGround">
+                <input type="number" class="form-control" id="inputHeightGround" min="0" formControlName="heightGround">
                 <div class="input-group-addon">cm</div>
             </div>
             <small [hidden]="technicalDataForm.controls.heightGround.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
@@ -78,7 +78,7 @@
         <label for="inputHeightHole" class="col-sm-2 col-form-label">Ancho hueco</label>
         <div class="col-sm-4">
             <div class="input-group">
-                <input type="number" class="form-control" id="inputHeightHole" min="1" formControlName="heightHole">
+                <input type="number" class="form-control" id="inputHeightHole" min="0" formControlName="heightHole">
                 <div class="input-group-addon">cm</div>
             </div>
             <small [hidden]="technicalDataForm.controls.heightHole.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
@@ -86,7 +86,7 @@
         <label for="inputLongHole" class="col-sm-2 col-form-label">Largo hueco</label>
         <div class="col-sm-4">
             <div class="input-group">
-                <input type="number" class="form-control" id="inputLongHole" min="1" formControlName="longHole">
+                <input type="number" class="form-control" id="inputLongHole" min="0" formControlName="longHole">
                 <div class="input-group-addon">cm</div>
             </div>
             <small [hidden]="technicalDataForm.controls.longHole.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>

@@ -56,9 +56,9 @@ export class StairsMeasureComponent implements OnInit {
       ]),
       railing: this._fb.group({
         model: [{value: '', disabled: true}, Validators.required],
-        cantStraight: [1, Validators.required],
+        cantStraight: [0, Validators.required],
         priceStraight: [0],
-        cantCurve: [1, Validators.required],
+        cantCurve: [0, Validators.required],
         priceCurve: [0],
         railing: [{value: '', disabled: true}, Validators.required],
         finish: [{value: '', disabled: true}, Validators.required]
@@ -66,9 +66,9 @@ export class StairsMeasureComponent implements OnInit {
       guardrail: this._fb.group({
         activeGuardrail: [false],
         model: [{value: '', disabled: true}],
-        cantStraight: [{value: 1, disabled: true}],
+        cantStraight: [{value: 0, disabled: true}],
         priceStraight: [0],
-        cantCurve: [{value: 1, disabled: true}],
+        cantCurve: [{value: 0, disabled: true}],
         priceCurve: [0],
         railing: [{value: '', disabled: true}],
         finish: [{value: '', disabled: true}]
