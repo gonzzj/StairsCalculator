@@ -40,7 +40,9 @@ export class TransportComponent implements OnInit, OnChanges {
   /**
    * Populate the selects, calculate the transport price when the form change and add the values to a JSON
    */
-  ngOnInit() {
+  ngOnInit() { }
+
+  ngOnChanges(changes: SimpleChanges) {
     this.transportsForm.valueChanges.subscribe(data => {
       this.calculateTransportPrice(data);
       this.notifyTotal.emit(this.subTotalTransports);
@@ -51,9 +53,7 @@ export class TransportComponent implements OnInit, OnChanges {
     this.cs.submitted.subscribe(
       data => this.isSubmit = data
     );
-  }
 
-  ngOnChanges(changes: SimpleChanges) {
     if (typeof this.stairData !== 'undefined') {
       if (this.stairData[0]['stairModelId'] !== '') {
           this.populateTransportSelects();
@@ -68,8 +68,6 @@ export class TransportComponent implements OnInit, OnChanges {
           transports: this._fb.array([
           ])
         });
-
-        // @TODO arreglar bug cuando cambia el stair type
       }
     }
   }

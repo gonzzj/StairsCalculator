@@ -20,6 +20,7 @@ export class ServiceInputComponent implements OnInit, OnChanges {
 
     priceService: number = 0;
     isSubmit: boolean = false;
+    filterService: any = [];
 
     constructor(private populateService: PopulateService, private cs: CommunicateService) {}
 
@@ -37,9 +38,22 @@ export class ServiceInputComponent implements OnInit, OnChanges {
         });
     }
 
+    loadServiceData(e) {
+        this.filterService = [];
+        this.priceService = 0;
+
+        for (let service of this.dataService) {
+            if (Number(service.ZonaId) === Number(e.target.value)) {
+                this.filterService.push(service);
+            }
+        }
+
+        this.serviceInputForm.controls['serviceName'].enable();
+    }
+
     calculatePrice(data) {
         if (typeof this.dataService !== 'undefined') {
-            for (let service of this.dataService) {
+            for (let service of this.filterService) {
                 if (service.id === Number(data.serviceName)) {
                     this.priceService = service.Precio * data.cant;
 

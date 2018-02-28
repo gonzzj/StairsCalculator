@@ -83,6 +83,7 @@ export class StairsMeasureComponent implements OnInit {
     this.populateSelectModels();
 
     this.stairForm.valueChanges.subscribe(data => {
+      console.log(this.stairForm);
       this.calculateStructuresPrice(data);
       this.calculateTreadPrice(data);
       this.calculateRailingPrice(data);
@@ -351,14 +352,18 @@ export class StairsMeasureComponent implements OnInit {
         cont = 0;
 
         for (let itemAccessorie of data.accessories) {
-          if (itemAccessorie['type'] === 'railing') {
+          if (itemAccessorie['type'] === 'railing' || itemAccessorie['type'] === 'guardrail') {
             if (itemAccessorie['unitPrice'] === 'eur') {
               if (accessorie.id === Number(itemAccessorie.accessorieName)) {
                 this.stairForm.value.accessories[cont].price = itemAccessorie.cant * accessorie.Precio;
               }
             } else if (itemAccessorie['unitPrice'] === 'porc'){
               if (accessorie.id === Number(itemAccessorie.accessorieName)) {
-                this.stairForm.value.accessories[cont].price = ((this.subTotalRailing * accessorie.Porcentaje) / 100) * itemAccessorie.cant;
+                if (itemAccessorie['type'] === 'guardrail') {
+                  this.stairForm.value.accessories[cont].price = ((this.subTotalGuardrail * accessorie.Porcentaje) / 100) * itemAccessorie.cant;
+                } else {
+                  this.stairForm.value.accessories[cont].price = ((this.subTotalRailing * accessorie.Porcentaje) / 100) * itemAccessorie.cant;
+                }
               }
             }
           } else {
@@ -387,7 +392,7 @@ export class StairsMeasureComponent implements OnInit {
    * Enable the accessorie id select
    */
   checkApply(accessorie, idAccessorie): void {
-    if (accessorie['controls']['type'].value === 'railing') {
+    if (accessorie['controls']['type'].value === 'railing' || accessorie['controls']['type'].value === 'guardrail') {
       accessorie['controls']['unitPrice'].setValue(null);
       accessorie['controls']['id'].setValue(null);
     }

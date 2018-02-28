@@ -83,14 +83,17 @@
         <select class="form-control custom-select" formControlName="type" (change)="checkApply(accessorie, e)">
           <option value="structures">Estructura</option>
           <option value="treads">Peldaños</option>
-          <option value="railing">Baranda</option>
+          <option value="railing">Baranda escalera por peldaño</option>
+          <option value="guardrail">Baranda cerramiento</option>
         </select>
       </div>
 
       <div class="col-sm-2">
-        <select class="form-control custom-select" formControlName="id" *ngIf="accessorie.controls.type.value != 'railing'">
-          <option value="{{f}}" *ngFor="let item of stairForm.controls[accessorie.controls.type.value]['controls']; let f=index">{{f + 1}}</option>
-        </select>
+        <span *ngIf="accessorie.controls.type.value != 'railing'">
+          <select class="form-control custom-select" formControlName="id" *ngIf="accessorie.controls.type.value != 'guardrail'">
+            <option value="{{f}}" *ngFor="let item of stairForm.controls[accessorie.controls.type.value]['controls']; let f=index">{{f + 1}}</option>
+          </select>
+        </span>
       </div>
 
       <div class="col-sm-1">

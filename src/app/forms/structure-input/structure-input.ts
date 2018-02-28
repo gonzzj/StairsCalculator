@@ -58,7 +58,7 @@ export class StructureInputComponent implements OnInit, OnChanges {
 
     calculatePrice(data) {
         if (typeof this.populateStructureFinish !== 'undefined') {
-            for (var structure of this.populateStructureFinish) {
+            for (let structure of this.populateStructureFinish) {
                 if (structure.id === Number(data.finish)) {
                     this.priceStructure = structure.Precio * data.cant;
 

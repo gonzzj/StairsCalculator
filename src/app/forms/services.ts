@@ -41,7 +41,9 @@ export class ServicesComponent implements OnInit, OnChanges {
   /**
    * Populate the selects, calculate the service price when the form change and add the values to a JSON
    */
-  ngOnInit() {
+  ngOnInit() {}
+
+  ngOnChanges(changes: SimpleChanges) {
     this.servicesForm.valueChanges.subscribe(data => {
       this.calculateServicePrice(data);
       this.notifyTotal.emit(this.subTotalServices);
@@ -52,9 +54,7 @@ export class ServicesComponent implements OnInit, OnChanges {
     this.cs.submitted.subscribe(
       data => this.isSubmit = data
     );
-  }
 
-  ngOnChanges(changes: SimpleChanges) {
     if (typeof this.stairData !== 'undefined') {
       if (this.stairData[0]['stairModelId'] !== '') {
         this.populateServiceSelects();
@@ -89,7 +89,6 @@ export class ServicesComponent implements OnInit, OnChanges {
   enableInputs() {
     if (this.servicesForm.controls['services']['controls'].length != 0) {
       for (let item of this.servicesForm.controls['services']['controls']) {
-        item.controls['serviceName'].enable();
         item.controls['zone'].enable();
       }
     }
@@ -119,7 +118,7 @@ export class ServicesComponent implements OnInit, OnChanges {
     return this._fb.group({
       cant: [1, Validators.required],
       zone: [{value: '', disabled: this.checkModelValue()}, Validators.required],
-      serviceName: [{value: '', disabled: this.checkModelValue()}, Validators.required],
+      serviceName: [{value: '', disabled: true}, Validators.required],
       price: [0]
     });
   }
