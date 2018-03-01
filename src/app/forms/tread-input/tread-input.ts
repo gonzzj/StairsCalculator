@@ -5,6 +5,7 @@ import { PopulateService } from '../../services/PopulateService';
 import { SimpleChanges, OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { EventEmitter } from '@angular/common/src/facade/async';
 import { CommunicateService } from '../../services/CommunicateService';
+import { formErrors } from '../../constants';
 
 @Component({
     selector: 'tread-input',
@@ -17,6 +18,7 @@ export class TreadInputComponent implements OnInit, OnChanges {
     @Input('index') index: FormGroup;
     @Output() getControlRow: EventEmitter<any> = new EventEmitter<any>();
 
+    emptyField = formErrors.message_emptyField;
     populateTreadFinish: any;
     populateTreadMeasure: any;
     priceTread: number = 0;

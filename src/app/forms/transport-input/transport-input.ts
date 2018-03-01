@@ -5,6 +5,7 @@ import { PopulateService } from '../../services/PopulateService';
 import { SimpleChanges, OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { EventEmitter } from '@angular/common/src/facade/async';
 import { CommunicateService } from '../../services/CommunicateService';
+import { formErrors } from '../../constants';
 
 @Component({
     selector: 'transport-input',
@@ -17,6 +18,7 @@ export class TransportInputComponent implements OnInit, OnChanges {
     @Input('index') index: FormGroup;
     @Output() getControlRow: EventEmitter<any> = new EventEmitter<any>();
 
+    emptyField = formErrors.message_emptyField;
     transportZones: any;
     priceTransport: number = 0;
     isSubmit: boolean = false;

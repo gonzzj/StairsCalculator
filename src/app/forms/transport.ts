@@ -22,7 +22,6 @@ export class TransportComponent implements OnInit, OnChanges {
   subTotalTransports: number = 0;
   @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
   isSubmit: boolean = false;
-  emptyField = formErrors.message_emptyField;
 
   /**
    * @constructor

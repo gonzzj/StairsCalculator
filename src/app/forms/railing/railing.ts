@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms/src/model';
 import { PopulateService } from '../../services/PopulateService';
 import { SimpleChanges, OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { CommunicateService } from '../../services/CommunicateService';
+import { formErrors } from '../../constants';
 
 @Component({
     selector: 'railing-form',
@@ -13,7 +14,8 @@ import { CommunicateService } from '../../services/CommunicateService';
 export class RailingFormComponent implements OnInit, OnChanges {
     @Input('group') railingForm: FormGroup;
     @Input('dataRailing') dataRailing: FormGroup;
-    
+
+    emptyField = formErrors.message_emptyField;
     populateRailing: any;
     populateRailingFinish: any;
     priceRailingStraight: number = 0;

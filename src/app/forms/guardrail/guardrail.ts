@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms/src/model';
 import { PopulateService } from '../../services/PopulateService';
 import { SimpleChanges, OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { CommunicateService } from '../../services/CommunicateService';
+import { formErrors } from '../../constants';
 
 @Component({
     selector: 'guardrail-form',
@@ -15,6 +16,7 @@ export class GuardrailFormComponent implements OnInit, OnChanges {
     @Input('dataGuardrail') dataGuardrail: FormGroup;
     @Input('stairModel') stairModel: FormGroup;
 
+    emptyField = formErrors.message_emptyField;
     populateGuardrail: any;
     populateGuardrailFinish: any;
     priceGuardrailStraight: number = 0;
