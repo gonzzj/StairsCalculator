@@ -6,7 +6,8 @@ import 'zone.js/dist/zone';
 import '@angular/common';
 import 'rxjs';
 
-import './index.scss';
+import './scss/index.scss';
+import './scss/print.scss';
 
 import {enableProdMode} from '@angular/core';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';

@@ -83,7 +83,6 @@ export class StairsMeasureComponent implements OnInit {
     this.populateSelectModels();
 
     this.stairForm.valueChanges.subscribe(data => {
-      console.log(this.stairForm);
       this.calculateStructuresPrice(data);
       this.calculateTreadPrice(data);
       this.calculateRailingPrice(data);

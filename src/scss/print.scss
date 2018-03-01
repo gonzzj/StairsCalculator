@@ -1,0 +1,48 @@
+/* ==========================================================================
+	Print Styles
+    ========================================================================== */
+    
+@media print {
+    html, body {
+		min-height: auto;
+		height: auto;
+    }
+    
+    @page {
+		size: 297mm 420mm;
+    }
+    
+    .container {
+        width: 100%;
+    }
+
+    .card-block, .card-deck-wrapper {
+        page-break-inside: avoid;
+    }
+
+    technical-data .custom-control.custom-radio {
+        padding-left: 0;
+
+        .custom-control-input, .custom-control-indicator {
+            display: none;
+        }
+    }
+
+    stairs-data .subtotal-desc {
+        width: 42px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .custom-control-input:checked~.custom-control-indicator + .custom-control-description {
+        color: red;
+    }
+    
+    .form-control {
+        border: none;
+    }
+
+    .btn, .input-group-addon {
+        display: none;
+    }
+}
