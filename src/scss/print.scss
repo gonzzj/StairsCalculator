@@ -20,12 +20,23 @@
         page-break-inside: avoid;
     }
 
-    technical-data .custom-control.custom-radio {
+    technical-data .custom-control.custom-radio, guardrail-form .custom-control.custom-checkbox {
         padding-left: 0;
 
         .custom-control-input, .custom-control-indicator {
             display: none;
         }
+    }
+
+    .form-control {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .accessories-select {
+        min-height: 96px;
+        white-space: normal;
+        align-items: flex-start;
     }
 
     stairs-data .subtotal-desc {
@@ -38,11 +49,15 @@
         color: red;
     }
     
-    .form-control {
+    .form-control, .input-group-addon {
         border: none;
     }
 
-    .btn, .input-group-addon {
+    .input-group-addon {
+        background: #fff;
+    }
+
+    .btn {
         display: none;
     }
 }

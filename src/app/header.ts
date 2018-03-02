@@ -6,7 +6,7 @@ import {Component} from '@angular/core';
 })
 export class HeaderComponent {
   logo: string;
-  numOrder: number;
+  idOrder: number;
   client: string;
   seller: string;
   date: string;
@@ -26,9 +26,26 @@ export class HeaderComponent {
     }
 
     this.logo = '../img/logo.png';
-    this.numOrder = 3;
-    this.client = 'Juan Perez Carreras';
-    this.seller = 'Gabriele Brignoli';
+    this.idOrder = this.findGetParameter('id_pedido');
+    this.client = this.findGetParameter('cliente');
+    this.seller = this.findGetParameter('user');
     this.date = dd + '/' + mm + '/' + yyyy;
+  }
+
+  findGetParameter(parameterName) {
+    let result = null, tmp = [];
+    let items = location.search.substr(1).split("&");
+    let re = /\+/gi;
+    for (let index = 0; index < items.length; index++) {
+      tmp = items[index].split('=');
+      if (tmp[0] === parameterName) {
+        result = decodeURIComponent(tmp[1]);
+      };
+    }
+
+    if (result != null) {
+      result = result.replace(re, ' ');
+    }
+    return result;
   }
 }

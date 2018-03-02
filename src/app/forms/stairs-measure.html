@@ -73,14 +73,14 @@
         <small [hidden]="accessorie.controls.cant.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i></small>
       </div>
       <div class="col-sm-3">
-        <select class="form-control custom-select" formControlName="accessorieName">
+        <select class="form-control custom-select accessories-select" formControlName="accessorieName">
           <option value="{{accessorie.id}}" *ngFor="let accessorie of populateAccessories">{{accessorie.name}}</option>
         </select>
         <small [hidden]="accessorie.controls.accessorieName.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
       </div>
 
       <div class="col-sm-2">
-        <select class="form-control custom-select" formControlName="type" (change)="checkApply(accessorie, e)">
+        <select class="form-control custom-select accessories-select" formControlName="type" (change)="checkApply(accessorie, e)">
           <option value="structures">Estructura</option>
           <option value="treads">Peldaños</option>
           <option value="railing">Baranda escalera por peldaño</option>
