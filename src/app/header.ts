@@ -1,3 +1,4 @@
+import {CommunicateService} from './services/CommunicateService';
 import {Component} from '@angular/core';
 
 @Component({
@@ -7,15 +8,18 @@ import {Component} from '@angular/core';
 export class HeaderComponent {
   logo: string;
   idOrder: number;
+  idClient: number;
   client: string;
   seller: string;
   date: string;
+  quoting: string;
 
-  constructor() {
+  constructor(private cs: CommunicateService) {
     let date = new Date();
     let dd: string;
     let mm: string;
     let yyyy = date.getFullYear();
+    let formatDate: string;
 
     if (date.getDate() < 10) {
       dd = '0' + date.getDate();
@@ -26,10 +30,15 @@ export class HeaderComponent {
     }
 
     this.logo = '../img/logo.png';
+    this.quoting = this.findGetParameter('cotizador');
     this.idOrder = this.findGetParameter('id_pedido');
+    this.idClient = this.findGetParameter('id_cliente');
     this.client = this.findGetParameter('cliente');
     this.seller = this.findGetParameter('user');
     this.date = dd + '/' + mm + '/' + yyyy;
+
+    formatDate = yyyy + '-' + mm + '-' + dd;
+    this.cs.addZohoUser(this.idOrder, this.quoting, this.idClient, this.client, this.seller, formatDate);
   }
 
   findGetParameter(parameterName) {

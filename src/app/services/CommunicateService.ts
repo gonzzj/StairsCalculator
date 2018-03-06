@@ -1,6 +1,7 @@
 import {Injectable, EventEmitter} from '@angular/core';
 import {stairTypes} from '../constants';
 import {extrasTypes} from '../constants';
+import {Http, Headers, RequestOptions} from '@angular/http';
 
 @Injectable()
 
@@ -10,20 +11,20 @@ export class CommunicateService {
   zohoForm: Array<Object>;
   validForms: Array<Object>;
   isValidForm: boolean = false;
+  urlZoho: '​http://admin.proclen.com/rest/presupuestos';
 
   /**
    * @constructor
    */
-  constructor() {
-    this.zohoForm = [
-      {
-        client: [
-          {
-            name: 'Juan Perez Carreras',
-            orderNumber: 3,
-            seller: 'Gabriele Brignoli'
-          }
-        ],
+  constructor(private http: Http) {
+    this.zohoForm = [{
+      nroPedido: 0,
+      cotizador: '',
+      idCliente: 0,
+      nombreCliente: '',
+      nombreCotizador: '',
+      fechaValidez: '',
+      stairData: {
         stairType: '',
         technicalData: [],
         stair: [],
@@ -35,7 +36,7 @@ export class CommunicateService {
         discount: [],
         total: []
       }
-    ];
+    }];
 
     this.validForms = [
       {
@@ -74,13 +75,25 @@ export class CommunicateService {
   }
 
   /**
-   * Add to zoho form the JSON part of the child component
+   * Add zoho form to the JSON part of the child component
    *
    * @param form - The JSON of the child component
    * @param nameForm - the name of the form
    */
   addZoho(form, nameForm) {
-    this.zohoForm[0][nameForm] = form;
+    this.zohoForm[0]['stairData'][nameForm] = form;
+  }
+
+  /**
+   * Add user data to zoho form the JSON
+   */
+  addZohoUser(order, quoting, idClient, client, seller, formatDate) {
+    this.zohoForm[0]['nroPedido'] = order;
+    this.zohoForm[0]['cotizador'] = quoting;
+    this.zohoForm[0]['idCliente'] = idClient;
+    this.zohoForm[0]['nombreCliente'] = client;
+    this.zohoForm[0]['nombreCotizador'] = seller;
+    this.zohoForm[0]['fechaValidez'] = formatDate;
   }
 
   /**
@@ -88,15 +101,19 @@ export class CommunicateService {
    */
   sendZoho(stairType) {
     if (stairType == "measure") {
-      this.zohoForm[0]['stairType'] = stairTypes.measure;
+      this.zohoForm[0]['stairData']['stairType'] = stairTypes.measure;
     } else if (stairType == "kit") {
-      this.zohoForm[0]['stairType'] = stairTypes.kit;
+      this.zohoForm[0]['stairData']['stairType'] = stairTypes.kit;
     } else {
-      this.zohoForm[0]['stairType'] = stairTypes.esc;
+      this.zohoForm[0]['stairData']['stairType'] = stairTypes.esc;
     }
-    console.log(JSON.stringify(this.zohoForm, null, 2));
+    
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
 
-    console.log('Se envio');
+    this.http.post(this.urlZoho, JSON.stringify(this.zohoForm), options).map(res => res.json().subscribe(data => {
+      console.log('ok');
+    }));
   }
 
   /**
