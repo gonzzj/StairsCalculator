@@ -117,8 +117,8 @@ export class ServicesComponent implements OnInit, OnChanges {
   initService() {
     return this._fb.group({
       cant: [1, Validators.required],
-      zone: [{value: '', disabled: this.checkModelValue()}, Validators.required],
-      serviceName: [{value: '', disabled: true}, Validators.required],
+      zone: [{value: 0, disabled: this.checkModelValue()}, Validators.required],
+      serviceName: [{value: 0, disabled: true}, Validators.required],
       price: [0]
     });
   }

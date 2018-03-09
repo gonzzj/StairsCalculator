@@ -75,7 +75,7 @@ export class CommunicateService {
   }
 
   /**
-   * Add zoho form to the JSON part of the child component
+   * Add the part of the child component to the JSON of Zoho
    *
    * @param form - The JSON of the child component
    * @param nameForm - the name of the form
@@ -85,7 +85,7 @@ export class CommunicateService {
   }
 
   /**
-   * Add user data to zoho form the JSON
+   * Add user data to the JSON of Zoho
    */
   addZohoUser(order, quoting, idClient, client, seller, formatDate) {
     this.zohoForm[0]['nroPedido'] = order;
@@ -97,23 +97,31 @@ export class CommunicateService {
   }
 
   /**
-   * Send to zoho the complete JSON
+   * Send the complete JSON to Zoho
    */
   sendZoho(stairType) {
-    if (stairType == "measure") {
-      this.zohoForm[0]['stairData']['stairType'] = stairTypes.measure;
-    } else if (stairType == "kit") {
-      this.zohoForm[0]['stairData']['stairType'] = stairTypes.kit;
-    } else {
-      this.zohoForm[0]['stairData']['stairType'] = stairTypes.esc;
-    }
-    
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+    //if (this.isValidForm === true) {
+      if (stairType == "measure") {
+        this.zohoForm[0]['stairData']['stairType'] = stairTypes.measure;
+      } else if (stairType == "kit") {
+        this.zohoForm[0]['stairData']['stairType'] = stairTypes.kit;
+      } else {
+        this.zohoForm[0]['stairData']['stairType'] = stairTypes.esc;
+      }
 
-    this.http.post(this.urlZoho, JSON.stringify(this.zohoForm), options).map(res => res.json().subscribe(data => {
-      console.log('ok');
-    }));
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+
+      console.log(this.urlZoho);
+      console.log(this.zohoForm);
+      console.log(options);
+
+      this.http.post(this.urlZoho, JSON.stringify(this.zohoForm), options).map(res => res.json().subscribe(data => {
+        console.log('ok');
+      }));
+    //} else {
+    //window.scrollTo(0, 0);
+    //}
   }
 
   /**

@@ -25,9 +25,9 @@ export class TransportComponent implements OnInit, OnChanges {
 
   /**
    * @constructor
-   * @param populateService - service for populate the selects.
+   * @param populateService - service to populate the selects.
    * @param _fb
-   * @param cs - service for communicate all the components.
+   * @param cs - service to communicate all the components.
    */
   constructor(private populateService: PopulateService, private _fb: FormBuilder, private cs: CommunicateService) {
     this.transportsForm = this._fb.group({
@@ -106,12 +106,12 @@ export class TransportComponent implements OnInit, OnChanges {
   }
 
   /**
-   * @return {FormGroup} A transport form
+   * @return {FormGroup} The transport form
    */
   initTransport() {
     return this._fb.group({
       cant: [1, Validators.required],
-      zoneName: [{value: '', disabled: this.checkModelValue()}, Validators.required],
+      zoneName: [{value: 0, disabled: this.checkModelValue()}, Validators.required],
       price: [0]
     });
   }
@@ -138,7 +138,6 @@ export class TransportComponent implements OnInit, OnChanges {
    * Calculate the price of the transport
    *
    * @param data - the form values
-   * @returns {number}
    */
   calculateTransportPrice(data) {
     this.subTotalTransports = 0;

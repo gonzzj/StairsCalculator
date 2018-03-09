@@ -35,8 +35,8 @@ export class StairsEscComponent implements OnInit {
    */
   constructor(private populateService: PopulateService, private _fb: FormBuilder, private cs: CommunicateService) {
     this.stairForm = this._fb.group({
-      model: ['', Validators.required],
-      measure: [{value: '', disabled: true}, Validators.required],
+      model: [0, Validators.required],
+      measure: [{value: 0, disabled: true}, Validators.required],
       accessories: this._fb.array([
       ])
     });
@@ -122,7 +122,7 @@ export class StairsEscComponent implements OnInit {
   initAccessorie() {
     return this._fb.group({
       cant: [1],
-      accessorieName: [{value: '', disabled: this.checkModelValue()}, Validators.required],
+      accessorieName: [{value: 0, disabled: this.checkModelValue()}, Validators.required],
       price: [0]
     });
   }

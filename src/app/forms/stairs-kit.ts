@@ -37,9 +37,9 @@ export class StairsKitComponent implements OnInit {
   constructor(private populateService: PopulateService, private _fb: FormBuilder, private cs: CommunicateService) {
     this.stairForm = this._fb.group({
       idModel: [0],
-      model: ['', Validators.required],
-      diameter: [{value: '', disabled: true}, Validators.required],
-      measure: [{value: '', disabled: true}, Validators.required],
+      model: [0, Validators.required],
+      diameter: [{value: 0, disabled: true}, Validators.required],
+      measure: [{value: 0, disabled: true}, Validators.required],
       accessories: this._fb.array([
       ])
     });

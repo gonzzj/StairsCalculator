@@ -45,7 +45,7 @@ export class StairsMeasureComponent implements OnInit {
   constructor(private populateService: PopulateService, private cs: CommunicateService, private _fb: FormBuilder) {
     this.stairForm = this._fb.group({
       cant: [1, Validators.required],
-      model: ['', Validators.required],
+      model: [0, Validators.required],
       structures: this._fb.array([
         this.initStructure(),
       ]),
@@ -55,23 +55,23 @@ export class StairsMeasureComponent implements OnInit {
       accessories: this._fb.array([
       ]),
       railing: this._fb.group({
-        model: [{value: '', disabled: true}, Validators.required],
+        model: [{value: 0, disabled: true}, Validators.required],
         cantStraight: [0, Validators.required],
         priceStraight: [0],
         cantCurve: [0, Validators.required],
         priceCurve: [0],
-        railing: [{value: '', disabled: true}, Validators.required],
-        finish: [{value: '', disabled: true}, Validators.required]
+        railing: [{value: 0, disabled: true}, Validators.required],
+        finish: [{value: 0, disabled: true}, Validators.required]
       }),
       guardrail: this._fb.group({
         activeGuardrail: [false],
-        model: [{value: '', disabled: true}],
+        model: [{value: 0, disabled: true}],
         cantStraight: [{value: 0, disabled: true}],
         priceStraight: [0],
         cantCurve: [{value: 0, disabled: true}],
         priceCurve: [0],
-        railing: [{value: '', disabled: true}],
-        finish: [{value: '', disabled: true}]
+        railing: [{value: 0, disabled: true}],
+        finish: [{value: 0, disabled: true}]
       })
     });
   }
@@ -172,7 +172,7 @@ export class StairsMeasureComponent implements OnInit {
   }
 
   hideLoading(dataLoading) {
-    if (dataLoading[0]['railing'] == true && dataLoading[0]['guardrail'] == true && dataLoading[0]['accessories'] == true && dataLoading[0]['structures'] == true && dataLoading[0]['treads'] == true) {
+    if (dataLoading[0]['railing'] === true && dataLoading[0]['guardrail'] === true && dataLoading[0]['accessories'] === true && dataLoading[0]['structures'] === true && dataLoading[0]['treads'] === true) {
       $('#modalLoading').modal('hide');
     }
   }
@@ -199,8 +199,8 @@ export class StairsMeasureComponent implements OnInit {
   initStructure() {
     return this._fb.group({
       cant: [1, Validators.required],
-      type: [{value: '', disabled: this.checkModelValue()}, Validators.required],
-      finish: [{value: '', disabled: true}, Validators.required],
+      type: [{value: 0, disabled: this.checkModelValue()}, Validators.required],
+      finish: [{value: 0, disabled: true}, Validators.required],
       price: [0]
     })
   }
@@ -212,9 +212,9 @@ export class StairsMeasureComponent implements OnInit {
     return this._fb.group({
       id: [0],
       cant: [1, Validators.required],
-      treadName: [{value: '', disabled: this.checkModelValue()}, Validators.required],
-      treadFinish: [{value: '', disabled: true}, Validators.required],
-      measure: [{value: '', disabled: true}, Validators.required],
+      treadName: [{value: 0, disabled: this.checkModelValue()}, Validators.required],
+      treadFinish: [{value: 0, disabled: true}, Validators.required],
+      measure: [{value: 0, disabled: true}, Validators.required],
       price: [0]
     });
   }
@@ -225,9 +225,9 @@ export class StairsMeasureComponent implements OnInit {
   initAccessorie() {
     return this._fb.group({
       cant: [1, Validators.required],
-      accessorieName: [{value: '', disabled: this.checkModelValue()}, Validators.required],
+      accessorieName: [{value: 0, disabled: this.checkModelValue()}, Validators.required],
       type: ['structures'],
-      id: [''],
+      id: [0],
       unitPrice: [''],
       price: [0]
     });
@@ -242,7 +242,7 @@ export class StairsMeasureComponent implements OnInit {
     let disableInput : boolean = true;
 
     if (typeof this.stairForm !== 'undefined') {
-      if (this.stairForm.value['model'] !== '') {
+      if (this.stairForm.value['model'] !== 0) {
         disableInput = false;
       }
     }
