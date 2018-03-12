@@ -15,7 +15,7 @@ export class TotalComponent implements OnChanges {
   constructor(private cs: CommunicateService) {}
 
   /**
-   * Add the value to a JSON if the total value changes
+   * Add the value to a JSON, if the total value changes
    */
   ngOnChanges() {
     this.cs.addZoho(this.total, "total");
