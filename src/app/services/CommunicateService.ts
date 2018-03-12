@@ -11,7 +11,6 @@ export class CommunicateService {
   zohoForm: any;
   validForms: Array<Object>;
   isValidForm: boolean = false;
-  urlZoho: string = '​http://admin.proclen.com/rest/presupuestos';
 
   /**
    * @constructor
@@ -112,16 +111,15 @@ export class CommunicateService {
 
       this.zohoForm['precioFinal'] = this.zohoForm['json']['total']
 
-      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let headers = new Headers({ 'Content-Type': 'application/json', 'crossDomain': true });
       let options = new RequestOptions({ headers: headers });
 
-      console.log(this.urlZoho);
       console.log(JSON.stringify(this.zohoForm));
-      console.log(options);
 
-      this.http.post(this.urlZoho, JSON.stringify(this.zohoForm), options)
-        .map(res => { res.json(); console.log(res); })
-        .subscribe(data => {
+      this.http.post('http://admin.proclen.com/rest/presupuestos', JSON.stringify(this.zohoForm), options)
+        .map(res => {
+          console.log(res.json());
+        }).subscribe(data => {
           console.log(data);
         });
     //} else {
