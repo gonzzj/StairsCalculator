@@ -42,7 +42,7 @@ export class HeaderComponent {
     this.date = dd + '/' + mm + '/' + yyyy;
 
     formatDate = yyyy + '-' + mm + '-' + dd;
-    this.cs.addZohoUser(this.idOrder, this.quoting, this.idClient, this.client, this.seller, formatDate);
+    this.cs.addZohoUser(Number(this.idOrder), Number(this.quoting), Number(this.idClient), this.client, this.seller, formatDate);
   }
 
   findGetParameter(parameterName) {

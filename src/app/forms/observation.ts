@@ -18,6 +18,6 @@ export class ObservationComponent implements DoCheck {
    * Add the value to a JSON if the form changes
    */
   ngDoCheck() {
-    this.cs.addZoho(this.observations, "observations");
+    this.cs.addZoho(this.observations, 'observations');
   }
 }

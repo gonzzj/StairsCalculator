@@ -1,7 +1,7 @@
 import {Injectable, EventEmitter} from '@angular/core';
 import {stairTypes} from '../constants';
 import {extrasTypes} from '../constants';
-import {Http, Headers, RequestOptions} from '@angular/http';
+import {Http, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 
 @Injectable()
 
@@ -9,33 +9,33 @@ import {Http, Headers, RequestOptions} from '@angular/http';
 export class CommunicateService {
   submitted: EventEmitter<boolean> = new EventEmitter<boolean>();
   zohoForm: any;
-  validForms: Array<Object>;
   isValidForm: boolean = false;
+  validForms: Array<Object>;
+  body: any = new URLSearchParams();
 
+  /*"nroPedido": 0,
+  "cotizador": "",
+  "idCliente": 0,
+  "nombreCliente": "",
+  "nombreCotizador": "",
+  "fechaValidez": "",
+  "precioFinal": 0,
+  "json": {*/
   /**
    * @constructor
    */
   constructor(private http: Http) {
     this.zohoForm = {
-      "nroPedido": 0,
-      "cotizador": "",
-      "idCliente": 0,
-      "nombreCliente": "",
-      "nombreCotizador": "",
-      "fechaValidez": "",
-      "precioFinal": 0,
-      "json": {
-        "stairType": "",
-        "technicalData": [],
-        "stair": [],
-        "services": [],
-        "transport": [],
-        "extras": [],
-        "observations": [],
-        "subTotal": [],
-        "discount": [],
-        "total": 0
-      }
+      "stairType": "",
+      "technicalData": {},
+      "stair": {},
+      "services": {},
+      "transport": {},
+      "extras": {},
+      "observations": "",
+      "subTotal": {},
+      "discount": {},
+      "total": 0
     }
 
     this.validForms = [
@@ -81,19 +81,19 @@ export class CommunicateService {
    * @param nameForm - the name of the form
    */
   addZoho(form, nameForm) {
-    this.zohoForm['json'][nameForm] = form;
+    this.zohoForm[nameForm] = form;
   }
 
   /**
    * Add user data to the JSON of Zoho
    */
   addZohoUser(order, quoting, idClient, client, seller, formatDate) {
-    this.zohoForm['nroPedido'] = order;
-    this.zohoForm['cotizador'] = quoting;
-    this.zohoForm['idCliente'] = idClient;
-    this.zohoForm['nombreCliente'] = client;
-    this.zohoForm['nombreCotizador'] = seller;
-    this.zohoForm['fechaValidez'] = formatDate;
+    this.body.set('nroPedido', order);
+    this.body.set('cotizador', quoting);
+    this.body.set('idCliente', idClient);
+    this.body.set('nombreCliente', client);
+    this.body.set('nombreCotizador', seller);
+    this.body.set('fechaValidez', formatDate);
   }
 
   /**
@@ -101,25 +101,21 @@ export class CommunicateService {
    */
   sendZoho(stairType) {
     //if (this.isValidForm === true) {
-      if (stairType == "measure") {
-        this.zohoForm['json']['stairType'] = stairTypes.measure;
-      } else if (stairType == "kit") {
-        this.zohoForm['json']['stairType'] = stairTypes.kit;
+      if (stairType === 'measure') {
+        this.zohoForm['stairType'] = stairTypes.measure;
+      } else if (stairType == 'kit') {
+        this.zohoForm['stairType'] = stairTypes.kit;
       } else {
-        this.zohoForm['json']['stairType'] = stairTypes.esc;
+        this.zohoForm['stairType'] = stairTypes.esc;
       }
 
-      this.zohoForm['precioFinal'] = this.zohoForm['json']['total']
+      this.body.set('precioFinal', this.zohoForm['total']);
+      this.body.set('json', JSON.stringify(this.zohoForm));
 
-      let headers = new Headers({ 'Content-Type': 'application/json', 'crossDomain': true });
+      let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' });
       let options = new RequestOptions({ headers: headers });
 
-      console.log(JSON.stringify(this.zohoForm));
-
-      this.http.post('http://admin.proclen.com/rest/presupuestos', JSON.stringify(this.zohoForm), options)
-        .map(res => {
-          console.log(res.json());
-        }).subscribe(data => {
+      this.http.post('http://admin.proclen.com/rest/presupuestos', this.body, options).subscribe(data => {
           console.log(data);
         });
     //} else {
