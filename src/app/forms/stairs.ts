@@ -8,12 +8,12 @@ import {CommunicateService} from '../services/CommunicateService';
 
 /** Class father component stairs */
 export class StairsComponent {
-  stairData:Array<Object>;
-  stair: string = "measure";
+  stairData: Array<Object>;
+  stair: string = 'measure';
   total: number = 0;
-  subTotals:Array<Object>;
-  extras:Array<Object>;
-  subTotalsAndExtras:Array<Object>;
+  subTotals: Array<Object>;
+  extras: Array<Object>;
+  subTotalsAndExtras: Array<Object>;
 
   /**
    * @constructor
@@ -54,9 +54,9 @@ export class StairsComponent {
    *
    * @param message - the chosen stair
    */
-  onStair(message:string):void {
+  onStair(message: string): void {
     this.stair = message;
-    this.subTotals[0]["subTotalStair"] = 0;
+    this.subTotals[0]['subTotalStair'] = 0;
 
     this.calculateTotal();
   }
@@ -66,13 +66,13 @@ export class StairsComponent {
    * 
    * @param message - the Model Id
    */
-  setStair(message: number):void {
+  setStair(message: number): void {
     this.stairData = [
       {
         stairType: this.stair,
         stairModelId: message
-      } 
-    ]
+      }
+    ];
   }
 
   /**
@@ -80,10 +80,10 @@ export class StairsComponent {
    *
    * @param message - the subtotal of the stair
    */
-  totalStair(message:number):void {
-    this.subTotals[0]["subTotalStair"] = 0;
+  totalStair(message: number): void {
+    this.subTotals[0]['subTotalStair'] = 0;
 
-    this.subTotals[0]["subTotalStair"] = this.subTotals[0]["subTotalStair"] + message;
+    this.subTotals[0]['subTotalStair'] = this.subTotals[0]['subTotalStair'] + message;
 
     this.calculateTotal();
   }
@@ -93,10 +93,10 @@ export class StairsComponent {
    *
    * @param message - the subtotal of the services
    */
-  totalService(message:number):void {
-    this.subTotals[0]["subTotalService"] = 0;
+  totalService(message: number): void {
+    this.subTotals[0]['subTotalService'] = 0;
 
-    this.subTotals[0]["subTotalService"] = this.subTotals[0]["subTotalService"] + message;
+    this.subTotals[0]['subTotalService'] = this.subTotals[0]['subTotalService'] + message;
 
     this.calculateTotal();
   }
@@ -106,10 +106,10 @@ export class StairsComponent {
    *
    * @param message - the subtotal of the transport
    */
-  totalTransport(message:number):void {
-    this.subTotals[0]["subTotalTransport"] = 0;
+  totalTransport(message: number): void {
+    this.subTotals[0]['subTotalTransport'] = 0;
 
-    this.subTotals[0]["subTotalTransport"] = this.subTotals[0]["subTotalTransport"] + message;
+    this.subTotals[0]['subTotalTransport'] = this.subTotals[0]['subTotalTransport'] + message;
 
     this.calculateTotal();
   }
@@ -119,16 +119,16 @@ export class StairsComponent {
    *
    * @param message - the subtotal of the extras
    */
-  totalExtras(message:Array<Object>):void {
+  totalExtras(message: Array<Object>): void {
     this.extras = [{extras: 0, transport: 0, service: 0, stair: 0}];
 
-    this.extras[0]["extras"] = message[0]["extraExtras"];
+    this.extras[0]['extras'] = message[0]['extraExtras'];
 
-    this.extras[0]["transport"] = message[0]["extraTransport"];
+    this.extras[0]['transport'] = message[0]['extraTransport'];
 
-    this.extras[0]["service"] = message[0]["extraService"];
+    this.extras[0]['service'] = message[0]['extraService'];
 
-    this.extras[0]["stair"] = message[0]["extraStair"];
+    this.extras[0]['stair'] = message[0]['extraStair'];
 
     this.calculateTotal();
   }
@@ -138,10 +138,10 @@ export class StairsComponent {
    *
    * @param message - the value of the discount
    */
-  totalDiscount(message:number):void {
-    this.subTotals[0]["subTotalDiscount"] = 0;
+  totalDiscount(message: number): void {
+    this.subTotals[0]['subTotalDiscount'] = 0;
 
-    this.subTotals[0]["subTotalDiscount"] = message;
+    this.subTotals[0]['subTotalDiscount'] = message;
 
     this.calculateTotal();
   }
@@ -154,7 +154,7 @@ export class StairsComponent {
 
     this.addExtras();
 
-    this.total = this.subTotalsAndExtras[0]["stair"] + this.subTotalsAndExtras[0]["service"] + this.subTotalsAndExtras[0]["transport"] + this.subTotalsAndExtras[0]["extras"] + this.subTotals[0]["subTotalDiscount"];
+    this.total = this.subTotalsAndExtras[0]['stair'] + this.subTotalsAndExtras[0]['service'] + this.subTotalsAndExtras[0]['transport'] + this.subTotalsAndExtras[0]['extras'] + this.subTotals[0]['subTotalDiscount'];
   }
 
   /**
@@ -163,15 +163,15 @@ export class StairsComponent {
   addExtras() {
     this.subTotalsAndExtras = [{extras: 0, transport: 0, service: 0, stair: 0}];
 
-    this.subTotalsAndExtras[0]["extras"] =  this.subTotals[0]["subTotalExtras"] + this.extras[0]["extras"];
+    this.subTotalsAndExtras[0]['extras'] =  this.subTotals[0]['subTotalExtras'] + this.extras[0]['extras'];
 
-    this.subTotalsAndExtras[0]["transport"] = this.subTotals[0]["subTotalTransport"] + this.extras[0]["transport"];
+    this.subTotalsAndExtras[0]['transport'] = this.subTotals[0]['subTotalTransport'] + this.extras[0]['transport'];
 
-    this.subTotalsAndExtras[0]["service"] = this.subTotals[0]["subTotalService"] + this.extras[0]["service"];
+    this.subTotalsAndExtras[0]['service'] = this.subTotals[0]['subTotalService'] + this.extras[0]['service'];
 
-    this.subTotalsAndExtras[0]["stair"] = this.subTotals[0]["subTotalStair"] + this.extras[0]["stair"];
+    this.subTotalsAndExtras[0]['stair'] = this.subTotals[0]['subTotalStair'] + this.extras[0]['stair'];
 
-    this.cs.addZoho(this.subTotalsAndExtras, "subTotal");
+    this.cs.addZoho(this.subTotalsAndExtras, 'subTotal');
   }
 
   /**

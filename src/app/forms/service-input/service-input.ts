@@ -40,7 +40,7 @@ export class ServiceInputComponent implements OnInit, OnChanges {
         });
     }
 
-    loadServiceData(e) {
+    loadServiceData(e: any) {
         this.filterService = [];
         this.priceService = 0;
 
@@ -53,7 +53,7 @@ export class ServiceInputComponent implements OnInit, OnChanges {
         this.serviceInputForm.controls['serviceName'].enable();
     }
 
-    calculatePrice(data) {
+    calculatePrice(data: any) {
         if (typeof this.dataService !== 'undefined') {
             for (let service of this.filterService) {
                 if (service.id === Number(data.serviceName)) {

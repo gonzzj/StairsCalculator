@@ -45,7 +45,7 @@ export class TransportInputComponent implements OnInit, OnChanges {
         });
     }
 
-    calculatePrice(data) {
+    calculatePrice(data: any) {
         if (typeof this.dataZones !== 'undefined') {
             for (let priceZone of this.dataZones) {
                 if (priceZone.ZonaId === Number(data.zoneName)) {

@@ -41,7 +41,7 @@ export class StructureInputComponent implements OnInit, OnChanges {
         });
     }
 
-    loadStructureData(e) {
+    loadStructureData(e: any) {
         let arrayFinish = [];
         this.structureInputForm.controls['finish'].disable();
         this.priceStructure = 0;
@@ -58,7 +58,7 @@ export class StructureInputComponent implements OnInit, OnChanges {
         });
     }
 
-    calculatePrice(data) {
+    calculatePrice(data: any) {
         if (typeof this.populateStructureFinish !== 'undefined') {
             for (let structure of this.populateStructureFinish) {
                 if (structure.id === Number(data.finish)) {

@@ -1,5 +1,5 @@
-import {Component, OnChanges, DoCheck} from '@angular/core';
-import {CommunicateService} from "../services/CommunicateService";
+import {Component, DoCheck} from '@angular/core';
+import {CommunicateService} from '../services/CommunicateService';
 
 @Component({
     selector: 'observation',

@@ -18,6 +18,6 @@ export class TotalComponent implements OnChanges {
    * Add the value to a JSON, if the total value changes
    */
   ngOnChanges() {
-    this.cs.addZoho(this.total, "total");
+    this.cs.addZoho(this.total, 'total');
   }
 }

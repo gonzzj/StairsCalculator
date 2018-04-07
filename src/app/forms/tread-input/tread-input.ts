@@ -44,7 +44,7 @@ export class TreadInputComponent implements OnInit, OnChanges {
         });
     }
 
-    loadTreadFinishData(e) {
+    loadTreadFinishData(e: any) {
         let arrayFinish = [];
         this.treadInputForm.controls['treadFinish'].disable();
         this.treadInputForm.controls['measure'].disable();
@@ -62,7 +62,7 @@ export class TreadInputComponent implements OnInit, OnChanges {
         });
     }
 
-    loadMeasureData(e) {
+    loadMeasureData(e: any) {
         this.treadInputForm.controls['measure'].disable();
         this.priceTread = 0;
 
@@ -72,7 +72,7 @@ export class TreadInputComponent implements OnInit, OnChanges {
         });
     }
 
-    calculatePrice(data) {
+    calculatePrice(data: any) {
         if (typeof this.populateTreadMeasure !== 'undefined') {
             for (var treadMeasure of this.populateTreadMeasure) {
                 if (treadMeasure.id === Number(data.measure)) {

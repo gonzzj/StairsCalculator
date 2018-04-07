@@ -17,8 +17,8 @@ import {TotalComponent} from './total';
 import {ExtrasComponent} from './extras';
 import {FormatPricePipe} from '../pipes/formatprice';
 
-import {PopulateService} from '../services/PopulateService'
-import {CommunicateService} from '../services/CommunicateService'
+import {PopulateService} from '../services/PopulateService';
+import {CommunicateService} from '../services/CommunicateService';
 import { StructureInputComponent } from './structure-input/structure-input';
 import { TreadInputComponent } from './tread-input/tread-input';
 import { RailingFormComponent } from './railing/railing';

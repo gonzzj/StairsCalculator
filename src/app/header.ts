@@ -45,9 +45,9 @@ export class HeaderComponent {
     this.cs.addZohoUser(Number(this.idOrder), Number(this.quoting), Number(this.idClient), this.client, this.seller, formatDate);
   }
 
-  findGetParameter(parameterName) {
+  findGetParameter(parameterName: string) {
     let result = null, tmp = [];
-    let items = location.search.substr(1).split("&");
+    let items = location.search.substr(1).split('&');
     let re = /\+/gi;
     for (let index = 0; index < items.length; index++) {
       tmp = items[index].split('=');

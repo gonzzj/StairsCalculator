@@ -29,7 +29,7 @@
     </div>
     <h5 class="card-title">Configuración recta</h5>
     <div class="form-group row">
-        <label for="inputCantStraight" class="col-sm-3 col-form-label">Cantidad</label>
+        <label for="inputCantStraight" class="col-sm-3 col-form-label">Cantidad (ml)</label>
         <div class="col-sm-6">
             <input type="number" min="0" class="form-control" id="inputCantStraight" formControlName="cantStraight">
             <small [hidden]="railingForm.controls.cantStraight.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>
@@ -41,7 +41,7 @@
     </div>
     <h5 class="card-title">Configuración curva</h5>
     <div class="form-group row">
-        <label for="inputCantCurve" class="col-sm-3 col-form-label">Cantidad</label>
+        <label for="inputCantCurve" class="col-sm-3 col-form-label">Cantidad (ml)</label>
         <div class="col-sm-6">
             <input type="number" min="0" class="form-control" id="inputCantCurve" formControlName="cantCurve">
             <small [hidden]="railingForm.controls.cantCurve.valid || !isSubmit"><i aria-hidden="true" class="fa fa-times"></i> {{emptyField}}</small>

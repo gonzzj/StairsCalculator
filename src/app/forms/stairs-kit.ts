@@ -3,8 +3,8 @@ import {PopulateService} from '../services/PopulateService';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {CommunicateService} from '../services/CommunicateService';
 import {formErrors} from '../constants';
-declare var jquery:any;
-declare var $ :any;
+declare var jquery: any;
+declare var $: any;
 
 @Component({
     selector: 'stairs-kit',
@@ -13,20 +13,20 @@ declare var $ :any;
 
 /** Class stair of type kit */
 export class StairsKitComponent implements OnInit {
+  @Output() notifyModelId: EventEmitter<number> = new EventEmitter<number>();
+  @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
+  isSubmit: boolean = false;
+  emptyField = formErrors.message_emptyField;
+
   populateModels: any;
   populateKitDiameters: any;
   populateKitMeasure: any;
   populateAccessories: any;
 
-  private stairForm: FormGroup;
-
   subTotalAccessories: number = 0;
   totalStair: number = 0;
 
-  @Output() notifyModelId: EventEmitter<number> = new EventEmitter<number>();
-  @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
-  isSubmit: boolean = false;
-  emptyField = formErrors.message_emptyField;
+  private stairForm: FormGroup;
 
   /**
    * @constructor
@@ -55,8 +55,8 @@ export class StairsKitComponent implements OnInit {
       this.calculateAccessoriesPrice(data);
       this.totalStair = this.subTotalAccessories + this.calculateModelPrice(data);
       this.notifyTotal.emit(this.totalStair);
-      this.cs.validateForm(this.stairForm.valid, "stair");
-      this.cs.addZoho(this.stairForm.value, "stair");
+      this.cs.validateForm(this.stairForm.valid, 'stair');
+      this.cs.addZoho(this.stairForm.value, 'stair');
     });
 
     this.cs.submitted.subscribe(
@@ -71,7 +71,7 @@ export class StairsKitComponent implements OnInit {
     this.populateService.getModels('kit').subscribe(data => this.populateModels = data);
   }
 
-  loadDataModel(e) { 
+  loadDataModel(e: any) {
     let dataLoading = [{
       diameter: false,
       accessories: false
@@ -102,7 +102,7 @@ export class StairsKitComponent implements OnInit {
     });
   }
 
-  loadKitMeasure(e) {
+  loadKitMeasure(e: any) {
     this.populateService.getKitDiameterMeasures(e.target.value).subscribe(data => {
       this.populateKitMeasure = data;
 
@@ -110,8 +110,8 @@ export class StairsKitComponent implements OnInit {
     });
   }
 
-  hideLoading(dataLoading) {
-    if (dataLoading[0]['diameter'] == true && dataLoading[0]['accessories'] == true) {
+  hideLoading(dataLoading: any) {
+    if (dataLoading[0]['diameter'] === true && dataLoading[0]['accessories'] === true) {
       $('#modalLoading').modal('hide');
     }
   }
@@ -123,7 +123,7 @@ export class StairsKitComponent implements OnInit {
    * @param controlInput - Input field
    */
   enableInputs(controlName: string, controlInput: string) {
-    if (controlName == 'diameter' || controlName == 'measure') {
+    if (controlName === 'diameter' || controlName === 'measure') {
       this.stairForm.controls[controlName].enable();
     } else {
       for (let item of this.stairForm.controls[controlName]['controls']) {
@@ -184,7 +184,7 @@ export class StairsKitComponent implements OnInit {
    * @param data - the form values
    * @returns {number}
    */
-  calculateModelPrice(data) {
+  calculateModelPrice(data: any) {
     let priceModel = 0;
 
     if (typeof data.measure !== 'undefined') {
@@ -203,23 +203,23 @@ export class StairsKitComponent implements OnInit {
    *
    * @param data - the form values
    */
-  calculateAccessoriesPrice(data) {
+  calculateAccessoriesPrice(data: any) {
     this.subTotalAccessories = 0;
-    var cont;
+    let cont;
 
     if (typeof this.populateAccessories !== 'undefined') {
 
-      for (var accessorie of this.populateAccessories) {
+      for (let accessorie of this.populateAccessories) {
         cont = 0;
-        for (var itemAccessorie of data.accessories) {
-          if (accessorie.id == Number(itemAccessorie.accessorieName)) {
+        for (let itemAccessorie of data.accessories) {
+          if (accessorie.id === Number(itemAccessorie.accessorieName)) {
             this.stairForm.value.accessories[cont].price = itemAccessorie.cant * accessorie.Precio;
           }
           cont++;
         }
       }
 
-      for (var itemAccessorie of data.accessories) {
+      for (let itemAccessorie of data.accessories) {
         this.subTotalAccessories = this.subTotalAccessories + itemAccessorie.price;
       }
 

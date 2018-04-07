@@ -7,7 +7,7 @@ export class PopulateService {
 
   constructor(private http: Http) {}
 
-  getModels(stairType) {
+  getModels(stairType: any) {
     let url: string;
 
     if (stairType === 'measure') {
@@ -77,7 +77,7 @@ export class PopulateService {
     .map((res => res.json()));
   }
 
-  getAccessories(stairType, idModel) {
+  getAccessories(stairType: string, idModel: number) {
     let url: string;
 
     if (stairType === 'measure') {
@@ -92,7 +92,7 @@ export class PopulateService {
     .map((res => res.json()));
   }
 
-  getServices(stairData) {
+  getServices(stairData: any) {
     let url: string;
 
     if (stairData[0]['stairType'] === 'measure') {
@@ -112,12 +112,12 @@ export class PopulateService {
     .map((res => res.json()));
   }
 
-  getTransportPrices(stairData) {
+  getTransportPrices(stairData: any) {
     let url: string;
 
-    if (stairData[0]['stairType'] == 'measure') {
+    if (stairData[0]['stairType'] === 'measure') {
       url = 'http://admin.proclen.com/rest/escaleras-medida/transportes/?idEscaleraMedida=';
-    } else if (stairData[0]['stairType'] == 'kit') {
+    } else if (stairData[0]['stairType'] === 'kit') {
       url = 'http://admin.proclen.com/rest/escaleras-kit/transportes/?idEscaleraKit=';
     } else {
       url = 'http://admin.proclen.com/rest/escaleras-escamoteables/transportes/?idEscaleraEscamoteable=';
@@ -132,17 +132,17 @@ export class PopulateService {
     .map((res => res.json()));
   }
 
-  getKitDiameters(idModel) {
+  getKitDiameters(idModel: number) {
     return this.http.get('http://admin.proclen.com/rest/escaleras-kit/diametros/?idEscaleraKit=' + idModel)
     .map((res => res.json()));
   }
 
-  getKitDiameterMeasures(idKitDiameter) {
+  getKitDiameterMeasures(idKitDiameter: number) {
     return this.http.get('http://admin.proclen.com/rest/escaleras-kit/medidas-diametros/?idEscaleraKitDiametro=' + idKitDiameter)
     .map((res => res.json()));
   }
 
-  getEscMeasures(idModel) {
+  getEscMeasures(idModel: number) {
     return this.http.get('http://admin.proclen.com/rest/escaleras-escamoteables/tamanios/?idEscaleraEscamoteable=' + idModel)
     .map((res => res.json()));
   }

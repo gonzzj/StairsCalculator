@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, Output, EventEmitter} from '@angular/core';
 import {PopulateService} from '../services/PopulateService';
 import {FormArray, FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {CommunicateService} from '../services/CommunicateService';
@@ -12,18 +12,16 @@ import { SimpleChanges, OnChanges } from '@angular/core/src/metadata/lifecycle_h
 })
 
 /** Class service child component */
-export class ServicesComponent implements OnInit, OnChanges {
+export class ServicesComponent implements OnChanges {
   @Input('stairData') stairData: Array<Object>;
   @Input('stairName') stairName: string;
+  @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
   populateServices: any;
   populateServicesZones: any;
-
-  private servicesForm: FormGroup;
-
   subTotalServices: number = 0;
-  @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
   isSubmit: boolean = false;
   emptyField = formErrors.message_emptyField;
+  private servicesForm: FormGroup;
 
   /**
    * @constructor
@@ -41,14 +39,13 @@ export class ServicesComponent implements OnInit, OnChanges {
   /**
    * Populate the selects, calculate the service price when the form change and add the values to a JSON
    */
-  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
     this.servicesForm.valueChanges.subscribe(data => {
       this.calculateServicePrice(data);
       this.notifyTotal.emit(this.subTotalServices);
-      this.cs.validateForm(this.servicesForm.valid, "services");
-      this.cs.addZoho(this.servicesForm.value['services'], "services");
+      this.cs.validateForm(this.servicesForm.valid, 'services');
+      this.cs.addZoho(this.servicesForm.value['services'], 'services');
     });
 
     this.cs.submitted.subscribe(
@@ -87,7 +84,7 @@ export class ServicesComponent implements OnInit, OnChanges {
   }
 
   enableInputs() {
-    if (this.servicesForm.controls['services']['controls'].length != 0) {
+    if (this.servicesForm.controls['services']['controls'].length !== 0) {
       for (let item of this.servicesForm.controls['services']['controls']) {
         item.controls['zone'].enable();
       }
@@ -146,7 +143,7 @@ export class ServicesComponent implements OnInit, OnChanges {
    *
    * @param data - the form values
    */
-  calculateServicePrice(data) {
+  calculateServicePrice(data: any) {
     this.subTotalServices = 0;
 
     for (var itemService of data.services) {

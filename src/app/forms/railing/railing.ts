@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Input, Output } from '@angular/core';
+import { Input } from '@angular/core';
 import { FormGroup } from '@angular/forms/src/model';
 import { PopulateService } from '../../services/PopulateService';
 import { SimpleChanges, OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
@@ -44,7 +44,7 @@ export class RailingFormComponent implements OnInit, OnChanges {
         });
     }
 
-    loadRailingData(e) {
+    loadRailingData(e: any) {
         let arrayRailing = [];
         this.railingForm.controls['railing'].disable();
         this.railingForm.controls['finish'].disable();
@@ -63,19 +63,18 @@ export class RailingFormComponent implements OnInit, OnChanges {
         });
     }
 
-    loadRailingFinishData(e) {
+    loadRailingFinishData(e: any) {
         this.railingForm.controls['finish'].disable();
         this.priceRailingStraight = 0;
         this.priceRailingCurve = 0;
 
         this.populateService.getRailingFinish(e.target.value).subscribe(data => {
             this.populateRailingFinish = data;
-            
             this.railingForm.controls['finish'].enable();
         });
     }
 
-    calculatePrice(data) {
+    calculatePrice(data: any) {
         if (typeof this.populateRailingFinish !== 'undefined') {
             for (var railingFinish of this.populateRailingFinish) {
                 if (railingFinish.id === Number(data.finish)) {

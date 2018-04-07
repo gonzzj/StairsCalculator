@@ -1,6 +1,5 @@
 import {Injectable, EventEmitter} from '@angular/core';
 import {stairTypes} from '../constants';
-import {extrasTypes} from '../constants';
 import {Http, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 
 @Injectable()
@@ -13,14 +12,6 @@ export class CommunicateService {
   validForms: Array<Object>;
   body: any = new URLSearchParams();
 
-  /*"nroPedido": 0,
-  "cotizador": "",
-  "idCliente": 0,
-  "nombreCliente": "",
-  "nombreCotizador": "",
-  "fechaValidez": "",
-  "precioFinal": 0,
-  "json": {*/
   /**
    * @constructor
    */
@@ -36,7 +27,7 @@ export class CommunicateService {
       "subTotal": {},
       "discount": {},
       "total": 0
-    }
+    };
 
     this.validForms = [
       {
@@ -80,14 +71,14 @@ export class CommunicateService {
    * @param form - The JSON of the child component
    * @param nameForm - the name of the form
    */
-  addZoho(form, nameForm) {
+  addZoho(form: any, nameForm: string) {
     this.zohoForm[nameForm] = form;
   }
 
   /**
    * Add user data to the JSON of Zoho
    */
-  addZohoUser(order, quoting, idClient, client, seller, formatDate) {
+  addZohoUser(order: number, quoting: number, idClient: number, client: string, seller: string, formatDate: any) {
     this.body.set('nroPedido', order);
     this.body.set('cotizador', quoting);
     this.body.set('idCliente', idClient);
@@ -99,11 +90,11 @@ export class CommunicateService {
   /**
    * Send the complete JSON to Zoho
    */
-  sendZoho(stairType) {
-    //if (this.isValidForm === true) {
+  sendZoho(stairType: any) {
+    if (this.isValidForm === true) {
       if (stairType === 'measure') {
         this.zohoForm['stairType'] = stairTypes.measure;
-      } else if (stairType == 'kit') {
+      } else if (stairType === 'kit') {
         this.zohoForm['stairType'] = stairTypes.kit;
       } else {
         this.zohoForm['stairType'] = stairTypes.esc;
@@ -116,30 +107,21 @@ export class CommunicateService {
       let options = new RequestOptions({ headers: headers });
 
       this.http.post('http://admin.proclen.com/rest/presupuestos', this.body, options).subscribe(data => {
-          console.log(data);
-        });
-    //} else {
-    //window.scrollTo(0, 0);
-    //}
+        console.log(data);
+      });
+    } else {
+      window.scrollTo(0, 0);
+    }
   }
 
   /**
    * Ask for the validation and if it's correct, it will create the PDF to print
    */
-  savePDF(stairType) {
+  savePDF(stairType: any) {
     if (this.isValidForm === true) {
       window.print();
     } else {
       window.scrollTo(0, 0);
     }
   }
-
-  formatPrice(value) {
-    var coin: string;
-
-    coin = value.toFixed(2).replace(".", ",").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
-
-    return coin;
-  }
 }
-

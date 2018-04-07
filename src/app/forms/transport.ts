@@ -1,8 +1,7 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, Output, EventEmitter} from '@angular/core';
 import {PopulateService} from '../services/PopulateService';
 import {FormArray, FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {CommunicateService} from '../services/CommunicateService';
-import {formErrors} from '../constants';
 import { Input } from '@angular/core/src/metadata/directives';
 import { SimpleChanges, OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
@@ -12,17 +11,15 @@ import { SimpleChanges, OnChanges } from '@angular/core/src/metadata/lifecycle_h
 })
 
 /** Class transport child component */
-export class TransportComponent implements OnInit, OnChanges {
+export class TransportComponent implements OnChanges {
   @Input('stairData') stairData: Array<Object>;
   @Input('stairName') stairName: string;
-  populateZones: any;
-
-  private transportsForm: FormGroup;
-
-  subTotalTransports: number = 0;
   @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
+  populateZones: any;
+  subTotalTransports: number = 0;
   isSubmit: boolean = false;
 
+  private transportsForm: FormGroup;
   /**
    * @constructor
    * @param populateService - service to populate the selects.
@@ -39,14 +36,13 @@ export class TransportComponent implements OnInit, OnChanges {
   /**
    * Populate the selects, calculate the transport price when the form change and add the values to a JSON
    */
-  ngOnInit() { }
 
   ngOnChanges(changes: SimpleChanges) {
     this.transportsForm.valueChanges.subscribe(data => {
       this.calculateTransportPrice(data);
       this.notifyTotal.emit(this.subTotalTransports);
-      this.cs.validateForm(this.transportsForm.valid, "transport");
-      this.cs.addZoho(this.transportsForm.value['transports'], "transport");
+      this.cs.validateForm(this.transportsForm.valid, 'transport');
+      this.cs.addZoho(this.transportsForm.value['transports'], 'transport');
     });
 
     this.cs.submitted.subscribe(
@@ -81,7 +77,7 @@ export class TransportComponent implements OnInit, OnChanges {
   }
 
   enableInputs() {
-    if (this.transportsForm.controls['transports']['controls'].length != 0) {
+    if (this.transportsForm.controls['transports']['controls'].length !== 0) {
       for (let item of this.transportsForm.controls['transports']['controls']) {
         item.controls['zoneName'].enable();
       }
@@ -139,7 +135,7 @@ export class TransportComponent implements OnInit, OnChanges {
    *
    * @param data - the form values
    */
-  calculateTransportPrice(data) {
+  calculateTransportPrice(data: any) {
     this.subTotalTransports = 0;
 
     for (var itemTransport of data.transports) {

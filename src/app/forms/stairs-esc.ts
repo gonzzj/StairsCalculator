@@ -3,8 +3,8 @@ import {PopulateService} from '../services/PopulateService';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {CommunicateService} from '../services/CommunicateService';
 import {formErrors} from '../constants';
-declare var jquery:any;
-declare var $ :any;
+declare var jquery: any;
+declare var $ : any;
 
 @Component({
     selector: 'stairs-esc',
@@ -13,19 +13,16 @@ declare var $ :any;
 
 /** Class stair of type esc */
 export class StairsEscComponent implements OnInit {
+  @Output() notifyModelId: EventEmitter<number> = new EventEmitter<number>();
+  @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
   populateModels: any;
   populateEscMeasures: any;
   populateAccessories: any;
-
-  private stairForm: FormGroup;
-
   subTotalAccessories: number = 0;
   totalStair: number = 0;
-
-  @Output() notifyModelId: EventEmitter<number> = new EventEmitter<number>();
-  @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
   isSubmit: boolean = false;
   emptyField = formErrors.message_emptyField;
+  private stairForm: FormGroup;
 
   /**
    * @constructor
@@ -52,8 +49,8 @@ export class StairsEscComponent implements OnInit {
       this.calculateAccessoriesPrice(data);
       this.totalStair = this.subTotalAccessories + this.calculateModelPrice(data);
       this.notifyTotal.emit(this.totalStair);
-      this.cs.validateForm(this.stairForm.valid, "stair");
-      this.cs.addZoho(this.stairForm.value, "stair");
+      this.cs.validateForm(this.stairForm.valid, 'stair');
+      this.cs.addZoho(this.stairForm.value, 'stair');
     });
 
     this.cs.submitted.subscribe(
@@ -68,7 +65,7 @@ export class StairsEscComponent implements OnInit {
     this.populateService.getModels('esc').subscribe(data => this.populateModels = data);
   }
 
-  loadDataModel(e) {
+  loadDataModel(e: any) {
     let dataLoading = [{
       accessories: false
     }];
@@ -94,8 +91,8 @@ export class StairsEscComponent implements OnInit {
     });
   }
 
-  hideLoading(dataLoading) {
-    if (dataLoading[0]['accessories'] == true) {
+  hideLoading(dataLoading: any) {
+    if (dataLoading[0]['accessories'] === true) {
       $('#modalLoading').modal('hide');
     }
   }
@@ -107,7 +104,7 @@ export class StairsEscComponent implements OnInit {
    * @param controlInput - Input field
    */
   enableInputs(controlName: string, controlInput: string) {
-    if (controlName == 'diameter' || controlName == 'measure') {
+    if (controlName === 'diameter' || controlName === 'measure') {
       this.stairForm.controls[controlName].enable();
     } else {
       for (let item of this.stairForm.controls[controlName]['controls']) {
@@ -168,7 +165,7 @@ export class StairsEscComponent implements OnInit {
    * @param data - the form values
    * @returns {number}
    */
-  calculateModelPrice(data) {
+  calculateModelPrice(data: any) {
     var priceModel = 0;
 
     if (typeof data.measure !== 'undefined') {
@@ -187,23 +184,23 @@ export class StairsEscComponent implements OnInit {
    *
    * @param data - the form values
    */
-  calculateAccessoriesPrice(data) {
+  calculateAccessoriesPrice(data: any) {
     this.subTotalAccessories = 0;
-    var cont;
+    let cont;
 
     if (typeof this.populateAccessories !== 'undefined') {
 
-      for (var accessorie of this.populateAccessories) {
+      for (let accessorie of this.populateAccessories) {
         cont = 0;
-        for (var itemAccessorie of data.accessories) {
-          if (accessorie.id == Number(itemAccessorie.accessorieName)) {
+        for (let itemAccessorie of data.accessories) {
+          if (accessorie.id === Number(itemAccessorie.accessorieName)) {
             this.stairForm.value.accessories[cont].price = itemAccessorie.cant * accessorie.Precio;
           }
           cont++;
         }
       }
 
-      for (var itemAccessorie of data.accessories) {
+      for (let itemAccessorie of data.accessories) {
         this.subTotalAccessories = this.subTotalAccessories + itemAccessorie.price;
       }
 

@@ -38,8 +38,8 @@ export class TechnicalDataComponent implements OnInit {
    */
   ngOnInit() {
     this.technicalDataForm.valueChanges.subscribe(data => {
-      this.cs.validateForm(this.technicalDataForm.valid, "technicalData");
-      this.cs.addZoho(this.technicalDataForm.value, "technicalData");
+      this.cs.validateForm(this.technicalDataForm.valid, 'technicalData');
+      this.cs.addZoho(this.technicalDataForm.value, 'technicalData');
     });
 
     this.cs.submitted.subscribe(
@@ -50,8 +50,8 @@ export class TechnicalDataComponent implements OnInit {
   /**
    * Send to the father component the chosen stair
    */
-  getStair(stair) {
+  getStair(stair: any) {
     this.selectedStair.emit(stair);
-    this.cs.validateForm(false, "stair");
+    this.cs.validateForm(false, 'stair');
   }
 }

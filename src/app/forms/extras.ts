@@ -10,13 +10,12 @@ import {formErrors} from '../constants';
 
 /** Class extras child component */
 export class ExtrasComponent implements OnInit {
-  private extrasForm: FormGroup;
-
+  @Output() notifyTotal: EventEmitter<Array<Object>> = new EventEmitter<Array<Object>>();
   totalExtras: number = 0;
   subTotalExtras: Array<Object>;
-  @Output() notifyTotal: EventEmitter<Array<Object>> = new EventEmitter<Array<Object>>();
   isSubmit: boolean = false;
   emptyField = formErrors.message_emptyField;
+  private extrasForm: FormGroup;
 
   /**
    * @constructor
@@ -46,8 +45,8 @@ export class ExtrasComponent implements OnInit {
     this.extrasForm.valueChanges.subscribe(data => {
       this.calculateExtrasPrice(data);
       this.notifyTotal.emit(this.subTotalExtras);
-      this.cs.validateForm(this.extrasForm.valid, "extras");
-      this.cs.addZoho(this.extrasForm.value['extras'], "extras");
+      this.cs.validateForm(this.extrasForm.valid, 'extras');
+      this.cs.addZoho(this.extrasForm.value['extras'], 'extras');
     });
 
     this.cs.submitted.subscribe(
@@ -91,19 +90,19 @@ export class ExtrasComponent implements OnInit {
    * @param data - the form values
    * @returns {number}
    */
-  calculateExtrasPrice(data) {
+  calculateExtrasPrice(data: any) {
     this.totalExtras = 0;
     this.subTotalExtras = [{extraStair: 0, extraTransport: 0, extraService: 0, extraExtras: 0}];
 
     for (var itemExtra of data.extras) {
-      if (itemExtra.type == "stair") {
-        this.subTotalExtras[0]["extraStair"] = this.subTotalExtras[0]["extraStair"] + (itemExtra.cant * itemExtra.price);
-      } else if (itemExtra.type == "service") {
-        this.subTotalExtras[0]["extraService"] = this.subTotalExtras[0]["extraService"] + (itemExtra.cant * itemExtra.price);
-      } else if (itemExtra.type == "transport") {
-        this.subTotalExtras[0]["extraTransport"] = this.subTotalExtras[0]["extraTransport"] + (itemExtra.cant * itemExtra.price);
-      } else if (itemExtra.type == "extras") {
-        this.subTotalExtras[0]["extraExtras"] = this.subTotalExtras[0]["extraExtras"] + (itemExtra.cant * itemExtra.price);
+      if (itemExtra.type === 'stair') {
+        this.subTotalExtras[0]['extraStair'] = this.subTotalExtras[0]['extraStair'] + (itemExtra.cant * itemExtra.price);
+      } else if (itemExtra.type === 'service') {
+        this.subTotalExtras[0]['extraService'] = this.subTotalExtras[0]['extraService'] + (itemExtra.cant * itemExtra.price);
+      } else if (itemExtra.type === 'transport') {
+        this.subTotalExtras[0]['extraTransport'] = this.subTotalExtras[0]['extraTransport'] + (itemExtra.cant * itemExtra.price);
+      } else if (itemExtra.type === 'extras') {
+        this.subTotalExtras[0]['extraExtras'] = this.subTotalExtras[0]['extraExtras'] + (itemExtra.cant * itemExtra.price);
       }
 
       this.totalExtras = this.totalExtras + (itemExtra.cant * itemExtra.price);

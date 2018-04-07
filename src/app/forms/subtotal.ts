@@ -1,5 +1,5 @@
 import {Component, Input, DoCheck, Output, EventEmitter} from '@angular/core';
-import {CommunicateService} from "../services/CommunicateService";
+import {CommunicateService} from '../services/CommunicateService';
 
 @Component({
     selector: 'subtotal',
@@ -8,13 +8,13 @@ import {CommunicateService} from "../services/CommunicateService";
 export class SubTotalComponent implements DoCheck {
   @Input() subTotalsAndExtras: Array<Object>;
   @Output() notifyDiscount: EventEmitter<number> = new EventEmitter<number>();
-  unitPrice: string = "porc";
+  unitPrice: string = 'porc';
   cantDiscount: number = 0;
   discountTotal: number = 0;
 
   changeDetected: boolean;
   oldTotalStair: number = -1;
-  oldUnitPrice: string = "sarasa";
+  oldUnitPrice: string = '';
   oldCantDiscount: number = -1;
 
   /**
@@ -27,9 +27,9 @@ export class SubTotalComponent implements DoCheck {
    * Check if the discount changes and calculate it with the total
    */
   ngDoCheck() {
-    if (this.subTotalsAndExtras[0]["stair"] !== this.oldTotalStair) {
+    if (this.subTotalsAndExtras[0]['stair'] !== this.oldTotalStair) {
       this.changeDetected = true;
-      this.oldTotalStair = this.subTotalsAndExtras[0]["stair"];
+      this.oldTotalStair = this.subTotalsAndExtras[0]['stair'];
     }
 
     if (this.cantDiscount !== this.oldCantDiscount) {
@@ -43,16 +43,16 @@ export class SubTotalComponent implements DoCheck {
     }
 
     if (this.changeDetected) {
-      if (this.unitPrice == "porc") {
-        this.discountTotal = (this.subTotalsAndExtras[0]["stair"] * this.cantDiscount) / 100 ;
+      if (this.unitPrice === 'porc') {
+        this.discountTotal = (this.subTotalsAndExtras[0]['stair'] * this.cantDiscount) / 100;
         this.discountTotal = this.discountTotal * -1;
         this.notifyDiscount.emit(this.discountTotal);
-        this.cs.addZoho([{discount: this.cantDiscount + '%', value: this.discountTotal}], "discount");
-      } else if (this.unitPrice == "eur") {
+        this.cs.addZoho([{discount: this.cantDiscount + '%', value: this.discountTotal}], 'discount');
+      } else if (this.unitPrice === 'eur') {
         this.discountTotal = this.cantDiscount;
         this.discountTotal = this.discountTotal * -1;
         this.notifyDiscount.emit(this.discountTotal);
-        this.cs.addZoho([{discount: this.cantDiscount + ' €', value: this.discountTotal}], "discount");
+        this.cs.addZoho([{discount: this.cantDiscount + ' €', value: this.discountTotal}], 'discount');
       }
     }
 

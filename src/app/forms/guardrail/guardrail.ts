@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Input, Output } from '@angular/core';
+import { Input } from '@angular/core';
 import { FormGroup } from '@angular/forms/src/model';
 import { PopulateService } from '../../services/PopulateService';
 import { SimpleChanges, OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
@@ -49,7 +49,7 @@ export class GuardrailFormComponent implements OnInit, OnChanges {
         });
     }
 
-    loadGuardrailData(e) {
+    loadGuardrailData(e: any) {
         let arrayRailing = [];
         this.guardrailForm.controls['railing'].disable();
         this.guardrailForm.controls['finish'].disable();
@@ -68,7 +68,7 @@ export class GuardrailFormComponent implements OnInit, OnChanges {
         });
     }
 
-    loadGuardrailFinishData(e) {
+    loadGuardrailFinishData(e: any) {
         this.guardrailForm.controls['finish'].disable();
         this.priceGuardrailStraight = 0;
         this.priceGuardrailCurve = 0;
@@ -82,7 +82,7 @@ export class GuardrailFormComponent implements OnInit, OnChanges {
         });
     }
 
-    calculatePrice(data) {
+    calculatePrice(data: any) {
         if (typeof this.populateGuardrailFinish !== 'undefined' && typeof data.cantStraight !== 'undefined') {
             for (var guardrailFinish of this.populateGuardrailFinish) {
                 if (guardrailFinish.id === Number(data.finish)) {
@@ -101,7 +101,7 @@ export class GuardrailFormComponent implements OnInit, OnChanges {
      */
     checkGuardrail(): void {
         if (this.guardrailForm.controls['activeGuardrail'].value) {
-            if (this.stairModel.value != '') {
+            if (this.stairModel.value !== '') {
                 this.guardrailForm.controls['model'].enable();
             }
         } else {

@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
     template: require('./modal-loading.html')
 })
 
-export class ModalLoadingComponent {
-
-}
+export class ModalLoadingComponent { }
