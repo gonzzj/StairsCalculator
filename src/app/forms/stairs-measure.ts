@@ -227,7 +227,7 @@ export class StairsMeasureComponent implements OnInit {
       cant: [1, Validators.required],
       accessorieName: [{value: 0, disabled: this.checkModelValue()}, Validators.required],
       type: ['structures'],
-      id: [0],
+      id: [],
       unitPrice: [''],
       price: [0]
     });
