@@ -1,6 +1,6 @@
 <form>
   <technical-data (selectedStair)='onStair($event)'></technical-data>
-  <stairs-measure *ngIf="stair == 'measure'" (notifyModelId)='setStair($event)' (notifyTotal)='totalStair($event)'></stairs-measure>
+  <stairs-measure *ngIf="stair == 'measure'" (notifyModelId)='setStair($event)' (notifyModelCant)='setStairCant($event)' (notifyTotal)='totalStair($event)'></stairs-measure>
   <stairs-kit *ngIf="stair == 'kit'" (notifyModelId)='setStair($event)' (notifyTotal)='totalStair($event)'></stairs-kit>
   <stairs-esc *ngIf="stair == 'esc'" (notifyModelId)='setStair($event)' (notifyTotal)='totalStair($event)'></stairs-esc>
   <services class="card card-block" [stairData]="stairData" [stairName]="stair" (notifyTotal)='totalService($event)'></services>

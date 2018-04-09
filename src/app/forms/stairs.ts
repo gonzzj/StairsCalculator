@@ -9,6 +9,7 @@ import {CommunicateService} from '../services/CommunicateService';
 /** Class father component stairs */
 export class StairsComponent {
   stairData: Array<Object>;
+  stairCant: number = 1;
   stair: string = 'measure';
   total: number = 0;
   subTotals: Array<Object>;
@@ -50,19 +51,20 @@ export class StairsComponent {
   }
 
   /**
-   * Change the different type of stairs components and reset the subtotal stair
+   * Change the different type of stair components and reset the subtotal stair
    *
    * @param message - the chosen stair
    */
   onStair(message: string): void {
     this.stair = message;
+    this.stairCant = 1;
     this.subTotals[0]['subTotalStair'] = 0;
 
     this.calculateTotal();
   }
 
   /**
-   * Set the model id and stair type and send to childs components
+   * Set the id model and stair type and send it to child components
    * 
    * @param message - the Model Id
    */
@@ -73,6 +75,15 @@ export class StairsComponent {
         stairModelId: message
       }
     ];
+  }
+
+  /**
+   * Set the cant model
+   * 
+   * @param message - the Model Id
+   */
+  setStairCant(message: number): void {
+    this.stairCant = message;
   }
 
   /**
@@ -165,9 +176,9 @@ export class StairsComponent {
 
     this.subTotalsAndExtras[0]['extras'] =  this.subTotals[0]['subTotalExtras'] + this.extras[0]['extras'];
 
-    this.subTotalsAndExtras[0]['transport'] = this.subTotals[0]['subTotalTransport'] + this.extras[0]['transport'];
+    this.subTotalsAndExtras[0]['transport'] = (this.subTotals[0]['subTotalTransport'] * this.stairCant) + this.extras[0]['transport'];
 
-    this.subTotalsAndExtras[0]['service'] = this.subTotals[0]['subTotalService'] + this.extras[0]['service'];
+    this.subTotalsAndExtras[0]['service'] = (this.subTotals[0]['subTotalService'] * this.stairCant) + this.extras[0]['service'];
 
     this.subTotalsAndExtras[0]['stair'] = this.subTotals[0]['subTotalStair'] + this.extras[0]['stair'];
 

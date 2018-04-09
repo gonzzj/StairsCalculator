@@ -14,6 +14,7 @@ declare var $ : any;
 /** Class stair of type measure */
 export class StairsMeasureComponent implements OnInit {
   @Output() notifyModelId: EventEmitter<number> = new EventEmitter<number>();
+  @Output() notifyModelCant: EventEmitter<number> = new EventEmitter<number>();
   @Output() notifyTotal: EventEmitter<number> = new EventEmitter<number>();
   isSubmit: boolean = false;
   emptyField = formErrors.message_emptyField;
@@ -81,6 +82,7 @@ export class StairsMeasureComponent implements OnInit {
    */
   ngOnInit() {
     this.populateSelectModels();
+    this.notifyModelCant.emit(this.stairForm.value['cant']);
 
     this.stairForm.valueChanges.subscribe(data => {
       this.calculateStructuresPrice(data);
@@ -92,6 +94,7 @@ export class StairsMeasureComponent implements OnInit {
       this.cs.addZoho(this.stairForm.value, 'stair');
 
       this.totalStair = (this.subTotalTreads + this.subTotalAccessories + this.subTotalRailing + this.subTotalGuardrail + this.subTotalStructures) * this.stairForm.controls['cant'].value;
+      this.notifyModelCant.emit(this.stairForm.value['cant']);
       this.notifyTotal.emit(this.totalStair);
     });
 
