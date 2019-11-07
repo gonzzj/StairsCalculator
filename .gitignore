@@ -1,6 +1,15 @@
+# TMP
 .tmp/
 coverage/
 dist/
+build/
+
+# SETTINGS
+.settings/*
+
+# NODE MODULES
 node_modules/
-.idea/
 src/bower_components/
+
+# INTELLIJ
+.idea/
